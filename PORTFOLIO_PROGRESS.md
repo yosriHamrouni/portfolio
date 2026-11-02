@@ -53,7 +53,7 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
 3. ✅ Sections: nav, hero + three pillars, about, experience, projects index, skills, education, contact.
 4. ✅ Case-study template following the 8-part structure (problem → outcome).
 5. ✅ SEO basics, favicon, robots.txt, WebP screenshots.
-6. ⏳ CV download and email — waiting on Yosri (see Open questions).
+6. ✅ CV download (`public/Yosri_Hamrouni_CV.pdf`, French, from `Downloads/CV`, 2026-10-26). ⏳ Email still waiting on Yosri.
 7. ⏳ Real screenshots for Builderz, Gleam and L-Mobile if available.
 8. ⏳ Deployment target, then sitemap + canonical URL + SPA rewrite rule.
 
@@ -75,7 +75,7 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
 - **Shape:** 2–4px radius, no shadows except the sticky nav hairline.
 
 ## 5. Open questions for Yosri
-1. **CV:** which file should be downloadable? The newest one, `Downloads/CV/Yosri_Hamrouni_CV.pdf`, is in French and includes a phone number. Is an English version available?
+1. ~~**CV**~~ — resolved: the latest French CV is published. Swap the file in `public/` when an English version exists (and change `cvNote` in `profile.ts`). Note that the PDF includes the phone number and email.
 2. **Email:** which address should appear on the site?
 3. **Builderz / Gleam repos:** both links 404. Should they be made public, or stay unlinked?
 4. **ServiceField repo:** is it the L-Mobile project? If so, can it be linked?
@@ -100,3 +100,4 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
 
 ### Log
 - **2026-11-02** — Audit written. Swiss/light redesign implemented (see roadmap 1–5).
+- **2026-11-02** — CV download enabled in the nav, hero and contact sections, labelled "PDF · French". Verified: all three links serve the PDF (200, application/pdf).

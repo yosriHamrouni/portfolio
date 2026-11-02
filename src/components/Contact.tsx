@@ -47,7 +47,7 @@ const Contact = () => {
           download
           className="reveal mt-10 inline-flex items-center gap-3 h-12 px-6 rounded-sm bg-ink text-paper font-medium hover:bg-accent transition-colors"
         >
-          <Download /> Download my CV
+          <Download /> Download my CV <span className="meta opacity-70">{profile.cvNote}</span>
         </a>
       )}
     </Section>

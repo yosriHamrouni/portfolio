@@ -127,7 +127,7 @@ const Nav = () => {
               <li className="pt-4">
                 <a href={profile.cvUrl} download className="inline-flex items-center gap-2 h-11 px-5 rounded-sm bg-ink text-paper font-medium">
                   <Download size={16} />
-                  Download CV
+                  Download CV <span className="meta opacity-70">{profile.cvNote}</span>
                 </a>
               </li>
             )}

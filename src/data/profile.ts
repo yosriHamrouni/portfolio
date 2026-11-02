@@ -14,7 +14,9 @@ export const profile = {
     linkedin: 'https://www.linkedin.com/in/yosri-hamrouni-498a60238/',
   },
   /** Path under /public, e.g. '/Yosri_Hamrouni_CV.pdf'. */
-  cvUrl: null as string | null,
+  cvUrl: '/Yosri_Hamrouni_CV.pdf' as string | null,
+  /** Shown next to download links so visitors know what they get. */
+  cvNote: 'PDF · French',
   email: null as string | null,
 };
 

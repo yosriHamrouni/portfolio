@@ -38,7 +38,7 @@ const Hero = () => {
               </Link>
               {profile.cvUrl && (
                 <a href={profile.cvUrl} download className="inline-flex items-center gap-2 font-medium text-ink link-underline">
-                  <Download /> Download CV
+                  <Download /> Download CV <span className="meta text-ink-subtle">{profile.cvNote}</span>
                 </a>
               )}
               <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-medium text-ink link-underline">

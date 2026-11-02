@@ -1,0 +1,745 @@
+1|<!DOCTYPE html>
+2|
+3|<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+4|<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+5|<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-tint":"#47d6ff","surface-container-high":"#1c2b3c","inverse-on-surface":"#233143","on-secondary-fixed-variant":"#003ea8","secondary-fixed-dim":"#b4c5ff","on-secondary":"#002a78","on-primary-fixed":"#001f28","error":"#ffb4ab","on-tertiary-fixed-variant":"#004c69","on-primary":"#003543","on-secondary-container":"#cdd7ff","surface-container-low":"#0d1c2d","surface-container":"#122131","tertiary":"#b8e3ff","tertiary-fixed":"#c4e7ff","primary-fixed-dim":"#47d6ff","on-error-container":"#ffdad6","background":"#051424","on-background":"#d4e4fa","on-surface":"#d4e4fa","surface-dim":"#051424","outline":"#859399","secondary-fixed":"#dbe1ff","tertiary-fixed-dim":"#7bd0ff","inverse-primary":"#00677f","on-tertiary-container":"#005575","surface":"#051424","surface-container-lowest":"#010f1f","on-tertiary":"#00354a","secondary":"#b4c5ff","inverse-surface":"#d4e4fa","surface-container-highest":"#273647","on-tertiary-fixed":"#001e2c","outline-variant":"#3c494e","on-primary-fixed-variant":"#004e60","surface-bright":"#2c3a4c","error-container":"#93000a","on-surface-variant":"#bbc9cf","primary":"#a5e7ff","secondary-container":"#0053db","on-error":"#690005","primary-fixed":"#b6ebff","tertiary-container":"#6bccff","on-secondary-fixed":"#00174b","primary-container":"#00d2ff","surface-variant":"#273647","on-primary-container":"#00566a"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-xs":"0.375rem","space-sm":"0.75rem","space-md":... [truncated]
+6|<!-- HERO SECTION -->
+7|<section class="relative w-full max-w-7xl mx-auto px-gutter-mobile lg:px-gutter pt-8 pb-20 lg:pt-14 lg:pb-28">
+8|<!-- Ambient Backdrop Light Cones -->
+9|<div class="absolute -top-12 left-1/4 w-[480px] h-[480px] bg-secondary-container/20 rounded-full blur-[140px] pointer-events-none"></div>
+10|<div class="absolute top-20 right-10 w-[520px] h-[520px] bg-primary-container/15 rounded-full blur-[160px] pointer-events-none"></div>
+11|<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
+12|<!-- Left Hero Column -->
+13|<div class="lg:col-span-7 flex flex-col items-start space-y-6">
+14|<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high/80 backdrop-blur-md shadow-sm">
+15|<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse shadow-[0_0_8px_#00d2ff]"></span>
+16|<span class="font-label-code text-label-code text-on-surface-variant tracking-wide">AVAILABLE FOR GLOBAL ENGAGEMENTS · 2026</span>
+17|</div>
+18|<h1 class="font-headline-xl text-headline-xl lg:text-[4.2rem] lg:leading-[1.08] tracking-tight text-on-surface">
+19|          Hi! I'm Yosri Hamrouni, building
+20|          <span class="italic bg-clip-text text-transparent bg-gradient-to-r from-primary-container via-primary to-secondary">Intelligent Software</span> & AI Systems.
+21|        </h1>
+22|<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+23|          Computer Engineering graduate from ESPRIT with international engineering mobility at CESI France. From multi-tenant web architectures to production-grade RAG and explainable AI pipelines, I engineer high-velocity, fault-tolerant digital systems.
+24|        </p>
+25|<!-- CTA Action Row -->
+26|<div class="flex flex-wrap items-center gap-4 pt-2">
+27|<a class="px-7 py-3.5 rounded-full bg-primary-container text-on-primary-container font-label-pill text-label-pill tracking-wider uppercase font-bold shadow-[0_0_25px_rgba(0,210,255,0.45)] hover:shadow-[0_0_40px_rgba(0,210,255,0.7)] hover:bg-primary transition-all duration-300 flex items-center gap-2 group" href="#contact-section">
+28|<span>Let's Connect</span>
+29|<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+30|</a>
+31|<a class="px-7 py-3.5 rounded-full bg-surface-container-high/80 text-on-surface font-label-pill text-label-pill tracking-wider uppercase hover:bg-surface-bright transition-all duration-200 flex items-center gap-2 shadow-sm" href="#projects-grid">
+32|<span>See My Work</span>
+33|<span class="material-symbols-outlined text-[18px]">south_east</span>
+34|</a>
+35|</div>
+36|<!-- Micro Telemetry Metadata -->
+37|<div class="pt-4 flex items-center gap-6 text-on-surface-variant font-label-code text-label-code">
+38|<div class="flex items-center gap-2">
+39|<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+40|<span>ESPRIT Computer Engineer</span>
+41|</div>
+42|<div class="flex items-center gap-2">
+43|<span class="material-symbols-outlined text-tertiary-container text-[18px]">public</span>
+44|<span>CESI France Mobility</span>
+45|</div>
+46|</div>
+47|</div>
+48|<!-- Right Hero Column (Portrait & Bento Floating Telemetry) -->
+49|<div class="lg:col-span-5 relative flex justify-center lg:justify-end">
+50|<div class="relative w-full max-w-[420px] aspect-[4/5] rounded-3xl overflow-hidden bg-surface-container-low shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+51|<!-- Portrait Container -->
+52|<div class="w-full h-full bg-cover bg-center" data-alt="High quality professional studio portrait of Yosri Hamrouni, a confident modern software engineer in a navy technical tee against a dark ambient indigo studio backdrop, illuminated with subtle electric cyan rim lighting and crisp clean highlights, minimalist aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDq02oJRUZanN91kUf5l_ARCf3STH3kosW3sj54BgQ54u9iZpT2K7htJAvh-jKRl6LQSN_XvJ2w6i5mFls1NjeCl3D_ob4dNaRM_Rc3iwFRcNTEKODvJUyUKyXHp7Jj4CNpe5FTbTJr64DRc2cnOYH8GhuCu4_BjzPa5G0GoRb5g87CiqgsUICshnSIH7AKOvyfa6IKbyd_sZHoyngz9CtLcUH8B32t3M3OVCZKNEw')">
+53|<!-- Atmospheric gradient scrim -->
+54|<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent"></div>
+55|</div>
+56|<!-- Top-Right Floating Pill: Stack Mastery -->
+57|<div class="absolute top-5 right-5 px-3.5 py-2 rounded-2xl bg-surface-container-lowest/85 backdrop-blur-xl shadow-lg flex items-center gap-2.5">
+58|<span class="material-symbols-outlined text-primary-container text-[18px]">terminal</span>
+59|<div class="flex flex-col">
+60|<span class="font-headline-sm text-xs text-on-surface leading-none">Full-Stack & AI</span>
+61|<span class="font-label-code text-[10px] text-on-surface-variant">Production Deployed</span>
+62|</div>
+63|</div>
+64|<!-- Mid Floating Chip: Response Telemetry -->
+65|<div class="absolute top-1/2 -left-4 -translate-y-1/2 px-4 py-3 rounded-2xl bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.6)] flex items-center gap-3">
+66|<div class="w-8 h-8 rounded-xl bg-secondary-container/40 flex items-center justify-center">
+67|<span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">bolt</span>
+68|</div>
+69|<div>
+70|<div class="font-headline-sm text-sm text-on-surface leading-snug">< 45ms</div>
+71|<div class="font-label-code text-[10px] text-on-surface-variant">Vector Semantic Query</div>
+72|</div>
+73|</div>
+74|<!-- Bottom Floating Telemetry Bar -->
+75|<div class="absolute bottom-5 inset-x-5 p-3.5 rounded-2xl bg-surface-container-lowest/90 backdrop-blur-xl shadow-xl flex items-center justify-between">
+76|<div class="flex items-center gap-2.5">
+77|<div class="w-2.5 h-2.5 rounded-full bg-primary-container shadow-[0_0_10px_#00d2ff]"></div>
+78|<span class="font-label-code text-xs text-on-surface">ESPRIT '26 Honor Graduate</span>
+79|</div>
+80|<span class="font-label-pill text-[10px] px-2 py-0.5 rounded-full bg-surface-container-high text-primary uppercase font-bold tracking-wider">Verified</span>
+81|</div>
+82|</div>
+83|</div>
+84|</div>
+85|<!-- Technical Foundations / Marquee Bar -->
+86|<div class="mt-20 pt-8 pb-4 flex flex-col items-center justify-center">
+87|<span class="font-label-code text-label-code uppercase tracking-widest text-on-surface-variant/70 mb-6 text-center">
+88|        ENGINEERED WITH MODERN TECHNOLOGIES & ARCHITECTURAL STANDARDS
+89|      </span>
+90|<div class="w-full flex flex-wrap items-center justify-center gap-8 lg:gap-14 opacity-75 grayscale hover:grayscale-0 transition-all duration-300">
+91|<span class="font-headline-sm text-headline-sm text-on-surface tracking-tighter flex items-center gap-2">
+92|<span class="material-symbols-outlined text-primary">school</span> ESPRIT
+93|        </span>
+94|<span class="font-headline-sm text-headline-sm text-on-surface tracking-tighter flex items-center gap-2">
+95|<span class="material-symbols-outlined text-tertiary">domain</span> CESI France
+96|        </span>
+97|<span class="font-headline-sm text-headline-sm text-on-surface tracking-tighter flex items-center gap-2">
+98|<span class="material-symbols-outlined text-primary-container">code</span> React · Inertia
+99|        </span>
+100|<span class="font-headline-sm text-headline-sm text-on-surface tracking-tighter flex items-center gap-2">
+101|<span class="material-symbols-outlined text-secondary">layers</span> Laravel 11
+102|        </span>
+103|<span class="font-headline-sm text-headline-sm text-on-surface tracking-tighter flex items-center gap-2">
+104|<span class="material-symbols-outlined text-surface-tint">memory</span> ASP.NET Core
+105|        </span>
+106|<span class="font-headline-sm text-headline-sm text-on-surface tracking-tighter flex items-center gap-2">
+107|<span class="material-symbols-outlined text-primary-fixed-dim">neurology</span> RAG & GenAI
+108|        </span>
+109|</div>
+110|</div>
+111|</section>
+112|<!-- 4-COLUMN STAT COUNTERS (Direct Leo Carter Dribbble Inspired Component) -->
+113|<section class="w-full max-w-7xl mx-auto px-gutter-mobile lg:px-gutter py-12">
+114|<div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6 p-6 lg:p-8 rounded-3xl bg-surface-container-low shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
+115|<!-- Stat 1 -->
+116|<div class="flex flex-col items-center md:items-start p-4">
+117|<div class="font-headline-xl text-3xl lg:text-4xl text-on-surface font-bold tracking-tight">4+</div>
+118|<div class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider mt-1">Core Tech Stacks</div>
+119|<p class="font-body-sm text-body-sm text-on-surface-variant/80 mt-2 hidden sm:block">Laravel, React/Next, MERN & .NET microservices.</p>
+120|</div>
+121|<!-- Stat 2 -->
+122|<div class="flex flex-col items-center md:items-start p-4">
+123|<div class="font-headline-xl text-3xl lg:text-4xl text-primary-container font-bold tracking-tight">100%</div>
+124|<div class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider mt-1">Type Safety Strictness</div>
+125|<p class="font-body-sm text-body-sm text-on-surface-variant/80 mt-2 hidden sm:block">Zero-runtime error philosophy with strict TypeScript & DTOs.</p>
+126|</div>
+127|<!-- Stat 3 -->
+128|<div class="flex flex-col items-center md:items-start p-4">
+129|<div class="font-headline-xl text-3xl lg:text-4xl text-on-surface font-bold tracking-tight">< 45ms</div>
+130|<div class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider mt-1">Vector Query Latency</div>
+131|<p class="font-body-sm text-body-sm text-on-surface-variant/80 mt-2 hidden sm:block">High-speed retrieval augmented generation indexing.</p>
+132|</div>
+133|<!-- Stat 4 -->
+134|<div class="flex flex-col items-center md:items-start p-4">
+135|<div class="font-headline-xl text-3xl lg:text-4xl text-secondary font-bold tracking-tight">5+</div>
+136|<div class="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider mt-1">Verified Credentials</div>
+137|<p class="font-body-sm text-body-sm text-on-surface-variant/80 mt-2 hidden sm:block">Meta Frontend, Google UX & DeepLearning.AI credentials.</p>
+138|</div>
+139|</div>
+140|</section>
+141|<!-- RECENT PROJECTS BENTO GRID (2x2 Reference Card Architecture) -->
+142|<section class="w-full max-w-7xl mx-auto px-gutter-mobile lg:px-gutter py-20" id="projects-grid">
+143|<div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+144|<div>
+145|<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high font-label-code text-label-code text-primary uppercase tracking-wider mb-3">
+146|          Portfolio Archive
+147|        </div>
+148|<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+149|          Recent Architectural Works
+150|        </h2>
+151|<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-xl">
+152|          Curated selection of enterprise applications, scalable web ecosystems, and production-ready intelligent workflows.
+153|        </p>
+154|</div>
+155|<div class="mt-6 md:mt-0">
+156|<a class="inline-flex items-center gap-2 font-label-pill text-label-pill text-primary hover:text-primary-container transition-colors" href="#contact-section">
+157|<span>REQUEST COMPLETE ARCHITECTURE CODE REPO</span>
+158|<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+159|</a>
+160|</div>
+161|</div>
+162|<!-- 2x2 Bento Matrix matching reference layout -->
+163|<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+164|<!-- Project Card 1: School ERP + Explainable AI (PFE Flagship) -->
+165|<div class="group flex flex-col rounded-3xl bg-surface-container-low overflow-hidden shadow-xl hover:shadow-[0_0_35px_rgba(0,210,255,0.2)] transition-all duration-300">
+166|<div class="relative w-full aspect-[16/10] bg-surface-container-highest overflow-hidden">
+167|<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Modern dark-mode dashboard interface for an institutional School Management SaaS system, featuring student dropout risk explainability graphs, AI probability charts, clean tabular data, and translucent cyan UI elements on an obsidian slate background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDN5fUULFB1wyhybwwfwjB75pHC5y7jIP467B9jaaom8FweN4y19sQQ01Fh_GN1QoK-vpK1XABnePQvxdhbDAtqhOlH6z-AurmCXK9IsZy5wV9a36LNxydvo6y184RnC8O_I2L7g65ANE1yTE1_hiJpGYk9Zchu-Wpzzlugutr-k91ULtdlVUgg1JXIgtYyMYlaEkPr7Ot2kCRP9Mn-UppV9boBTr-f5EZ1gnEZqto')"></div>
+168|<div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md font-label-code text-label-code text-primary">
+169|            Graduation PFE 2026
+170|          </div>
+171|<div class="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center justify-center text-on-surface group-hover:bg-primary-container group-hover:text-on-primary-container transition-all">
+172|<span class="material-symbols-outlined text-[20px]">north_east</span>
+173|</div>
+174|</div>
+175|<div class="p-6 lg:p-8 flex flex-col justify-between flex-grow">
+176|<div>
+177|<div class="flex items-center gap-2 font-label-code text-label-code text-on-surface-variant mb-2">
+178|<span>SaaS Platform</span> · <span>Maison du Web PFE</span>
+179|</div>
+180|<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">
+181|              School Management SaaS + Explainable AI
+182|            </h3>
+183|<p class="font-body-sm text-body-sm text-on-surface-variant mt-3 leading-relaxed">
+184|              Multi-tenant educational ERP featuring academic grading, automated report cards, and an explainable AI pipeline that highlights dropout risks with natural-language remediation suggestions.
+185|            </p>
+186|</div>
+187|<div class="mt-6 pt-4 flex flex-wrap items-center gap-2">
+188|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-primary">Laravel 11</span>
+189|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-tertiary">React + Inertia</span>
+190|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-secondary">TypeScript</span>
+191|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-on-surface-variant">PostgreSQL</span>
+192|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-primary-container">SHAP / XAI</span>
+193|</div>
+194|</div>
+195|</div>
+196|<!-- Project Card 2: Field Service Management System (L-Mobile) -->
+197|<div class="group flex flex-col rounded-3xl bg-surface-container-low overflow-hidden shadow-xl hover:shadow-[0_0_35px_rgba(37,99,235,0.2)] transition-all duration-300">
+198|<div class="relative w-full aspect-[16/10] bg-surface-container-highest overflow-hidden">
+199|<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="High precision enterprise field service management dashboard display, real-time technician GPS tracking maps, scheduled task lanes, dispatch metrics, dark theme with electric azure and neon blue telemetry indicators." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAYey-ZIY51KAVlGe8_9vsnnFuVj5NzF-6Zt2nFBDUOvuunoOxryXQWcb4Fm64awV0qFRyjxvAW6bT1cll2dioquHTib6C5bCYTSWHn25BQ5H1JtNQphKzUJWNFC0VEiu5i3j_95e8KhqWoBZ7Ug1fGje13b0FCiK6R8c_0EE4jg8lKXlb2u3Cav0iYI5nX_-Pn0oINA-2VlJIzasuYP2wcwuS54mY741GQE4sr54k')"></div>
+200|<div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md font-label-code text-label-code text-secondary">
+201|            L-Mobile Internship
+202|          </div>
+203|<div class="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center justify-center text-on-surface group-hover:bg-primary-container group-hover:text-on-primary-container transition-all">
+204|<span class="material-symbols-outlined text-[20px]">north_east</span>
+205|</div>
+206|</div>
+207|<div class="p-6 lg:p-8 flex flex-col justify-between flex-grow">
+208|<div>
+209|<div class="flex items-center gap-2 font-label-code text-label-code text-on-surface-variant mb-2">
+210|<span>Enterprise Mobility</span> · <span>Industrial Automation</span>
+211|</div>
+212|<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">
+213|              Field Service Dispatch & Operations Suite
+214|            </h3>
+215|<p class="font-body-sm text-body-sm text-on-surface-variant mt-3 leading-relaxed">
+216|              Industrial technician workflow management with offline-first synchronization, high-frequency dispatch tracking, and enterprise resource planning bridging .NET services with a reactive UI.
+217|            </p>
+218|</div>
+219|<div class="mt-6 pt-4 flex flex-wrap items-center gap-2">
+220|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-surface-tint">ASP.NET Core</span>
+221|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-primary">React</span>
+222|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-secondary">REST APIs</span>
+223|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-on-surface-variant">SQL Server</span>
+224|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-tertiary">IndexedDB</span>
+225|</div>
+226|</div>
+227|</div>
+228|<!-- Project Card 3: AI-Powered Customer Engagement (Krenova) -->
+229|<div class="group flex flex-col rounded-3xl bg-surface-container-low overflow-hidden shadow-xl hover:shadow-[0_0_35px_rgba(0,210,255,0.2)] transition-all duration-300">
+230|<div class="relative w-full aspect-[16/10] bg-surface-container-highest overflow-hidden">
+231|<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Clean full stack engagement platform interface with live AI conversational streaming chat widget, customer sentiment scores, JWT session telemetry, and modular dashboard cards in an obsidian dark aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB25VQdmcilXhQFvCnTtEZowIEnoA7bYzPZcVG40LNcqhUjRBaDuK9ZUs7AGXiYawPHAZ94oWikYD100JmfQeWsqtzwq9wXZ28myY5a-CuVQU17bdqDdLJPmCSpT28VIjaiBv2jWU-5GQOu3kEXTTUeIuIA5JuW-0anmOtdd0U48GXTrDlOFFgJpamlqSScfsJl-fmnbBXKqJ5RiFev0AKP6SxMz4NcZCTzkeyo3Yc')"></div>
+232|<div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md font-label-code text-label-code text-primary">
+233|            Krenova Internship
+234|          </div>
+235|<div class="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center justify-center text-on-surface group-hover:bg-primary-container group-hover:text-on-primary-container transition-all">
+236|<span class="material-symbols-outlined text-[20px]">north_east</span>
+237|</div>
+238|</div>
+239|<div class="p-6 lg:p-8 flex flex-col justify-between flex-grow">
+240|<div>
+241|<div class="flex items-center gap-2 font-label-code text-label-code text-on-surface-variant mb-2">
+242|<span>MERN Stack</span> · <span>Conversational Agent</span>
+243|</div>
+244|<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">
+245|              Intelligent Engagement Platform & Copilot
+246|            </h3>
+247|<p class="font-body-sm text-body-sm text-on-surface-variant mt-3 leading-relaxed">
+248|              Real-time user engagement application featuring token-based authentication, modular React dashboards, and asynchronous OpenAI pipeline integration for automated customer resolution.
+249|            </p>
+250|</div>
+251|<div class="mt-6 pt-4 flex flex-wrap items-center gap-2">
+252|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-tertiary">Node.js</span>
+253|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-primary">Express</span>
+254|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-secondary">MongoDB</span>
+255|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-primary-container">OpenAI API</span>
+256|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-on-surface-variant">JWT Auth</span>
+257|</div>
+258|</div>
+259|</div>
+260|<!-- Project Card 4: Vector Semantic RAG Retrieval Pipeline -->
+261|<div class="group flex flex-col rounded-3xl bg-surface-container-low overflow-hidden shadow-xl hover:shadow-[0_0_35px_rgba(71,214,255,0.2)] transition-all duration-300">
+262|<div class="relative w-full aspect-[16/10] bg-surface-container-highest overflow-hidden">
+263|<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Vector search engine node visualization software UI showing dense vector embeddings clusters, cosine similarity matrices, low latency response graphs, dark mode background with cyan and electric blue glowing data points." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCA-ZunjGZBIkg44BGERJQV68GEWvSKr0iCMjS8aTMNENpNMTsPCgST38YXVwHod0MfyZyQXfOobtXPndpWC_t6Ua5Www4t86jJgtfGJCmu__wvR9Yy9A7lYKXuFzbxqxBB1mWHDAXcYdVr3j56T06OsFxvD7ty6LIQpowp91JceQ8KLiwviEYs37jKkgniE5lrd1kcjASIb3Ak_wLyykbA5QSLa_9kGC97VVLRoQk')"></div>
+264|<div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md font-label-code text-label-code text-tertiary">
+265|            R&D Architecture
+266|          </div>
+267|<div class="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center justify-center text-on-surface group-hover:bg-primary-container group-hover:text-on-primary-container transition-all">
+268|<span class="material-symbols-outlined text-[20px]">north_east</span>
+269|</div>
+270|</div>
+271|<div class="p-6 lg:p-8 flex flex-col justify-between flex-grow">
+272|<div>
+273|<div class="flex items-center gap-2 font-label-code text-label-code text-on-surface-variant mb-2">
+274|<span>Vector Search</span> · <span>RAG Pipeline</span>
+275|</div>
+276|<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">
+277|              Explainable RAG Vector Knowledge Engine
+278|            </h3>
+279|<p class="font-body-sm text-body-sm text-on-surface-variant mt-3 leading-relaxed">
+280|              Hybrid dense-sparse retrieval system built with LangChain and vector databases, incorporating strict citation verification, halluncination guardrails, and sub-45ms execution.
+281|            </p>
+282|</div>
+283|<div class="mt-6 pt-4 flex flex-wrap items-center gap-2">
+284|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-primary-container">Python 3.11</span>
+285|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-primary">LangChain</span>
+286|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-secondary">Qdrant Vector DB</span>
+287|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-on-surface-variant">FastAPI</span>
+288|<span class="px-2.5 py-1 rounded-lg bg-surface-container-high font-label-code text-[11px] text-tertiary">Docker</span>
+289|</div>
+290|</div>
+291|</div>
+292|</div>
+293|</section>
+294|<!-- SERVICES & CORE DISCIPLINES (3 Card Layout directly matching reference) -->
+295|<section class="w-full max-w-7xl mx-auto px-gutter-mobile lg:px-gutter py-20">
+296|<div class="text-center max-w-2xl mx-auto mb-16">
+297|<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high font-label-code text-label-code text-primary uppercase tracking-wider mb-3">
+298|        Core Capabilities
+299|      </div>
+300|<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+301|        Engineered for Production Scale
+302|      </h2>
+303|<p class="font-body-md text-body-md text-on-surface-variant mt-3">
+304|        From resilient backends to intuitive user touchpoints, I construct modern solutions prioritizing maintainability, speed, and business leverage.
+305|      </p>
+306|</div>
+307|<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+308|<!-- Discipline 1: Full-Stack Web Development -->
+309|<div class="p-8 rounded-3xl bg-surface-container-low flex flex-col justify-between hover:bg-surface-container transition-colors shadow-lg">
+310|<div>
+311|<!-- Icon Graphic Container -->
+312|<div class="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center mb-8 text-primary shadow-inner">
+313|<span class="material-symbols-outlined text-[32px]">code_blocks</span>
+314|</div>
+315|<h3 class="font-headline-md text-headline-md text-on-surface">Full-Stack Web Development</h3>
+316|<p class="font-body-sm text-body-sm text-on-surface-variant mt-3 leading-relaxed">
+317|            Cleanly layered web applications built with Laravel 11, React (Inertia/Next.js), ASP.NET Core, and Node.js. Resilient schema modeling, authenticated REST APIs, and responsive design systems.
+318|          </p>
+319|</div>
+320|<div class="mt-8 pt-4 flex flex-col gap-2 font-label-code text-xs text-on-surface-variant">
+321|<div class="flex items-center gap-2">
+322|<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+323|<span>Laravel + Inertia.js Ecosystem</span>
+324|</div>
+325|<div class="flex items-center gap-2">
+326|<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+327|<span>ASP.NET Core Web APIs</span>
+328|</div>
+329|<div class="flex items-center gap-2">
+330|<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+331|<span>TypeScript & React Architecture</span>
+332|</div>
+333|</div>
+334|</div>
+335|<!-- Discipline 2: AI & Generative Workflows -->
+336|<div class="p-8 rounded-3xl bg-surface-container-low flex flex-col justify-between hover:bg-surface-container transition-colors shadow-lg">
+337|<div>
+338|<div class="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center mb-8 text-primary-container shadow-inner">
+339|<span class="material-symbols-outlined text-[32px]">psychology</span>
+340|</div>
+341|<h3 class="font-headline-md text-headline-md text-on-surface">AI & Generative Systems</h3>
+342|<p class="font-body-sm text-body-sm text-on-surface-variant mt-3 leading-relaxed">
+343|            Operationalizing machine learning beyond hype: RAG semantic search pipelines, explainable predictive AI (XAI), streaming LLM orchestration, and deterministic business logic guardrails.
+344|          </p>
+345|</div>
+346|<div class="mt-8 pt-4 flex flex-col gap-2 font-label-code text-xs text-on-surface-variant">
+347|<div class="flex items-center gap-2">
+348|<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
+349|<span>RAG & Vector Embeddings</span>
+350|</div>
+351|<div class="flex items-center gap-2">
+352|<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
+353|<span>Explainable AI & Risk Scoring</span>
+354|</div>
+355|<div class="flex items-center gap-2">
+356|<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
+357|<span>Prompt Orchestration & Guardrails</span>
+358|</div>
+359|</div>
+360|</div>
+361|<!-- Discipline 3: Systems & Data Architecture -->
+362|<div class="p-8 rounded-3xl bg-surface-container-low flex flex-col justify-between hover:bg-surface-container transition-colors shadow-lg">
+363|<div>
+364|<div class="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center mb-8 text-secondary shadow-inner">
+365|<span class="material-symbols-outlined text-[32px]">database</span>
+366|</div>
+367|<h3 class="font-headline-md text-headline-md text-on-surface">Cloud & Database Architecture</h3>
+368|<p class="font-body-sm text-body-sm text-on-surface-variant mt-3 leading-relaxed">
+369|            High-integrity persistence layers across PostgreSQL, MongoDB, and Redis. Containerized microservices using Docker, Git-based CI/CD deployment routines, and Unix environment automation.
+370|          </p>
+371|</div>
+372|<div class="mt-8 pt-4 flex flex-col gap-2 font-label-code text-xs text-on-surface-variant">
+373|<div class="flex items-center gap-2">
+374|<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+375|<span>PostgreSQL Normalization & Indexing</span>
+376|</div>
+377|<div class="flex items-center gap-2">
+378|<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+379|<span>Dockerized Containerization</span>
+380|</div>
+381|<div class="flex items-center gap-2">
+382|<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+383|<span>Linux Scripting & Microservices</span>
+384|</div>
+385|</div>
+386|</div>
+387|</div>
+388|</section>
+389|<!-- ENGINEERING PROCESS MODULE (01 - 02 - 03 Flow with bottom CTA bar) -->
+390|<section class="w-full max-w-7xl mx-auto px-gutter-mobile lg:px-gutter py-20">
+391|<div class="text-center max-w-2xl mx-auto mb-16">
+392|<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high font-label-code text-label-code text-primary uppercase tracking-wider mb-3">
+393|        Execution Lifecycle
+394|      </div>
+395|<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+396|        Structured Engineering Process
+397|      </h2>
+398|<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+399|        A clear, disciplined workflow governing every release from architecture modeling to production resilience.
+400|      </p>
+401|</div>
+402|<!-- 3-Step Horizontal Row -->
+403|<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+404|<!-- Step 01 -->
+405|<div class="relative p-8 rounded-3xl bg-surface-container-low flex flex-col justify-between overflow-hidden shadow-lg">
+406|<div class="font-display-hero text-6xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-primary-container via-primary-container/20 to-transparent opacity-80 select-none">
+407|          01
+408|        </div>
+409|<div class="mt-8">
+410|<h3 class="font-headline-md text-headline-md text-on-surface">Define & Architect</h3>
+411|<p class="font-body-sm text-body-sm text-on-surface-variant mt-3 leading-relaxed">
+412|            Clarify business requirements, define data models, architect microservices boundaries, and establish contracts with strict OpenAPI/TypeScript definitions.
+413|          </p>
+414|</div>
+415|</div>
+416|<!-- Step 02 -->
+417|<div class="relative p-8 rounded-3xl bg-surface-container-low flex flex-col justify-between overflow-hidden shadow-lg">
+418|<div class="font-display-hero text-6xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-primary via-primary/20 to-transparent opacity-80 select-none">
+419|          02
+420|        </div>
+421|<div class="mt-8">
+422|<h3 class="font-headline-md text-headline-md text-on-surface">Build & Implement</h3>
+423|<p class="font-body-sm text-body-sm text-on-surface-variant mt-3 leading-relaxed">
+424|            Write clean, modular code with strict typing. Implement fast REST APIs, responsive UIs, automated unit test suites, and reliable AI retrieval pipelines.
+425|          </p>
+426|</div>
+427|</div>
+428|<!-- Step 03 -->
+429|<div class="relative p-8 rounded-3xl bg-surface-container-low flex flex-col justify-between overflow-hidden shadow-lg">
+430|<div class="font-display-hero text-6xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-secondary via-secondary/20 to-transparent opacity-80 select-none">
+431|          03
+432|        </div>
+433|<div class="mt-8">
+434|<h3 class="font-headline-md text-headline-md text-on-surface">Deploy & Optimize</h3>
+435|<p class="font-body-sm text-body-sm text-on-surface-variant mt-3 leading-relaxed">
+436|            Containerize environments via Docker, execute continuous integration pipelines, optimize query latency, and verify end-to-end security benchmarks.
+437|          </p>
+438|</div>
+439|</div>
+440|</div>
+441|<!-- Bottom Process Action Bar -->
+442|<div class="mt-8 p-6 lg:p-8 rounded-2xl bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-6 shadow-md">
+443|<div class="flex items-center gap-4">
+444|<div class="w-3 h-3 rounded-full bg-primary-container shadow-[0_0_12px_#00d2ff]"></div>
+445|<span class="font-headline-sm text-headline-sm text-on-surface">
+446|          Build reliable, user-focused products with expert engineering rigor.
+447|        </span>
+448|</div>
+449|<a class="px-6 py-2.5 rounded-full bg-primary-container text-on-primary-container font-label-pill text-label-pill uppercase font-bold tracking-wider hover:bg-primary transition-all whitespace-nowrap shadow-sm" href="#contact-section">
+450|        Book a Call
+451|      </a>
+452|</div>
+453|</section>
+454|<!-- ABOUT ME & CREDENTIALS (Split Reference Layout) -->
+455|<section class="w-full max-w-7xl mx-auto px-gutter-mobile lg:px-gutter py-20">
+456|<div class="text-center max-w-2xl mx-auto mb-16">
+457|<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high font-label-code text-label-code text-primary uppercase tracking-wider mb-3">
+458|        Profile & Career
+459|      </div>
+460|<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+461|        Engineering Philosophy
+462|      </h2>
+463|<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+464|        I construct intuitive software powered by clean code, scalable architecture, and genuine user empathy.
+465|      </p>
+466|</div>
+467|<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+468|<!-- Left Profile Column (Card with portrait and status) -->
+469|<div class="lg:col-span-5 p-6 rounded-3xl bg-surface-container-low flex flex-col items-center text-center shadow-lg">
+470|<div class="w-full aspect-square rounded-2xl overflow-hidden bg-surface-container-high relative mb-6">
+471|<div class="w-full h-full bg-cover bg-center" data-alt="Close up photographic portrait of Yosri Hamrouni, software developer, looking thoughtfully towards the camera in a modern minimalist workspace, soft cinematic blue tones and ambient rim lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDz6gr6xBo3Bhr2BsVnBbvtNa9ZBVGQJ0DiSZmLasq2MRdNP2RVpQZD7KTVFeTYRKd0ldo_owokkMOg7daDlihvM8-1hKvGXYipK3f-YQt3-O7ZRYJ1PMk_GM-rHuxucZPHuFMETPNCZTGbJUCOewS_RvdHXLuIEZBGdqUsup7BImeSAksbpD1oaa7G1e6EOZCTVa54mWLvl1SvO4AW3pI3ikaeHd1WIOan5dFyxjc')"></div>
+472|<div class="absolute bottom-3 inset-x-3 py-1.5 px-3 rounded-xl bg-surface-container-lowest/85 backdrop-blur-md flex items-center justify-center gap-2">
+473|<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+474|<span class="font-label-code text-[11px] text-on-surface">Available for Full-Time Roles</span>
+475|</div>
+476|</div>
+477|<h3 class="font-headline-md text-headline-md text-on-surface">Yosri Hamrouni</h3>
+478|<p class="font-label-code text-xs text-primary mt-1">Computer Engineer · Full-Stack & AI</p>
+479|<p class="font-body-sm text-body-sm text-on-surface-variant mt-4 leading-relaxed max-w-xs">
+480|          Graduate from ESPRIT with international experience from CESI France, blending frontend aesthetics with robust backend systems.
+481|        </p>
+482|<!-- Social Connections -->
+483|<div class="flex items-center gap-3 mt-6">
+484|<a aria-label="GitHub Profile" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:text-primary-container transition-colors" href="#">
+485|<span class="material-symbols-outlined text-[20px]">terminal</span>
+486|</a>
+487|<a aria-label="LinkedIn Profile" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:text-primary-container transition-colors" href="#">
+488|<span class="material-symbols-outlined text-[20px]">hub</span>
+489|</a>
+490|<a aria-label="Direct Email" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:text-primary-container transition-colors" href="#">
+491|<span class="material-symbols-outlined text-[20px]">alternate_email</span>
+492|</a>
+493|</div>
+494|<a class="w-full mt-6 py-3 rounded-full bg-surface-container-high text-on-surface font-label-pill text-label-pill uppercase tracking-wider hover:bg-surface-bright transition-all" href="#contact-section">
+495|          Download Full CV / Resume
+496|        </a>
+497|</div>
+498|<!-- Right Column: Bio Narrative, Stack, & Experience Timeline -->
+499|<div class="lg:col-span-7 space-y-8">
+500|<!-- Bio Card -->
+501|<div class="p-8 rounded-3xl bg-surface-container-low shadow-lg">
+502|<h4 class="font-headline-sm text-headline-sm text-on-surface mb-3">Background & Expertise</h4>
+503|<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+504|            I am a software engineer dedicated to building meaningful digital products. With an engineering degree from <span class="text-on-surface font-semibold">ESPRIT</span> and academic mobility at <span class="text-on-surface font-semibold">CESI École d'Ingénieurs in France</span>, I bridge mathematical discipline with modern software ergonomics.
+505|          </p>
+506|<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mt-3">
+507|            I specialize in full-stack web platforms, explainable AI integrations, and developer-first architectures—delivering clean code that makes direct business sense.
+508|          </p>
+509|<!-- Tech Stack Pill Showcase -->
+510|<div class="mt-6 pt-6">
+511|<span class="font-label-code text-xs text-on-surface-variant uppercase tracking-wider block mb-3">Primary Tech Arsenal:</span>
+512|<div class="flex flex-wrap gap-2">
+513|<span class="px-3 py-1.5 rounded-xl bg-surface-container font-label-code text-xs text-primary flex items-center gap-1.5 shadow-sm">
+514|<span class="material-symbols-outlined text-[16px]">code</span> Laravel
+515|              </span>
+516|<span class="px-3 py-1.5 rounded-xl bg-surface-container font-label-code text-xs text-primary-container flex items-center gap-1.5 shadow-sm">
+517|<span class="material-symbols-outlined text-[16px]">layers</span> React.js
+518|              </span>
+519|<span class="px-3 py-1.5 rounded-xl bg-surface-container font-label-code text-xs text-secondary flex items-center gap-1.5 shadow-sm">
+520|<span class="material-symbols-outlined text-[16px]">javascript</span> TypeScript
+521|              </span>
+522|<span class="px-3 py-1.5 rounded-xl bg-surface-container font-label-code text-xs text-surface-tint flex items-center gap-1.5 shadow-sm">
+523|<span class="material-symbols-outlined text-[16px]">terminal</span> ASP.NET Core
+524|              </span>
+525|<span class="px-3 py-1.5 rounded-xl bg-surface-container font-label-code text-xs text-tertiary flex items-center gap-1.5 shadow-sm">
+526|<span class="material-symbols-outlined text-[16px]">database</span> PostgreSQL
+527|              </span>
+528|<span class="px-3 py-1.5 rounded-xl bg-surface-container font-label-code text-xs text-primary-fixed-dim flex items-center gap-1.5 shadow-sm">
+529|<span class="material-symbols-outlined text-[16px]">psychology</span> Python / AI
+530|              </span>
+531|</div>
+532|</div>
+533|</div>
+534|<!-- Experience Timeline Matrix -->
+535|<div class="p-8 rounded-3xl bg-surface-container-low shadow-lg">
+536|<h4 class="font-headline-sm text-headline-sm text-on-surface mb-6">Experience & Milestones</h4>
+537|<div class="space-y-6">
+538|<div class="flex items-start justify-between pb-5">
+539|<div>
+540|<div class="font-headline-sm text-sm text-on-surface font-semibold">Software Engineering Intern (PFE)</div>
+541|<div class="font-label-code text-xs text-primary">Maison du Web · School SaaS + Explainable AI</div>
+542|</div>
+543|<span class="font-label-code text-xs text-on-surface-variant px-2.5 py-1 rounded-md bg-surface-container-high">2026</span>
+544|</div>
+545|<div class="flex items-start justify-between pb-5">
+546|<div>
+547|<div class="font-headline-sm text-sm text-on-surface font-semibold">Software Development Intern</div>
+548|<div class="font-label-code text-xs text-secondary">L-Mobile · Field Service Operations (.NET & React)</div>
+549|</div>
+550|<span class="font-label-code text-xs text-on-surface-variant px-2.5 py-1 rounded-md bg-surface-container-high">2025</span>
+551|</div>
+552|<div class="flex items-start justify-between pb-5">
+553|<div>
+554|<div class="font-headline-sm text-sm text-on-surface font-semibold">Full-Stack Developer Intern</div>
+555|<div class="font-label-code text-xs text-tertiary">Krenova · MERN Engagement & AI Integration</div>
+556|</div>
+557|<span class="font-label-code text-xs text-on-surface-variant px-2.5 py-1 rounded-md bg-surface-container-high">2024</span>
+558|</div>
+559|<div class="flex items-start justify-between">
+560|<div>
+561|<div class="font-headline-sm text-sm text-on-surface font-semibold">Computer Engineering Degree</div>
+562|<div class="font-label-code text-xs text-on-surface-variant">ESPRIT (with International Mobility at CESI France)</div>
+563|</div>
+564|<span class="font-label-code text-xs text-on-surface-variant px-2.5 py-1 rounded-md bg-surface-container-high">Grad. 2026</span>
+565|</div>
+566|</div>
+567|</div>
+568|</div>
+569|</div>
+570|</section>
+571|<!-- VERIFIED CERTIFICATIONS BADGE BANNER -->
+572|<section class="w-full max-w-7xl mx-auto px-gutter-mobile lg:px-gutter py-12">
+573|<div class="p-8 rounded-3xl bg-surface-container-low shadow-lg">
+574|<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+575|<div>
+576|<span class="font-label-code text-xs text-primary uppercase tracking-wider block mb-1">Industry Validation</span>
+577|<h3 class="font-headline-md text-headline-md text-on-surface">Verified Certifications & Credentials</h3>
+578|</div>
+579|<span class="font-label-code text-xs text-on-surface-variant">Authenticated on Credly & Coursera</span>
+580|</div>
+581|<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+582|<div class="p-4 rounded-2xl bg-surface-container flex items-center gap-3.5 shadow-sm">
+583|<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary-container">
+584|<span class="material-symbols-outlined text-[20px]">badge</span>
+585|</div>
+586|<div>
+587|<div class="font-headline-sm text-xs text-on-surface">Meta Front-End Developer</div>
+588|<div class="font-label-code text-[10px] text-on-surface-variant">Professional Certificate</div>
+589|</div>
+590|</div>
+591|<div class="p-4 rounded-2xl bg-surface-container flex items-center gap-3.5 shadow-sm">
+592|<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-tertiary">
+593|<span class="material-symbols-outlined text-[20px]">design_services</span>
+594|</div>
+595|<div>
+596|<div class="font-headline-sm text-xs text-on-surface">Google UX Design</div>
+597|<div class="font-label-code text-[10px] text-on-surface-variant">Professional Certificate</div>
+598|</div>
+599|</div>
+600|<div class="p-4 rounded-2xl bg-surface-container flex items-center gap-3.5 shadow-sm">
+601|<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+602|<span class="material-symbols-outlined text-[20px]">neurology</span>
+603|</div>
+604|<div>
+605|<div class="font-headline-sm text-xs text-on-surface">AI For Everyone</div>
+606|<div class="font-label-code text-[10px] text-on-surface-variant">DeepLearning.AI · Andrew Ng</div>
+607|</div>
+608|</div>
+609|<div class="p-4 rounded-2xl bg-surface-container flex items-center gap-3.5 shadow-sm">
+610|<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-secondary">
+611|<span class="material-symbols-outlined text-[20px]">terminal</span>
+612|</div>
+613|<div>
+614|<div class="font-headline-sm text-xs text-on-surface">The Unix Workbench</div>
+615|<div class="font-label-code text-[10px] text-on-surface-variant">Johns Hopkins University</div>
+616|</div>
+617|</div>
+618|</div>
+619|</div>
+620|</section>
+621|<!-- FREQUENTLY ASKED QUESTIONS (Accordion Layout matching reference) -->
+622|<section class="w-full max-w-7xl mx-auto px-gutter-mobile lg:px-gutter py-20">
+623|<div class="text-center max-w-2xl mx-auto mb-16">
+624|<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high font-label-code text-label-code text-primary uppercase tracking-wider mb-3">
+625|        Inquiries & Answers
+626|      </div>
+627|<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+628|        Frequently Asked Questions
+629|      </h2>
+630|<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+631|        Direct details on availability, development mindset, and collaboration terms.
+632|      </p>
+633|</div>
+634|<div class="max-w-3xl mx-auto space-y-4" id="faq-accordion">
+635|<!-- FAQ Item 1 -->
+636|<div class="rounded-2xl bg-surface-container-low overflow-hidden shadow-sm transition-all duration-200">
+637|<button class="w-full p-6 text-left flex items-center justify-between focus:outline-none" onclick="toggleFaq(this)" type="button">
+638|<span class="font-headline-sm text-headline-sm text-on-surface">What kind of roles are you currently looking for?</span>
+639|<span class="material-symbols-outlined text-primary transition-transform duration-300">add</span>
+640|</button>
+641|<div class="px-6 pb-6 pt-0 text-on-surface-variant font-body-sm text-body-sm hidden">
+642|          I am actively seeking full-time roles as a Software Engineer, Full-Stack Developer, or AI Systems Engineer starting in 2026. I am also open to select contract architectures and high-impact technical consulting.
+643|        </div>
+644|</div>
+645|<!-- FAQ Item 2 -->
+646|<div class="rounded-2xl bg-surface-container-low overflow-hidden shadow-sm transition-all duration-200">
+647|<button class="w-full p-6 text-left flex items-center justify-between focus:outline-none" onclick="toggleFaq(this)" type="button">
+648|<span class="font-headline-sm text-headline-sm text-on-surface">What is your methodology for integrating AI into products?</span>
+649|<span class="material-symbols-outlined text-primary transition-transform duration-300">add</span>
+650|</button>
+651|<div class="px-6 pb-6 pt-0 text-on-surface-variant font-body-sm text-body-sm hidden">
+652|          I focus on practical, explainable implementations: retrieval-augmented generation (RAG) with low-latency vector databases, strict hallucination guardrails, and explainable AI (XAI) models like SHAP so stakeholders understand why predictions happen.
+653|        </div>
+654|</div>
+655|<!-- FAQ Item 3 -->
+656|<div class="rounded-2xl bg-surface-container-low overflow-hidden shadow-sm transition-all duration-200">
+657|<button class="w-full p-6 text-left flex items-center justify-between focus:outline-none" onclick="toggleFaq(this)" type="button">
+658|<span class="font-headline-sm text-headline-sm text-on-surface">Are you available for international relocation or remote work?</span>
+659|<span class="material-symbols-outlined text-primary transition-transform duration-300">add</span>
+660|</button>
+661|<div class="px-6 pb-6 pt-0 text-on-surface-variant font-body-sm text-body-sm hidden">
+662|          Yes! Having completed academic mobility at CESI in France, I am fully equipped for cross-border engineering teams worldwide, whether fully remote, hybrid, or on-site with visa sponsorship.
+663|        </div>
+664|</div>
+665|<!-- FAQ Item 4 -->
+666|<div class="rounded-2xl bg-surface-container-low overflow-hidden shadow-sm transition-all duration-200">
+667|<button class="w-full p-6 text-left flex items-center justify-between focus:outline-none" onclick="toggleFaq(this)" type="button">
+668|<span class="font-headline-sm text-headline-sm text-on-surface">What distinguishes your code quality from other juniors?</span>
+669|<span class="material-symbols-outlined text-primary transition-transform duration-300">add</span>
+670|</button>
+671|<div class="px-6 pb-6 pt-0 text-on-surface-variant font-body-sm text-body-sm hidden">
+672|          Disciplined separation of concerns, strong typing via TypeScript and C#, strict database indexing, and comprehensive Git commit workflows learned during industrial internships at L-Mobile and Maison du Web.
+673|        </div>
+674|</div>
+675|</div>
+676|</section>
+677|<!-- AMBIENT CTA BANNER (High-Intensity Glowing Box matching reference) -->
+678|<section class="w-full max-w-7xl mx-auto px-gutter-mobile lg:px-gutter py-20" id="contact-section">
+679|<div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-surface-container-low via-surface-container-high to-surface-container-low p-10 lg:p-16 text-center shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
+680|<!-- Ambient Glow Behind CTA -->
+681|<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,210,255,0.18),transparent_70%)] pointer-events-none"></div>
+682|<div class="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
+683|<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-lowest/80 font-label-code text-label-code text-primary uppercase tracking-wider mb-4">
+684|          Open For Opportunities
+685|        </div>
+686|<h2 class="font-headline-xl text-headline-xl lg:text-4xl text-on-surface font-bold tracking-tight">
+687|          Your vision, my engineering expertise. Let's create something <span class="text-primary-container italic">exceptional.</span>
+688|</h2>
+689|<p class="font-body-md text-body-md text-on-surface-variant mt-4 leading-relaxed">
+690|          Ready to scale your next web architecture or operationalize an intelligent system? Let's discuss requirements and explore how I can bring immediate value to your team.
+691|        </p>
+692|<!-- CTA Buttons -->
+693|<div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+694|<a class="px-8 py-3.5 rounded-full bg-primary-container text-on-primary-container font-label-pill text-label-pill uppercase font-bold tracking-wider shadow-[0_0_30px_rgba(0,210,255,0.5)] hover:shadow-[0_0_50px_rgba(0,210,255,0.8)] hover:bg-primary transition-all duration-300 flex items-center gap-2" href="mailto:yosri.hamrouni@esprit.tn">
+695|<span class="material-symbols-outlined text-[18px]">mail</span>
+696|<span>Get in Touch Directly</span>
+697|</a>
+698|<a class="px-8 py-3.5 rounded-full bg-surface-container-lowest/80 text-on-surface font-label-pill text-label-pill uppercase tracking-wider hover:bg-surface-bright transition-all" href="#">
+699|            Schedule a Virtual Coffee
+700|          </a>
+701|</div>
+702|<!-- Email Pill Micro-Display -->
+703|<div class="mt-8 px-4 py-2 rounded-full bg-surface-container-lowest/60 backdrop-blur-md flex items-center gap-2 font-label-code text-xs text-on-surface-variant">
+704|<span>Primary:</span>
+705|<span class="text-primary">yosri.hamrouni@esprit.tn</span>
+706|</div>
+707|</div>
+708|</div>
+709|</section>
+710|</div>
+711|<script>
+712|  function toggleFaq(button) {
+713|    const content = button.nextElementSibling;
+714|    const icon = button.querySelector('.material-symbols-outlined');
+715|    const isHidden = content.classList.contains('hidden');
+716|    
+717|    // Close other FAQ items
+718|    document.querySelectorAll('#faq-accordion > div').forEach(item => {
+719|      const c = item.querySelector('div:last-child');
+720|      const ic = item.querySelector('.material-symbols-outlined');
+721|      if (c && !c.classList.contains('hidden')) {
+722|        c.classList.add('hidden');
+723|        if (ic) {
+724|          ic.textContent = 'add';
+725|          ic.classList.remove('rotate-45');
+726|        }
+727|      }
+728|    });
+729|
+730|    // Toggle current
+731|    if (isHidden) {
+732|      content.classList.remove('hidden');
+733|      if (icon) {
+734|        icon.textContent = 'close';
+735|        icon.classList.add('rotate-45');
+736|      }
+737|    } else {
+738|      content.classList.add('hidden');
+739|      if (icon) {
+740|        icon.textContent = 'add';
+741|        icon.classList.remove('rotate-45');
+742|      }
+743|    }
+744|  }
+745|</script></main><footer class="w-full bg-surface-container-lowest relative overflow-hidden pt-space-xl pb-space-lg"><div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(0,210,255,0.08),transparent_70%)] pointer-events-none"></div><div class="max-w-7xl mx-auto px-gutter-mobile lg:px-gutter relative z-10"><div class="w-full text-center mb-space-xl select-none"><span class="block font-display-hero text-display-hero-mobile lg:text-display-hero uppercase tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-on-surface via-on-surface-variant to-surface-container-lowest opacity-90">YOSRI HAMROUNI</span></div><div class="flex flex-col md:flex-row items-center justify-between gap-space-md py-space-lg"><div class="flex flex-wrap justify-center items-center gap-space-md font-label-pill text-label-pill text-on-surface-variant"><a class="hover:text-primary transition-colors" data-path="portfolio-showcase" href="#">Home</a><a class="hover:text-primary transition-colors" data-path="about" href="#">About</a><a class="hover:text-primary transition-colors" data-path="projects" href="#">Work</a><a class="hover:text-primary transition-colors" data-path="process" href="#">Process</a><a class="hover:text-primary transition-colors" data-path="contact" href="#">Contact</a></div><div class="flex items-center gap-space-sm"><a aria-label="Code Repository" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:text-primary-container hover:bg-surface-container transition-all" href="#"><span class="material-symbols-outlined text-[20px]">terminal</span></a><a aria-label="Network" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:text-primary-container hover:bg-surface-container transition-all" href="#"><span class="material-symbols-outlined text-[20px]">hub</span></a><a aria-label="Social Feed" class="w-10 h-10 rounded-full bg-surface-container-hig... [truncated]

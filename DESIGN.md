@@ -31,7 +31,7 @@ Buttons on cyan use `paper` (#051424) text (10.3 : 1). Use the accent sparingly.
 ## Layout
 - `container-page`: max 1200px. Gutter is 16px on mobile, 24px from 640px and 32px from 1024px.
 - 12-column grid. Each home section has a **label column** (3 cols: index + name) and a **content column** (9 cols).
-- Sections are separated by full-width hairlines. Lists use a strong top rule (`border-ink`) and light row rules.
+- Sections are separated by full-width hairlines. Lists use a stronger top rule (`border-line-strong`) and light row rules.
 - Cards are avoided. Structure comes from rules, alignment and whitespace.
 
 ## Shape & depth

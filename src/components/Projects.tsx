@@ -40,8 +40,16 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       className={`reveal group relative card card-hover overflow-hidden flex flex-col ${wide ? 'md:col-span-7' : 'md:col-span-5'}`}
       style={stagger(index % 2)}
     >
-      <div className="aspect-[16/9] bg-muted overflow-hidden border-b border-line">
+      <div className="relative aspect-[16/9] bg-muted overflow-hidden border-b border-line">
         <ProjectCover project={project} />
+        {project.video && (
+          <span className="absolute left-4 bottom-4 inline-flex items-center gap-2 h-8 pl-2 pr-3 rounded-full bg-paper/80 backdrop-blur-md border border-line text-small font-medium text-ink">
+            <span className="w-5 h-5 rounded-full bg-accent text-on-accent flex items-center justify-center" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z" /></svg>
+            </span>
+            Video demo · {project.video.duration}
+          </span>
+        )}
       </div>
 
       <div className="p-6 flex flex-col gap-4 flex-1">

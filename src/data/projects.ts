@@ -16,6 +16,14 @@ export type Project = {
   /** Real screenshots only. */
   screenshots: { src: string; caption: string }[];
   screenshotNote?: string;
+  /** Edited product demo (real recording). Smaller source first, picked by `media`. */
+  video?: {
+    sources: { src: string; media?: string }[];
+    poster: string;
+    duration: string;
+    chapters: { label: string; time: number }[];
+    note: string;
+  };
   problem: string;
   solution: string;
   contribution: string[];
@@ -50,6 +58,23 @@ export const projects: Project[] = [
       frame('70', 'Student — internal messaging'),
     ],
     screenshotNote: 'Frames captured from the project demo recording.',
+    video: {
+      sources: [
+        { src: '/project-media/school-saas-demo-720.mp4', media: '(max-width: 900px)' },
+        { src: '/project-media/school-saas-demo-1080.mp4' },
+      ],
+      poster: '/project-media/school-saas-demo-poster.webp',
+      duration: '2:24',
+      chapters: [
+        { label: 'Landing page', time: 0 },
+        { label: 'Institution admin', time: 29.2 },
+        { label: 'Teacher', time: 88.8 },
+        { label: 'Student', time: 111.1 },
+        { label: 'Teacher reply', time: 131.3 },
+        { label: 'Parent', time: 135.5 },
+      ],
+      note: 'Full walkthrough recording. Edited for the web: intro trimmed and static pauses played at 2× speed. No audio.',
+    },
     problem:
       'Schools often manage students, classes, schedules, grades, attendance and payments across separate tools. Information is hard to consolidate, administrative work is repetitive, and students who start to struggle are noticed late.',
     solution:

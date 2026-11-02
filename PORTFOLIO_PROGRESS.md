@@ -82,6 +82,7 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
 
 ## 6. Known issues
 - Two SaaS demo frames (admin dashboard, student assistant) contain a caption overlay from the screen recording. Real screenshots would be better.
+- The demo video adds ~28 MB to the repo (`public/project-media/`). If the repo grows, move videos to a CDN or Git LFS.
 - `/project/:slug` deep links need an SPA rewrite rule on the host.
 - No sitemap or canonical URL yet; both need the final domain.
 
@@ -99,3 +100,9 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
 - **2026-11-02** — CV download enabled in the nav, hero and contact sections, labelled "PDF · French". Verified: all three links serve the PDF (200, application/pdf).
 - **2026-11-02** — Switched to the original blue/cyan dark palette (tokens only; layout and content unchanged). Strong list rules now use `line-strong`. Favicon and theme-color recolored. Build and lint are clean; checked in the browser (home and case study).
 - **2026-11-02** — Restyled to the original dark Stitch design: floating pill nav, glow hero, cards, timeline, stats band, bento projects and skills, contact banner, light toggle. Fonts are back to Geist + Inter + JetBrains Mono. Build and lint are clean. Checked: desktop sections, the light toggle (persists), mobile with no horizontal overflow on the home and case-study pages.
+- **2026-11-02** — Added the School SaaS demo video (source: `Downloads/Demo finale.mp4`, 2:41, 75 MB).
+  - **Edit:** trimmed the 3.8s static intro and the outro glitch; six static pauses play at 2× (disclosed in the caption); 0.4s fade in/out; 50→30 fps; light unsharp for crisper UI text; silent audio track removed.
+  - **Output:** 2:24, H.264, `+faststart`. 1080p is 18.2 MB and 720p is 10.2 MB; the 720p file is served on viewports ≤ 900px through `<source media>`. WebP poster.
+  - **Player:** `DemoVideo.tsx` — native controls, six chapter buttons that seek and follow playback. The SaaS card shows a "Video demo · 2:24" badge.
+  - **Verified:** metadata loads (144.5s); the Student chapter seeks to 1:51 and plays; 720p is chosen in the narrow pane, 1080p at 1366px.
+  - **Tool:** ffmpeg 4.4.1 bundled with Stremio (not on PATH). Edit script: the filter graph in the session scratchpad.

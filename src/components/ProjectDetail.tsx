@@ -4,6 +4,7 @@ import { projects, type Project } from '../data/projects';
 import { profile } from '../data/profile';
 import { stagger } from '../lib/motion';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from './Icons';
+import DemoVideo from './DemoVideo';
 import { ProjectCover } from './Projects';
 
 const Label = ({ index, children }: { index: string; children: ReactNode }) => (
@@ -121,9 +122,27 @@ const ProjectDetail = () => {
           </dl>
         </header>
 
+        {project.video && (
+          <section aria-label="Demo video" className="mb-16">
+            <p className="reveal meta text-accent flex items-center gap-3 mb-5">
+              <span className="w-6 h-px bg-accent" aria-hidden="true" />
+              Demo video
+            </p>
+            <DemoVideo video={project.video} title={project.title} />
+          </section>
+        )}
+
         <div className="mb-20">
           {project.screenshots.length > 0 ? (
-            <Gallery project={project} />
+            <>
+              {project.video && (
+                <p className="reveal meta text-accent flex items-center gap-3 mb-5">
+                  <span className="w-6 h-px bg-accent" aria-hidden="true" />
+                  Screenshots
+                </p>
+              )}
+              <Gallery project={project} />
+            </>
           ) : (
             <div className="reveal group aspect-[21/9] rounded-2xl border border-line overflow-hidden">
               <ProjectCover project={project} />

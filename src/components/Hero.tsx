@@ -1,110 +1,100 @@
+import { Link } from 'react-router-dom';
 import devPhoto from '../assets/dev-photo.jpg';
+import { pillars, profile } from '../data/profile';
 import { stagger } from '../lib/motion';
+import { ArrowRight, ArrowUpRight, Download } from './Icons';
 
-const microStats = [
-  {
-    label: 'ESPRIT Engineering · 2026',
-    icon: <><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></>,
-  },
-  {
-    label: 'Nabeul, Tunisia · Remote-friendly',
-    icon: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></>,
-  },
-  {
-    label: 'CESI France exchange',
-    icon: <><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" /></>,
-  },
+const facts = [
+  { label: 'Based in', value: profile.location },
+  { label: 'Education', value: 'ESPRIT, Computer Engineering · 2026' },
+  { label: 'Focus', value: 'Full-stack · Backend · Generative AI' },
+  { label: 'Status', value: profile.availability },
 ];
 
 const Hero = () => {
   return (
-    <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          <div className="lg:col-span-7 space-y-8">
-            <div className="reveal inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/30">
-              <span className="w-2 h-2 rounded-full bg-primary pulse-dot" />
-              <span className="font-label-code text-label-code text-primary">
-                Available for full-time roles
-              </span>
-            </div>
-
-            <h1 className="reveal font-headline-xl text-[2.5rem] leading-[1.1] sm:text-headline-xl lg:text-[4rem] lg:leading-[1.05] text-on-surface" style={stagger(1)}>
-              Hi, I&apos;m Yosri. I build{' '}
-              <span className="bg-gradient-to-r from-primary to-tertiary bg-clip-text text-transparent">
-                intelligent systems
-              </span>{' '}
-              and AI-powered products.
+    <section aria-labelledby="hero-title" className="pt-28 lg:pt-36">
+      <div className="container-page">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-12 items-end">
+          <div className="col-span-12 lg:col-span-8">
+            <p className="reveal meta text-ink-subtle mb-6">
+              {profile.name} — {profile.role}
+            </p>
+            <h1 id="hero-title" className="reveal text-display font-semibold text-ink text-balance" style={stagger(1)}>
+              Software engineer building full-stack applications and{' '}
+              <span className="text-accent">AI-powered</span> solutions.
             </h1>
-
-            <p className="reveal font-body-lg text-body-lg text-on-surface-variant max-w-xl" style={stagger(2)}>
-              Software engineer and full-stack developer. From multi-tenant SaaS architectures to
-              RAG pipelines and secure Spring Boot backends, I take products from schema to
-              shipped interface.
+            <p className="reveal mt-8 max-w-[38rem] text-lead text-ink-muted" style={stagger(2)}>
+              {profile.intro}
             </p>
 
-            <div className="reveal flex flex-wrap items-center gap-3 pt-2" style={stagger(3)}>
-              <a
-                href="#projects"
-                className="group px-7 h-12 inline-flex items-center gap-2 rounded-full bg-primary text-on-primary font-label-pill uppercase glow-btn transition-shadow duration-200"
+            <div className="reveal mt-10 flex flex-wrap items-center gap-x-8 gap-y-4" style={stagger(3)}>
+              <Link
+                to="/#projects"
+                className="group inline-flex items-center gap-3 h-12 px-6 rounded-sm bg-accent text-paper font-medium hover:bg-accent-strong transition-colors"
               >
-                View Projects
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-0.5">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
+                See selected work
+                <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+              {profile.cvUrl && (
+                <a href={profile.cvUrl} download className="inline-flex items-center gap-2 font-medium text-ink link-underline">
+                  <Download /> Download CV
+                </a>
+              )}
+              <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-medium text-ink link-underline">
+                LinkedIn <ArrowUpRight size={14} />
               </a>
-              <a
-                href="https://github.com/yosriHamrouni"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-7 h-12 inline-flex items-center gap-2 rounded-full border border-outline-variant text-on-surface font-label-pill uppercase hover:border-primary hover:text-primary transition-colors duration-200"
-              >
-                GitHub
-              </a>
-              <a
-                href="https://linkedin.com/in/yosri-hamrouni-498a60238"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-7 h-12 inline-flex items-center gap-2 rounded-full border border-outline-variant text-on-surface font-label-pill uppercase hover:border-primary hover:text-primary transition-colors duration-200"
-              >
-                LinkedIn
+              <a href={profile.links.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-medium text-ink link-underline">
+                GitHub <ArrowUpRight size={14} />
               </a>
             </div>
-
-            <ul className="reveal pt-6 flex flex-wrap gap-x-8 gap-y-3 text-on-surface-variant font-label-code text-label-code" style={stagger(4)}>
-              {microStats.map((stat) => (
-                <li key={stat.label} className="flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary" aria-hidden="true">
-                    {stat.icon}
-                  </svg>
-                  {stat.label}
-                </li>
-              ))}
-            </ul>
           </div>
 
-          <div className="reveal lg:col-span-5 relative max-w-md mx-auto w-full" style={stagger(2)}>
-            {/* Cyan glow cones */}
-            <div aria-hidden="true" className="absolute -inset-10 -z-10 bg-[radial-gradient(circle_at_70%_20%,var(--glow-strong),transparent_55%),radial-gradient(circle_at_20%_90%,var(--canvas-glow),transparent_60%)] blur-2xl opacity-70" />
-            <div className="relative aspect-[4/5] rounded-2xl border border-outline-variant overflow-hidden bg-surface-container">
-              <img src={devPhoto} alt="Portrait of Yosri Hamrouni" className="w-full h-full object-cover" />
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/90 to-transparent" />
-              <div className="absolute left-4 right-4 bottom-4 flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-background/70 backdrop-blur-md border border-outline-variant">
-                <div>
-                  <div className="text-sm font-semibold text-on-surface">Yosri Hamrouni</div>
-                  <div className="font-label-code text-[11px] text-on-surface-variant">Software Engineer</div>
-                </div>
-                <span className="font-label-code text-[11px] text-primary">AI · Full-Stack</span>
-              </div>
-            </div>
-          </div>
+          <figure className="reveal col-span-8 sm:col-span-5 lg:col-span-3 lg:col-start-10" style={stagger(2)}>
+            <img
+              src={devPhoto}
+              alt="Portrait of Yosri Hamrouni"
+              width={400}
+              height={400}
+              className="w-full aspect-square object-cover rounded-sm bg-muted"
+            />
+            <figcaption className="meta text-ink-subtle mt-3 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" aria-hidden="true" />
+              Available for opportunities
+            </figcaption>
+          </figure>
         </div>
+
+        <dl className="reveal mt-20 lg:mt-24 grid grid-cols-2 lg:grid-cols-4 border-t border-line">
+          {facts.map((fact, i) => (
+            <div
+              key={fact.label}
+              className={`py-5 pr-4 border-b border-line lg:border-b-0 ${i % 2 === 1 ? 'pl-4 border-l' : ''} ${i === 2 ? 'lg:pl-4 lg:border-l' : ''}`}
+            >
+              <dt className="meta text-ink-subtle">{fact.label}</dt>
+              <dd className="mt-1.5 text-small text-ink">{fact.value}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
 
-      <a href="#about" aria-label="Scroll to About" className="hidden lg:flex absolute bottom-6 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-on-surface-variant hover:text-primary transition-colors">
-        <span className="font-label-code text-[10px] uppercase tracking-[0.2em]">Scroll</span>
-        <span className="w-px h-8 bg-gradient-to-b from-current to-transparent" />
-      </a>
+      {/* The three capabilities the site is organised around */}
+      <div className="border-t border-line bg-surface">
+        <h2 className="sr-only">What I do</h2>
+        <ol className="container-page grid grid-cols-1 md:grid-cols-3">
+          {pillars.map((pillar, i) => (
+            <li
+              key={pillar.title}
+              className={`reveal py-10 lg:py-14 md:pr-8 ${i > 0 ? 'border-t md:border-t-0 md:border-l border-line md:pl-8' : ''}`}
+              style={stagger(i)}
+            >
+              <span className="meta text-accent">0{i + 1}</span>
+              <h3 className="mt-3 text-h3 font-semibold text-ink">{pillar.title}</h3>
+              <p className="mt-3 text-small text-ink-muted max-w-[22rem]">{pillar.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
     </section>
   );
 };

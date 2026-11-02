@@ -1,32 +1,23 @@
-# React + TypeScript + Vite
+# Yosri Hamrouni — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Personal portfolio of Yosri Hamrouni, software engineer (ESPRIT, 2026).
+Built with React 19, TypeScript, Vite and Tailwind CSS v4. The only runtime dependency beyond React is `react-router-dom`.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # type-check + production build to dist/
+npm run lint
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Where things live
+- `src/data/` — all content: profile, experience, projects (case studies), skills, education. Edit content here, not in components.
+- `src/components/` — sections (`Hero`, `About`, `Experience`, `Projects`, `Skills`, `Education`, `Contact`), `Nav`, `Footer`, `ProjectDetail` (case-study page at `/project/:slug`).
+- `src/index.css` — design tokens and utilities. See `DESIGN.md`.
+- `PORTFOLIO_PROGRESS.md` — audit, decisions, open questions and testing log.
+
+## Enabling the CV download and email
+Set `cvUrl` (put the PDF in `public/`) and `email` in `src/data/profile.ts`. The links appear automatically.
+
+## Deploying
+This is a single-page app with client-side routes. Configure the host to serve `index.html` for unknown paths (for example, a `_redirects` file on Netlify or `rewrites` in `vercel.json`).

@@ -1,3 +1,5 @@
+> **Superseded (2026-11-02):** the design direction below (dark, cyan) has been replaced by the light Minimal/Swiss direction. See `DESIGN.md` and `PORTFOLIO_PROGRESS.md`.
+
 # Portfolio Redesign Project — Goal & Outcome Document
 
 ## Project Overview

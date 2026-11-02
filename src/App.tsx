@@ -1,16 +1,17 @@
 import { useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import FloatingNav from './components/FloatingNav';
+import Nav from './components/Nav';
 import Hero from './components/Hero';
 import About from './components/About';
 import Experience from './components/Experience';
-import Stats from './components/Stats';
-import TechStack from './components/TechStack';
 import Projects from './components/Projects';
-import Certifications from './components/Certifications';
+import Skills from './components/Skills';
+import Education from './components/Education';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ProjectDetail from './components/ProjectDetail';
+
+const HOME_TITLE = 'Yosri Hamrouni — Software Engineer';
 
 // Scrolls to the hash target (or top) on every route change, and reveals
 // `.reveal` elements as they enter the viewport.
@@ -22,6 +23,7 @@ const RouteEffects = () => {
     // Jump instantly when arriving from another page; glide for in-page anchors.
     const behavior: ScrollBehavior = lastPathname.current === pathname ? 'smooth' : 'instant';
     lastPathname.current = pathname;
+    if (pathname === '/') document.title = HOME_TITLE;
     if (hash) {
       document.getElementById(hash.slice(1))?.scrollIntoView({ behavior });
     } else {
@@ -39,7 +41,7 @@ const RouteEffects = () => {
           }
         });
       },
-      { rootMargin: '0px 0px -8% 0px' },
+      { rootMargin: '0px 0px -6% 0px' },
     );
     document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => observer.observe(el));
     return () => observer.disconnect();
@@ -48,29 +50,44 @@ const RouteEffects = () => {
   return null;
 };
 
+const Page = () => {
+  const { pathname } = useLocation();
+  return (
+    // Keyed on the path so each route change replays the enter animation.
+    <main key={pathname} className="page-enter">
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Hero />
+              <About />
+              <Experience />
+              <Projects />
+              <Skills />
+              <Education />
+              <Contact />
+            </>
+          }
+        />
+        <Route path="/project/:slug" element={<ProjectDetail />} />
+      </Routes>
+    </main>
+  );
+};
+
 function App() {
   return (
     <BrowserRouter>
       <RouteEffects />
-      <div className="min-h-screen text-on-surface">
-        <FloatingNav />
-        <main>
-          <Routes>
-            <Route path="/" element={
-              <>
-                <Hero />
-                <About />
-                <Experience />
-                <Stats />
-                <TechStack />
-                <Projects />
-                <Certifications />
-                <Contact />
-              </>
-            } />
-            <Route path="/project/:slug" element={<ProjectDetail />} />
-          </Routes>
-        </main>
+      <div id="top" className="min-h-screen flex flex-col">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-ink focus:text-paper focus:px-4 focus:py-2">
+          Skip to content
+        </a>
+        <Nav />
+        <div id="main-content" className="flex-1">
+          <Page />
+        </div>
         <Footer />
       </div>
     </BrowserRouter>

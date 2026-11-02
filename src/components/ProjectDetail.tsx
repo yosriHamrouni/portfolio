@@ -1,31 +1,73 @@
-import { useState, type ReactNode } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { projects } from '../data/projects';
-import { ProjectPreview } from './Projects';
+import { useEffect, useState, type ReactNode } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { projects, type Project } from '../data/projects';
+import { profile } from '../data/profile';
+import { ArrowLeft, ArrowRight, ArrowUpRight } from './Icons';
 
-const Label = ({ children }: { children: ReactNode }) => (
-  <span className="font-label-code text-label-code text-primary uppercase tracking-wider flex items-center gap-3 mb-5">
-    <span className="w-6 h-px bg-primary" aria-hidden="true" />
-    {children}
-  </span>
+// One numbered block of the case study: label column + content column.
+const Block = ({ index, title, children }: { index: string; title: string; children: ReactNode }) => (
+  <section className="reveal grid grid-cols-12 gap-x-6 gap-y-4 py-12 border-t border-line">
+    <h2 className="col-span-12 lg:col-span-3 meta text-ink-subtle flex gap-3 lg:flex-col lg:gap-1">
+      <span className="text-accent" aria-hidden="true">{index}</span>
+      <span>{title}</span>
+    </h2>
+    <div className="col-span-12 lg:col-span-9">{children}</div>
+  </section>
 );
+
+const Gallery = ({ project }: { project: Project }) => {
+  const [current, setCurrent] = useState(0);
+  const shot = project.screenshots[current] ?? project.screenshots[0];
+
+  return (
+    <div className="reveal">
+      <figure>
+        <div className="overflow-hidden rounded-sm border border-line bg-muted">
+          <img src={shot.src} alt={`${project.title} — ${shot.caption}`} width={1600} height={900} className="w-full aspect-[16/9] object-cover object-top" />
+        </div>
+        <figcaption className="mt-3 flex justify-between gap-4 text-small text-ink-muted">
+          <span>{shot.caption}</span>
+          <span className="meta text-ink-subtle shrink-0">
+            {String(current + 1).padStart(2, '0')} / {String(project.screenshots.length).padStart(2, '0')}
+          </span>
+        </figcaption>
+      </figure>
+      <div className="mt-4 grid grid-cols-4 sm:grid-cols-7 gap-2" role="group" aria-label="Choose a screenshot">
+        {project.screenshots.map((s, i) => (
+          <button
+            key={s.src}
+            type="button"
+            onClick={() => setCurrent(i)}
+            aria-label={`Show screenshot ${i + 1}: ${s.caption}`}
+            aria-pressed={i === current}
+            className={`overflow-hidden rounded-sm border transition-opacity ${i === current ? 'border-accent' : 'border-line opacity-60 hover:opacity-100'}`}
+          >
+            <img src={s.src} alt="" loading="lazy" width={1600} height={900} className="w-full aspect-[16/9] object-cover object-top" />
+          </button>
+        ))}
+      </div>
+      {project.screenshotNote && <p className="mt-3 meta text-ink-subtle normal-case tracking-normal">{project.screenshotNote}</p>}
+    </div>
+  );
+};
 
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const index = projects.findIndex((p) => p.slug === slug);
   const project = projects[index];
-  const [shot, setShot] = useState(0);
+
+  useEffect(() => {
+    document.title = project ? `${project.title} — ${profile.name}` : `Project not found — ${profile.name}`;
+  }, [project]);
 
   if (!project) {
     return (
-      <section className="min-h-screen pt-32 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
-          <h1 className="font-headline-xl text-headline-xl text-on-surface mb-4">Project not found</h1>
-          <p className="text-on-surface-variant mb-8">The project you&apos;re looking for doesn&apos;t exist.</p>
-          <Link to="/#projects" className="inline-flex items-center gap-2 px-6 h-12 rounded-full bg-primary text-on-primary font-label-pill uppercase glow-btn">
-            Back to projects
-          </Link>
-        </div>
+      <section className="container-page pt-36 pb-24 min-h-[70vh]">
+        <p className="meta text-ink-subtle">404</p>
+        <h1 className="mt-3 text-h1 font-semibold text-ink">Project not found.</h1>
+        <Link to="/#projects" className="mt-8 inline-flex items-center gap-2 text-accent font-medium link-underline">
+          <ArrowLeft size={14} /> Back to projects
+        </Link>
       </section>
     );
   }
@@ -34,157 +76,135 @@ const ProjectDetail = () => {
   const facts = [
     { label: 'Role', value: project.role },
     { label: 'Context', value: project.context },
-    { label: 'Year', value: project.year },
-    { label: 'Duration', value: project.duration },
-  ];
+    project.period && { label: 'Period', value: project.period },
+  ].filter(Boolean) as { label: string; value: string }[];
 
   return (
-    <article className="pt-28 lg:pt-32 pb-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Link to="/#projects" className="inline-flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors font-label-code text-label-code mb-10">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M19 12H5" /><path d="M12 19l-7-7 7-7" />
-          </svg>
-          All projects
+    <article className="pt-28 lg:pt-32">
+      <div className="container-page">
+        <Link to="/#projects" className="inline-flex items-center gap-2 meta text-ink-muted hover:text-accent transition-colors">
+          <ArrowLeft size={14} /> All projects
         </Link>
 
-        {/* Hero */}
-        <header className="grid lg:grid-cols-12 gap-10 mb-12">
-          <div className="lg:col-span-8">
-            <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary font-label-code text-[11px] uppercase tracking-wider mb-5">
-              {project.category}
-            </span>
-            <h1 className="font-headline-xl text-[2.5rem] leading-[1.1] sm:text-headline-xl lg:text-[4rem] lg:leading-[1.05] text-on-surface mb-3">
-              {project.title}
-            </h1>
-            <p className="font-body-lg text-body-lg text-primary mb-5">{project.subtitle}</p>
-            <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">{project.description}</p>
+        <header className="grid grid-cols-12 gap-x-6 gap-y-10 mt-10 pb-14">
+          <div className="col-span-12 lg:col-span-8">
+            <p className="reveal meta text-accent">{project.category}</p>
+            <h1 className="reveal mt-4 text-h1 font-semibold text-ink text-balance">{project.title}</h1>
+            <p className="reveal mt-5 text-lead text-ink-muted max-w-[38rem]">{project.tagline}</p>
           </div>
-          <dl className="lg:col-span-4 self-end card divide-y divide-outline-variant">
-            {facts.map((fact) => (
-              <div key={fact.label} className="flex justify-between gap-4 px-5 py-3.5 text-sm">
-                <dt className="font-label-code text-on-surface-variant">{fact.label}</dt>
-                <dd className="text-on-surface text-right">{fact.value}</dd>
+          <div className="reveal col-span-12 lg:col-span-4 self-end">
+            <dl className="border-t border-ink text-small">
+              {facts.map((fact) => (
+                <div key={fact.label} className="grid grid-cols-3 gap-4 py-3 border-b border-line">
+                  <dt className="meta text-ink-subtle pt-0.5">{fact.label}</dt>
+                  <dd className="col-span-2 text-ink">{fact.value}</dd>
+                </div>
+              ))}
+              <div className="grid grid-cols-3 gap-4 py-3 border-b border-line">
+                <dt className="meta text-ink-subtle pt-0.5">Source</dt>
+                <dd className="col-span-2">
+                  {project.repo ? (
+                    <a href={project.repo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-accent link-underline">
+                      GitHub repository <ArrowUpRight size={12} />
+                    </a>
+                  ) : (
+                    <span className="text-ink-muted">Not publicly available</span>
+                  )}
+                </dd>
               </div>
-            ))}
-            {project.link && (
-              <div className="p-3">
-                <a href={project.link} target="_blank" rel="noopener noreferrer" className="w-full h-11 inline-flex items-center justify-center gap-2 rounded-full bg-primary text-on-primary font-label-pill uppercase glow-btn transition-shadow">
-                  View source
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17l9.2-9.2M17 17V7H7" /></svg>
-                </a>
-              </div>
-            )}
-          </dl>
+              {project.demo && (
+                <div className="grid grid-cols-3 gap-4 py-3 border-b border-line">
+                  <dt className="meta text-ink-subtle pt-0.5">Demo</dt>
+                  <dd className="col-span-2">
+                    <a href={project.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-accent link-underline">
+                      Live demo <ArrowUpRight size={12} />
+                    </a>
+                  </dd>
+                </div>
+              )}
+            </dl>
+          </div>
         </header>
 
-        {/* Gallery: one large frame + thumbnail strip */}
-        <div className="mb-20">
-          <div className="group aspect-[16/9] rounded-2xl border border-outline-variant overflow-hidden bg-surface-container">
-            {project.screenshots.length > 0 ? (
-              <img src={project.screenshots[shot]} alt={`${project.title} screenshot ${shot + 1} of ${project.screenshots.length}`} className="w-full h-full object-cover object-top" />
-            ) : (
-              <ProjectPreview project={project} />
-            )}
+        {project.screenshots.length > 0 && (
+          <div className="pb-12">
+            <Gallery project={project} />
           </div>
-          {project.screenshots.length > 1 && (
-            <div className="mt-3 flex gap-2 overflow-x-auto pb-2" role="group" aria-label="Screenshots">
-              {project.screenshots.map((src, i) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={() => setShot(i)}
-                  aria-label={`Show screenshot ${i + 1}`}
-                  aria-pressed={i === shot}
-                  className={`shrink-0 w-28 sm:w-36 aspect-[16/9] rounded-lg overflow-hidden border-2 transition-all ${i === shot ? 'border-primary' : 'border-transparent opacity-60 hover:opacity-100'}`}
-                >
-                  <img src={src} alt="" loading="lazy" className="w-full h-full object-cover object-top" />
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+        )}
 
-        {/* Problem & Solution */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-20">
-          {[
-            { label: 'The problem', text: project.problem },
-            { label: 'The solution', text: project.solution },
-          ].map((block) => (
-            <div key={block.label} className="card p-6 lg:p-8">
-              <Label>{block.label}</Label>
-              <p className="font-body-md text-body-md text-on-surface-variant">{block.text}</p>
-            </div>
-          ))}
-        </div>
+        <Block index="01" title="Problem">
+          <p className="text-lead text-ink max-w-[44rem]">{project.problem}</p>
+        </Block>
 
-        {/* What it does */}
-        <div className="grid lg:grid-cols-12 gap-10 mb-20">
-          <div className="lg:col-span-4">
-            <Label>What it does</Label>
-            <h2 className="font-headline-lg text-[1.75rem] sm:text-headline-lg text-on-surface">Key capabilities</h2>
-          </div>
-          <ul className="lg:col-span-8 grid sm:grid-cols-2 gap-3">
-            {project.whatItDoes.map((item) => (
-              <li key={item} className="flex items-start gap-3 p-4 rounded-lg border border-outline-variant">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-primary mt-0.5 shrink-0" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
-                <span className="text-sm text-on-surface-variant">{item}</span>
+        <Block index="02" title="Solution">
+          <p className="text-lead text-ink max-w-[44rem]">{project.solution}</p>
+        </Block>
+
+        <Block index="03" title="My contribution">
+          <ul className="space-y-3 max-w-[44rem]">
+            {project.contribution.map((item) => (
+              <li key={item} className="grid grid-cols-[1.25rem_1fr] text-ink">
+                <span className="text-accent" aria-hidden="true">–</span>
+                <span>{item}</span>
               </li>
             ))}
           </ul>
-        </div>
+        </Block>
 
-        {/* Architecture */}
-        <div className="mb-20">
-          <Label>Architecture</Label>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {project.architecture.map((item) => (
-              <div key={item.number} className="card card-hover p-6">
-                <span className="font-label-code text-3xl text-primary/40 block mb-3">{item.number}</span>
-                <h3 className="font-headline-sm text-headline-sm text-on-surface mb-2">{item.title}</h3>
-                <p className="text-sm text-on-surface-variant leading-relaxed">{item.description}</p>
+        <Block index="04" title="Architecture">
+          <div className="grid sm:grid-cols-2 border-t border-ink">
+            {project.architecture.map((layer, i) => (
+              <div key={layer.title} className={`py-5 border-b border-line ${i % 2 === 1 ? 'sm:pl-6 sm:border-l' : 'sm:pr-6'}`}>
+                <h3 className="font-semibold text-ink">{layer.title}</h3>
+                <p className="mt-2 text-small text-ink-muted">{layer.text}</p>
               </div>
             ))}
           </div>
-        </div>
+        </Block>
 
-        {/* Stack, constraints, lessons */}
-        <div className="grid lg:grid-cols-3 gap-6 mb-20">
-          <div className="card p-6">
-            <Label>Technologies</Label>
-            <div className="flex flex-wrap gap-2">
-              {project.technologies.map((tech) => (
-                <span key={tech} className="px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant text-sm text-on-surface-variant">{tech}</span>
-              ))}
-            </div>
-          </div>
-          <div className="card p-6">
-            <Label>Constraints</Label>
-            <ul className="space-y-3">
-              {project.constraints.map((constraint) => (
-                <li key={constraint} className="text-sm text-on-surface-variant leading-relaxed pl-4 border-l-2 border-outline-variant">{constraint}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="card p-6">
-            <Label>What I learned</Label>
-            <ul className="space-y-3">
-              {project.whatILearned.map((lesson) => (
-                <li key={lesson} className="text-sm text-on-surface-variant leading-relaxed pl-4 border-l-2 border-primary">{lesson}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <Block index="05" title="Technology choices">
+          <p className="meta text-ink normal-case tracking-normal">{project.stack.join(' / ')}</p>
+          <ul className="mt-6 space-y-3 max-w-[44rem]">
+            {project.choices.map((choice) => (
+              <li key={choice} className="grid grid-cols-[1.25rem_1fr] text-ink-muted">
+                <span className="text-accent" aria-hidden="true">–</span>
+                <span>{choice}</span>
+              </li>
+            ))}
+          </ul>
+        </Block>
 
-        {/* Next project */}
-        <Link to={`/project/${next.slug}`} className="group block card card-hover p-6 lg:p-10">
-          <span className="font-label-code text-label-code text-on-surface-variant uppercase tracking-wider">Next project</span>
-          <div className="mt-2 flex items-center justify-between gap-6">
-            <span className="font-headline-lg text-[1.75rem] sm:text-headline-lg text-on-surface group-hover:text-primary transition-colors">{next.title}</span>
-            <span className="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-            </span>
-          </div>
+        <Block index="06" title="Challenges">
+          <dl className="space-y-6 max-w-[44rem]">
+            {project.challenges.map((c) => (
+              <div key={c.title}>
+                <dt className="font-semibold text-ink">{c.title}</dt>
+                <dd className="mt-1 text-ink-muted">{c.text}</dd>
+              </div>
+            ))}
+          </dl>
+        </Block>
+
+        <Block index="07" title="Features">
+          <ul className="grid sm:grid-cols-2 gap-x-6 border-t border-line">
+            {project.features.map((f) => (
+              <li key={f} className="py-3 border-b border-line text-small text-ink">
+                {f}
+              </li>
+            ))}
+          </ul>
+        </Block>
+
+        <Block index="08" title="Outcome">
+          <p className="text-lead text-ink max-w-[44rem]">{project.outcome}</p>
+        </Block>
+
+        <Link to={`/project/${next.slug}`} className="group block border-t border-ink py-12 lg:py-16 mb-8">
+          <span className="meta text-ink-subtle">Next project</span>
+          <span className="mt-3 flex items-center justify-between gap-6">
+            <span className="text-h1 font-semibold text-ink group-hover:text-accent transition-colors">{next.title}</span>
+            <ArrowRight size={32} className="shrink-0 text-ink group-hover:text-accent transition-all duration-300 group-hover:translate-x-1.5" />
+          </span>
         </Link>
       </div>
     </article>

@@ -1,158 +1,47 @@
----
-name: Yosri Hamrouni — Software Engineer Portfolio
-mode: Experience
-version: 2.0
-date: 2025-10-30
----
+# Design System — Yosri Hamrouni Portfolio
 
-# Visual World: Dark-First Cyan-Accented Bento Grid
+Direction: **Minimalism & Swiss Style.** Light theme, editorial typography, one green accent.
+The tokens live in `src/index.css` (`@theme`). Components use the semantic utilities only.
+(This replaces the earlier dark/cyan "Stitch" direction.)
 
-## Thesis
-A portfolio that leads with technical depth, not minimalism. The dark-first obsidian canvas with electric cyan accents mirrors the production-grade systems this engineer builds: multi-tenant SaaS, RAG pipelines, Spring Boot 3 architectures. The bento grid presents projects as architectural artifacts, not cards.
+## Color
+| Token | Value | Use | Contrast on paper |
+|---|---|---|---|
+| `paper` | `#f7f6f2` | Page background (warm off-white) | — |
+| `surface` | `#ffffff` | Raised bands (pillars) | — |
+| `muted` | `#efeee9` | Image placeholders | — |
+| `ink` | `#1c1c1a` | Headings, primary text | 15.8 : 1 |
+| `ink-muted` | `#5e5d58` | Body copy, secondary text | 6.1 : 1 |
+| `ink-subtle` | `#6c6b65` | Metadata, labels | 4.9 : 1 |
+| `line` / `line-strong` | `#e2e0d9` / `#c9c7be` | Hairline rules | — |
+| `accent` | `#1e6b47` | Links, active nav, markers, primary button | 6.0 : 1 |
+| `accent-strong` | `#154f34` | Primary button hover | — |
 
-## Color System (Dark-First)
-
-### Light Mode (System Preference / Manual Override)
-| Role | Value | Usage |
-|------|-------|-------|
-| Background | `#fafaf9` (stone-50) | Page canvas |
-| Surface | `#ffffff` | Cards, containers |
-| Surface Dim | `#f5f5f4` | Subtle containers |
-| Primary | `#22d3ee` (cyan-400) | **Main accent** — CTAs, links, highlights |
-| Primary Container | `#cffafe` | Primary backgrounds |
-| Secondary | `#1d4ed8` (blue-600) | Secondary actions, section headers |
-| Tertiary | `#60a5fa` (blue-300) | Subtle accents, hover states |
-| On Surface | `#1e293b` (slate-800) | Primary text |
-| On Surface Variant | `#64748b` | Muted text, metadata |
-| Outline | `#64748b` | Borders, dividers |
-| Outline Variant | `#94a3b8` | Subtle borders |
-
-### Dark Mode (Default / System Preference)
-| Role | Value | Usage |
-|------|-------|-------|
-| Background | `#051424` | Page canvas — obsidian |
-| Surface | `#0b0f17` | Cards, containers |
-| Surface Dim | `#0b0f17` | Subtle containers |
-| Primary | `#22d3ee` (cyan-400) | **Main accent** |
-| Primary Container | `#00566a` | Primary backgrounds |
-| Secondary | `#b4c5ff` | Secondary actions |
-| Tertiary | `#7bd0ff` | Subtle accents |
-| On Surface | `#d4e4fa` | Primary text |
-| On Surface Variant | `#bbc9cf` | Muted text |
-| Outline | `#859399` | Borders |
-| Outline Variant | `#3c494e` | Subtle borders |
+Use the accent sparingly: at most one accented element per visual group.
 
 ## Typography
-| Role | Font | Size/Weight |
-|------|------|-------------|
-| Display | Geist | 4.5rem / 800 / -0.04em tracking |
-| Headline XL | Geist | 3rem / 700 / -0.03em |
-| Headline LG | Geist | 2.25rem / 600 / -0.02em |
-| Headline MD | Geist | 1.5rem / 600 / -0.01em |
-| Body LG | Inter | 1.125rem / 400 / 1.65 |
-| Body MD | Inter | 1rem / 400 / 1.6 |
-| Label Code | JetBrains Mono | 0.8125rem / 500 / 0.04em |
-| Label Pill | Inter | 0.75rem / 600 / 0.05em |
+- **Geist** for everything. **Geist Mono** only for small uppercase metadata (`.meta`).
+- Fluid scale: `text-display`, `text-h1`, `text-h2`, `text-h3`, `text-lead`, `text-body`, `text-small`, `text-meta`.
+- Large headings use negative tracking (−0.035 → −0.015em) and `text-balance`.
 
-**Responsive**: Display 4.5rem → 2.75rem at 768px; Headline XL 3rem → 2rem at 768px
+## Layout
+- `container-page`: max 1200px. Gutter is 16px on mobile, 24px from 640px and 32px from 1024px.
+- 12-column grid. Each home section has a **label column** (3 cols: index + name) and a **content column** (9 cols).
+- Sections are separated by full-width hairlines. Lists use a strong top rule (`border-ink`) and light row rules.
+- Cards are avoided. Structure comes from rules, alignment and whitespace.
 
-## Spacing & Grid
-- **Base**: 8px (0.5rem)
-- **Gutter**: 1.5rem (24px) desktop / 1rem (16px) mobile
-- **Section Margin**: 3rem (48px)
-- **Container Max**: 1280px (80rem)
-- **Grid**: 12-column fluid, 1.5rem gutters
+## Shape & depth
+- Radius 2–4px. No shadows. The sticky nav only shows a bottom hairline once scrolled.
 
-## Border Radius
-| Token | Value | Usage |
-|-------|-------|-------|
-| Card | 0.5rem (8px) | Project cards, certification cards |
-| Button | 0.75rem (12px) | Primary/secondary buttons |
-| Pill | 1rem (16px) | Tags, badges, CTA buttons |
+## Motion
+| Interaction | Spec |
+|---|---|
+| Scroll reveal | opacity 0→1, translateY 12px→0, 600ms `cubic-bezier(0.22,1,0.36,1)`, 70ms stagger |
+| Route change | 450ms fade/translate on `<main>` |
+| Hover | colour 200ms; link underline draws in over 300ms; arrows shift 4px |
+| Images | 1.5% scale on featured image hover (700ms) |
 
-## Elevation & Depth (Dark Mode)
-| Level | Style |
-|-------|-------|
-| Level 0 (Canvas) | `#051424` + radial glow `radial-gradient(ellipse at top, rgba(37,99,235,0.15), transparent 70%)` |
-| Level 1 (Card) | `rgba(11,15,23,0.75)` + `backdrop-filter: blur(16px)` + `1px solid rgba(30,41,59,0.8)` |
-| Level 2 (Hover) | Border `1px solid rgba(0,210,255,0.4)` + `box-shadow: 0 0 25px -5px rgba(0,210,255,0.12)` |
+`prefers-reduced-motion` disables all of it.
 
-## Motion Grammar
-| Interaction | Duration | Easing |
-|-------------|----------|--------|
-| Scroll Reveal | 400ms | `cubic-bezier(0.16, 1, 0.3, 1)` |
-| Hover Transition | 200ms | `cubic-bezier(0.4, 0, 0.2, 1)` |
-| Focus Ring | 150ms | `cubic-bezier(0.4, 0, 0.2, 1)` |
-| Stagger Delay | 80ms per item | — |
-
-**Respects**: `prefers-reduced-motion` — disable all non-essential motion
-
-## Component Patterns
-
-### Floating Nav
-- Fixed top, `top-4`, centered, pill-shaped
-- `bg-background/80 backdrop-blur-xl border border-outline-variant/50`
-- CTA: pill button, primary fill, `hover:shadow-[0_0_25px_rgba(0,210,255,0.45)]`
-
-### Hero
-- Asymmetric 2-col: content left, portrait right
-- Cyan glow cones behind portrait
-- Primary CTA: pill, cyan fill, glow shadow
-- Micro-stats: icons in cyan, labels in muted
-
-### Bento Project Grid
-- 12-col grid: featured projects span 8, standard span 4
-- Cards: `aspect-[16/9]` preview, gradient placeholder
-- Hover: border cyan, subtle glow
-- Metadata: category pill, title, description, feature dots, tech tags
-
-### Certifications Grid
-- 4-col desktop, 2-col tablet, 1-col mobile
-- Cards: icon/image left, title/subtitle right
-- Credly: proper card (not iframe embed in tiny box)
-- Image certs: thumbnail with zoom on hover
-
-### Motion Rules
-- **Scroll Reveal**: `opacity: 0 → 1`, `translateY: 20px → 0`, stagger 80ms
-- **Hover**: border color shift, subtle scale (1.01x) on cards
-- **Focus**: 2px cyan ring, offset 2px
-- **Reduced Motion**: instant opacity, no transform, no stagger
-
-## Accessibility
-- WCAG AA contrast (verified in both modes)
-- Focus visible on all interactive elements
-- Semantic HTML (section, article, nav, footer)
-- ARIA labels on icon-only buttons
-- Reduced motion respected
-
-## Breakpoints
-| Size | Width | Columns | Gutter |
-|------|-------|---------|--------|
-| Mobile | < 640px | 4 | 1rem |
-| Tablet | 640-1023px | 8 | 1.25rem |
-| Desktop | ≥ 1024px | 12 | 1.5rem |
-
-## Anti-Goals (Explicit)
-- ❌ Light/minimalist default (reads "junior")
-- ❌ Green primary (conflicts with stitch cyan identity)
-- ❌ Generic placeholders for projects
-- ❌ Cramped certification grid
-- ❌ Zero motion/micro-interactions
-- ❌ Glassmorphism overload (subtle only on nav)
-- ❌ Generic template feel
-
----
-
-## Direction Contract
-
-**THESIS**: Dark-first, cyan-accented bento grid that presents engineering artifacts as architectural proof — not a generic developer template.
-
-**OWN-WORLD**: Obsidian canvas + electric cyan + royal cobalt + bento grid + Geist/Inter/JetBrains Mono. Recognizable with all content removed.
-
-**STORY**: Visitor lands → Hero depth + cyan glow → "This engineer builds production systems with AI" → Scroll → Bento projects with visual proof → Certifications as verified artifacts → Contact with active CTA.
-
-**FIRST VIEWPORT**: Hero (asymmetric, portrait + cyan glow) + Primary CTA "View Projects" (cyan pill, glow) + Micro-stats (ESPRIT, Nabeul, Full-Stack) + Scroll indicator.
-
-**FORM**: Bento grid for projects, card grid for certifications, layered hero, floating pill nav. Seed: `seed: a3f2c1e4` (concept-seed reference).
-
-**FINISH**: Unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
+## Anti-patterns (do not add)
+Glassmorphism, glows, gradients, blobs, fake terminals, tech-icon clouds, skill percentages, artificial stats, testimonials, emojis.

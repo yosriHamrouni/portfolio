@@ -1,213 +1,148 @@
 @import "tailwindcss";
 
-/* Semantic tokens are plain CSS variables (below) so themes can swap them;
-   `inline` makes every utility read the live variable. */
-@theme inline {
-  --color-background: var(--background);
-  --color-on-background: var(--on-surface);
-  --color-surface: var(--surface);
-  --color-surface-dim: var(--surface-dim);
-  --color-surface-container-low: var(--surface-container-low);
-  --color-surface-container: var(--surface-container);
-  --color-surface-container-high: var(--surface-container-high);
-  --color-on-surface: var(--on-surface);
-  --color-on-surface-variant: var(--on-surface-variant);
-  --color-outline: var(--outline);
-  --color-outline-variant: var(--outline-variant);
-  --color-primary: var(--primary);
-  --color-on-primary: var(--on-primary);
-  --color-primary-container: var(--primary-container);
-  --color-on-primary-container: var(--on-primary-container);
-  --color-secondary: var(--secondary);
-  --color-tertiary: var(--tertiary);
-}
+/* ---------------------------------------------------------------------------
+   Design system — Minimal / Swiss. Light theme, charcoal ink, one green accent.
+   Components use the semantic utilities below (bg-paper, text-ink, border-line,
+   text-accent…), never raw hex values.
+   ------------------------------------------------------------------------ */
 
 @theme {
-  /* Typography */
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Geist', 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+  /* Color */
+  --color-paper: #f7f6f2;
+  --color-surface: #ffffff;
+  --color-muted: #efeee9;
+  --color-ink: #1c1c1a;
+  --color-ink-muted: #5e5d58;
+  --color-ink-subtle: #6c6b65;
+  --color-line: #e2e0d9;
+  --color-line-strong: #c9c7be;
+  --color-accent: #1e6b47;
+  --color-accent-strong: #154f34;
+  --color-accent-soft: #e4efe8;
 
-  --text-display: 4.5rem;
-  --text-display--line-height: 1.05;
-  --text-headline-xl: 3rem;
-  --text-headline-xl--line-height: 1.1;
-  --text-headline-lg: 2.25rem;
-  --text-headline-lg--line-height: 1.15;
-  --text-headline-md: 1.5rem;
-  --text-headline-md--line-height: 1.3;
-  --text-headline-sm: 1.125rem;
-  --text-headline-sm--line-height: 1.4;
-  --text-body-lg: 1.125rem;
-  --text-body-lg--line-height: 1.65;
-  --text-body-md: 1rem;
-  --text-body-md--line-height: 1.6;
-  --text-label-code: 0.8125rem;
-  --text-label-code--line-height: 1.4;
-  --text-label-pill: 0.75rem;
-  --text-label-pill--line-height: 1;
+  /* Type: one family, mono only for small metadata */
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'Cascadia Code', monospace;
 
-  /* Stitch radii */
-  --radius-card: 0.5rem;
-  --radius-button: 0.75rem;
-  --radius-pill: 1rem;
+  --text-display: clamp(2.5rem, 1.6rem + 3.8vw, 4.75rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(2.125rem, 1.6rem + 2.2vw, 3.25rem);
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(1.625rem, 1.35rem + 1.1vw, 2.25rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.015em;
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.55;
+  --text-meta: 0.75rem;
+  --text-meta--line-height: 1.4;
+  --text-meta--letter-spacing: 0.04em;
 
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-}
+  /* Layout */
+  --container-page: 75rem; /* 1200px */
+  --container-prose: 40rem;
 
-/* Dark-first: obsidian canvas + electric cyan (DESIGN.md) */
-:root {
-  color-scheme: dark;
-  --background: #051424;
-  --surface: #0b1a2b;
-  --surface-dim: #0b0f17;
-  --surface-container-low: #08182a;
-  --surface-container: #0e2033;
-  --surface-container-high: #142a40;
-  --on-surface: #d4e4fa;
-  --on-surface-variant: #a9b8c4;
-  --outline: #859399;
-  --outline-variant: #1f3346;
-  --primary: #22d3ee;
-  --on-primary: #032530;
-  --primary-container: #00566a;
-  --on-primary-container: #cffafe;
-  --secondary: #b4c5ff;
-  --tertiary: #7bd0ff;
-  --glow: rgba(34, 211, 238, 0.14);
-  --glow-strong: rgba(34, 211, 238, 0.45);
-  --canvas-glow: rgba(37, 99, 235, 0.16);
-}
+  /* Shape — near-square, Swiss */
+  --radius-sm: 2px;
+  --radius-md: 4px;
 
-:root.light {
-  color-scheme: light;
-  --background: #f8fafc;
-  --surface: #ffffff;
-  --surface-dim: #f1f5f9;
-  --surface-container-low: #f8fafc;
-  --surface-container: #f1f5f9;
-  --surface-container-high: #e2e8f0;
-  --on-surface: #0f172a;
-  --on-surface-variant: #475569;
-  --outline: #64748b;
-  --outline-variant: #dbe3ec;
-  /* Cyan-400 fails contrast on white; cyan-700 keeps the identity at AA */
-  --primary: #0e7490;
-  --on-primary: #ffffff;
-  --primary-container: #cffafe;
-  --on-primary-container: #083344;
-  --secondary: #1d4ed8;
-  --tertiary: #2563eb;
-  --glow: rgba(14, 116, 144, 0.1);
-  --glow-strong: rgba(14, 116, 144, 0.3);
-  --canvas-glow: rgba(37, 99, 235, 0.08);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   body {
-    background-color: var(--background);
-    background-image: radial-gradient(ellipse 80% 50% at 50% -10%, var(--canvas-glow), transparent 70%);
-    background-repeat: no-repeat;
-    color: var(--on-surface);
+    background: var(--color-paper);
+    color: var(--color-ink);
     font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-feature-settings: 'ss01', 'cv11';
   }
 
   section[id] {
-    scroll-margin-top: 6rem;
+    scroll-margin-top: 5rem;
   }
 
   ::selection {
-    background: var(--primary);
-    color: var(--on-primary);
+    background: var(--color-accent);
+    color: var(--color-paper);
   }
 
   :focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 2px;
-    border-radius: 4px;
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
   }
 }
 
-/* Type roles */
-@utility font-headline-xl {
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.03em;
+/* Page container with the responsive gutter (16px → 24px → 32px) */
+@utility container-page {
+  width: 100%;
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
+  }
 }
-@utility font-headline-lg {
-  font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-@utility font-headline-md {
-  font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-@utility font-headline-sm {
-  font-family: var(--font-display);
-  font-weight: 600;
-}
-@utility font-body-lg {
-  font-family: var(--font-sans);
-}
-@utility font-body-md {
-  font-family: var(--font-sans);
-}
-@utility font-label-code {
+
+/* Small uppercase metadata label (dates, section labels) */
+@utility meta {
   font-family: var(--font-mono);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-}
-@utility font-label-pill {
-  font-family: var(--font-sans);
-  font-size: var(--text-label-pill);
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: var(--text-meta);
+  line-height: var(--text-meta--line-height);
+  letter-spacing: var(--text-meta--letter-spacing);
+  text-transform: uppercase;
 }
 
-/* Elevation */
-@utility card {
-  background-color: color-mix(in oklab, var(--surface) 75%, transparent);
-  border: 1px solid var(--outline-variant);
-  border-radius: var(--radius-card);
-  transition: border-color 200ms, box-shadow 200ms, transform 200ms;
-}
-@utility card-hover {
+/* Text link with an underline that draws in on hover */
+@utility link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 300ms var(--ease-out), color 200ms;
   &:hover {
-    border-color: color-mix(in oklab, var(--primary) 45%, transparent);
-    box-shadow: 0 0 25px -5px var(--glow);
-  }
-}
-@utility glow-btn {
-  &:hover {
-    box-shadow: 0 0 25px var(--glow-strong);
+    background-size: 100% 1px;
   }
 }
 
-/* Scroll reveal — App toggles .is-visible via IntersectionObserver */
+/* Scroll reveal — App adds .is-visible via IntersectionObserver */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 400ms var(--ease-out-expo), transform 400ms var(--ease-out-expo);
-  transition-delay: calc(var(--i, 0) * 80ms);
+  transform: translateY(12px);
+  transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 70ms);
 }
 .reveal.is-visible {
   opacity: 1;
   transform: none;
 }
 
-@keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 0 0 var(--glow-strong); }
-  50% { box-shadow: 0 0 0 6px transparent; }
+/* Route change: content fades in */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
 }
-.pulse-dot {
-  animation: pulse-dot 2s ease-in-out infinite;
+.page-enter {
+  animation: page-enter 450ms var(--ease-out) both;
 }
 
 @media (prefers-reduced-motion: reduce) {

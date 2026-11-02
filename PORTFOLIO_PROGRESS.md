@@ -118,3 +118,16 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
   - **Repo link:** none yet — the page shows "public link coming soon" through the new `repoNote` field. The Outcome section mentions the auth weaknesses and the hardening in progress.
   - **Experience entry:** the L-Mobile entry is aligned with the same facts.
   - **TODO:** once the fork is hardened, set `repo` to `https://github.com/yosriHamrouni/ServiceField`, remove `repoNote`, and add screenshots captured from a local run.
+- **2026-11-03** — ServiceField screenshots, IN PROGRESS (stopped at usage limit).
+  - **Done:**
+    - Throwaway clone of `yosriHamrouni/ServiceField` in the session scratchpad (`…/scratchpad/sf-demo`). It is separate from the hardening session's `C:\Users\yosri\ServiceField`.
+    - The API builds on .NET 8.
+    - Demo DB `ServiceField_PortfolioDemo` on `localhost\SQLEXPRESS` has all 16 tables, built from a fresh `InitialCreate` migration in the clone only.
+  - **Repo finding — pass to the hardening session:** the committed migrations are stale. Only `AddNewModel` remains and it creates just `Articles` and `ItemTypes`; the earlier migrations were deleted in the Aug 2024 "merge articles done" commit, but the snapshot lists 25 entities. A fresh clone cannot create its schema. Fix: regenerate a single `InitialCreate` migration.
+  - **Left:**
+    1. Run the API with `ConnectionStrings__DefaultConnection=Server=localhost\SQLEXPRESS;Database=ServiceField_PortfolioDemo;Trusted_Connection=True;TrustServerCertificate=True`, `frontend_url=http://localhost:5175` and `--urls http://localhost:5297`.
+    2. In the clone's client only, replace `https://localhost:7141` with `http://localhost:5297`, remove the `https` block from `vite.config.js`, and run `npm install`, then `npm run dev -- --port 5175` (5173 is the portfolio's dev server).
+    3. Add sample data through the API (articles, companies, service orders…).
+    4. Capture 1600×900 screenshots in the browser pane and save them as WebP in `public/project-imgs/field-service/`.
+    5. Add `screenshots` + `screenshotNote: 'Local run with sample data'` to the `field-service-application` entry in `src/data/projects.ts`.
+    6. Check in the browser, then commit.

@@ -65,12 +65,7 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
 
 ## 4. Design decisions
 - **Swiss editorial grid:** 12 columns. Each section has a numbered label column (3 cols) and a content column (9 cols). Hairline rules separate sections.
-- **Palette:**
-  - warm off-white `#F7F6F2`
-  - charcoal `#1C1C1A`
-  - muted text `#5E5D58`
-  - green accent `#1E6B47` (≈6:1 contrast on the background)
-  - Accent is used sparingly: links, active nav, small markers.
+- **Palette (changed 2026-11-02 at Yosri's request):** the original dark "Stitch" palette from the old DESIGN.md — obsidian `#051424`, text `#d4e4fa` / `#bbc9cf`, outline `#859399`, electric cyan accent `#22d3ee`, plus the cobalt glow at the top of the page. The brief's light/green palette is no longer used; the Swiss layout and content are kept. All text passes WCAG AA (see DESIGN.md).
 - **Type:** Geist for everything, Geist Mono for small metadata (dates, labels). Tight tracking on large headings.
 - **Shape:** 2–4px radius, no shadows except the sticky nav hairline.
 
@@ -101,3 +96,4 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
 ### Log
 - **2026-11-02** — Audit written. Swiss/light redesign implemented (see roadmap 1–5).
 - **2026-11-02** — CV download enabled in the nav, hero and contact sections, labelled "PDF · French". Verified: all three links serve the PDF (200, application/pdf).
+- **2026-11-02** — Switched to the original blue/cyan dark palette (tokens only; layout and content unchanged). Strong list rules now use `line-strong`. Favicon and theme-color recolored. Build and lint are clean; checked in the browser (home and case study).

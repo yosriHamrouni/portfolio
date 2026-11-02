@@ -93,7 +93,7 @@ const ProjectDetail = () => {
             <p className="reveal mt-5 text-lead text-ink-muted max-w-[38rem]">{project.tagline}</p>
           </div>
           <div className="reveal col-span-12 lg:col-span-4 self-end">
-            <dl className="border-t border-ink text-small">
+            <dl className="border-t border-line-strong text-small">
               {facts.map((fact) => (
                 <div key={fact.label} className="grid grid-cols-3 gap-4 py-3 border-b border-line">
                   <dt className="meta text-ink-subtle pt-0.5">{fact.label}</dt>
@@ -152,7 +152,7 @@ const ProjectDetail = () => {
         </Block>
 
         <Block index="04" title="Architecture">
-          <div className="grid sm:grid-cols-2 border-t border-ink">
+          <div className="grid sm:grid-cols-2 border-t border-line-strong">
             {project.architecture.map((layer, i) => (
               <div key={layer.title} className={`py-5 border-b border-line ${i % 2 === 1 ? 'sm:pl-6 sm:border-l' : 'sm:pr-6'}`}>
                 <h3 className="font-semibold text-ink">{layer.title}</h3>
@@ -199,7 +199,7 @@ const ProjectDetail = () => {
           <p className="text-lead text-ink max-w-[44rem]">{project.outcome}</p>
         </Block>
 
-        <Link to={`/project/${next.slug}`} className="group block border-t border-ink py-12 lg:py-16 mb-8">
+        <Link to={`/project/${next.slug}`} className="group block border-t border-line-strong py-12 lg:py-16 mb-8">
           <span className="meta text-ink-subtle">Next project</span>
           <span className="mt-3 flex items-center justify-between gap-6">
             <span className="text-h1 font-semibold text-ink group-hover:text-accent transition-colors">{next.title}</span>

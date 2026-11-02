@@ -17,7 +17,7 @@ const Contact = () => {
       title="Let’s talk about your team."
       intro="I’m looking for my first full-time role as a software engineer — in Tunisia, in France or remote. If you’re hiring or want to discuss a project, I’d be glad to hear from you."
     >
-      <ul className="border-t border-ink reveal">
+      <ul className="border-t border-line-strong reveal">
         {channels.map((channel) => (
           <li key={channel.label} className="border-b border-line">
             <a

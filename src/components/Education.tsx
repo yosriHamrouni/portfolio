@@ -5,7 +5,7 @@ import Section from './Section';
 const Education = () => {
   return (
     <Section id="education" index="05" label="Education" title="Education, certifications and life beyond code.">
-      <ol className="border-t border-ink">
+      <ol className="border-t border-line-strong">
         {education.map((item) => (
           <li key={item.school} className="reveal grid grid-cols-9 gap-x-6 gap-y-2 py-8 border-b border-line">
             <div className="col-span-9 md:col-span-2">

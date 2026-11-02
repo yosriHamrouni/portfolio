@@ -61,7 +61,7 @@ const Projects = () => {
       </article>
 
       {/* Index of the other projects */}
-      <ol className="mt-16 border-t border-ink">
+      <ol className="mt-16 border-t border-line-strong">
         {rest.map((project, i) => (
           <li key={project.slug} className="reveal border-b border-line" style={stagger(i)}>
             <Link

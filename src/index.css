@@ -1,24 +1,27 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Design system — Minimal / Swiss. Light theme, charcoal ink, one green accent.
+   Design system — Swiss editorial layout on the "Stitch" dark palette:
+   obsidian canvas, electric cyan accent (see DESIGN.md).
    Components use the semantic utilities below (bg-paper, text-ink, border-line,
    text-accent…), never raw hex values.
    ------------------------------------------------------------------------ */
 
 @theme {
   /* Color */
-  --color-paper: #f7f6f2;
-  --color-surface: #ffffff;
-  --color-muted: #efeee9;
-  --color-ink: #1c1c1a;
-  --color-ink-muted: #5e5d58;
-  --color-ink-subtle: #6c6b65;
-  --color-line: #e2e0d9;
-  --color-line-strong: #c9c7be;
-  --color-accent: #1e6b47;
-  --color-accent-strong: #154f34;
-  --color-accent-soft: #e4efe8;
+  --color-paper: #051424;        /* canvas — obsidian */
+  --color-surface: #0b0f17;      /* raised bands */
+  --color-muted: #0e1d2e;        /* image placeholders */
+  --color-ink: #d4e4fa;          /* primary text (on-surface) */
+  --color-ink-muted: #bbc9cf;    /* secondary text (on-surface-variant) */
+  --color-ink-subtle: #859399;   /* metadata (outline) */
+  --color-line: #1e3040;         /* hairlines */
+  --color-line-strong: #3c494e;  /* outline-variant */
+  --color-accent: #22d3ee;       /* electric cyan */
+  --color-accent-strong: #67e8f9;
+  --color-accent-soft: #00566a;  /* primary container */
+  --color-secondary: #b4c5ff;
+  --color-tertiary: #7bd0ff;
 
   /* Type: one family, mono only for small metadata */
   --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -64,8 +67,14 @@
     text-rendering: optimizeLegibility;
   }
 
+  html {
+    color-scheme: dark;
+  }
+
   body {
-    background: var(--color-paper);
+    /* Level 0 canvas: obsidian + soft cobalt glow at the top */
+    background: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(37, 99, 235, 0.15), transparent 70%) no-repeat,
+      var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-size: var(--text-body);

@@ -1,23 +1,27 @@
 # Design System — Yosri Hamrouni Portfolio
 
-Direction: **Minimalism & Swiss Style.** Light theme, editorial typography, one green accent.
-The tokens live in `src/index.css` (`@theme`). Components use the semantic utilities only.
-(This replaces the earlier dark/cyan "Stitch" direction.)
+Direction: **Swiss editorial layout on the original "Stitch" dark palette** — obsidian canvas,
+electric cyan accent. The tokens live in `src/index.css` (`@theme`), and components use the semantic utilities only.
+(Palette taken from the original DESIGN.md, dark mode; layout and content follow the master brief.)
 
 ## Color
-| Token | Value | Use | Contrast on paper |
+| Token | Value | Original role | Contrast on canvas |
 |---|---|---|---|
-| `paper` | `#f7f6f2` | Page background (warm off-white) | — |
-| `surface` | `#ffffff` | Raised bands (pillars) | — |
-| `muted` | `#efeee9` | Image placeholders | — |
-| `ink` | `#1c1c1a` | Headings, primary text | 15.8 : 1 |
-| `ink-muted` | `#5e5d58` | Body copy, secondary text | 6.1 : 1 |
-| `ink-subtle` | `#6c6b65` | Metadata, labels | 4.9 : 1 |
-| `line` / `line-strong` | `#e2e0d9` / `#c9c7be` | Hairline rules | — |
-| `accent` | `#1e6b47` | Links, active nav, markers, primary button | 6.0 : 1 |
-| `accent-strong` | `#154f34` | Primary button hover | — |
+| `paper` | `#051424` | Background (obsidian) | — |
+| `surface` | `#0b0f17` | Surface (pillars band) | — |
+| `muted` | `#0e1d2e` | Image placeholders | — |
+| `ink` | `#d4e4fa` | On Surface — headings, primary text | 14.4 : 1 |
+| `ink-muted` | `#bbc9cf` | On Surface Variant — body copy | 10.9 : 1 |
+| `ink-subtle` | `#859399` | Outline — metadata, labels | 5.9 : 1 |
+| `line` | `#1e3040` | Hairline rules | — |
+| `line-strong` | `#3c494e` | Outline Variant — list top rules | — |
+| `accent` | `#22d3ee` | Primary (electric cyan): links, active nav, primary button | 10.3 : 1 |
+| `accent-strong` | `#67e8f9` | Primary button hover | — |
+| `accent-soft` | `#00566a` | Primary Container | — |
+| `secondary` / `tertiary` | `#b4c5ff` / `#7bd0ff` | Reserved | — |
 
-Use the accent sparingly: at most one accented element per visual group.
+The canvas has the original Level-0 glow: `radial-gradient(… rgba(37,99,235,0.15) …)` at the top of the page.
+Buttons on cyan use `paper` (#051424) text (10.3 : 1). Use the accent sparingly.
 
 ## Typography
 - **Geist** for everything. **Geist Mono** only for small uppercase metadata (`.meta`).
@@ -31,7 +35,7 @@ Use the accent sparingly: at most one accented element per visual group.
 - Cards are avoided. Structure comes from rules, alignment and whitespace.
 
 ## Shape & depth
-- Radius 2–4px. No shadows. The sticky nav only shows a bottom hairline once scrolled.
+- Radius 2–4px. No shadows. The sticky nav only shows a bottom hairline once scrolled. Dark only (no theme toggle).
 
 ## Motion
 | Interaction | Spec |

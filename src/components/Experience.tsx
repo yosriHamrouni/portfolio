@@ -12,7 +12,7 @@ const Experience = () => {
       title="Four internships, each on a real product."
       intro="From a Laravel hotel application in 2022 to a six-month multi-tenant SaaS with AI features in 2026."
     >
-      <ol className="border-t border-ink">
+      <ol className="border-t border-line-strong">
         {experiences.map((exp) => (
           <li key={exp.company} className="reveal grid grid-cols-9 gap-x-6 gap-y-3 py-10 border-b border-line">
             <div className="col-span-9 md:col-span-2">

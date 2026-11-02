@@ -9,9 +9,9 @@ const Skills = () => {
       index="04"
       label="Skills"
       title="The tools I build with."
-      intro="Grouped by area. Technologies in dark text are ones I have used in internships or projects; grey ones I have worked with less."
+      intro="Grouped by area. Technologies in bright text are ones I have used in internships or projects; dimmed ones I have worked with less."
     >
-      <dl className="border-t border-ink">
+      <dl className="border-t border-line-strong">
         {skillGroups.map((group, i) => (
           <div key={group.name} className="reveal grid grid-cols-9 gap-x-6 gap-y-2 py-6 border-b border-line" style={stagger(i % 3)}>
             <dt className="col-span-9 md:col-span-3 text-small font-semibold text-ink">{group.name}</dt>

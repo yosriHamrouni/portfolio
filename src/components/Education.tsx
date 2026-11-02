@@ -23,26 +23,31 @@ const Education = () => (
     <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {certifications.map((cert, i) => (
         <li key={cert.title} className="reveal card card-hover p-5 flex items-start gap-4" style={stagger(i % 3)}>
-          <span className="w-10 h-10 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="8" r="6" />
-              <path d="M8.2 13.4 7 22l5-3 5 3-1.2-8.6" />
-            </svg>
-          </span>
+          {cert.image ? (
+            <img src={cert.image} alt="" width={48} height={48} loading="lazy" className="w-12 h-12 object-contain shrink-0" />
+          ) : (
+            <span className="w-10 h-10 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="8" r="6" />
+                <path d="M8.2 13.4 7 22l5-3 5 3-1.2-8.6" />
+              </svg>
+            </span>
+          )}
           <div className="min-w-0">
             <p className="font-display font-semibold text-ink leading-snug">{cert.title}</p>
             <p className="mt-1 font-mono text-[11px] text-ink-subtle">
               {[cert.issuer, cert.date].filter(Boolean).join(' · ')}
             </p>
+            {cert.note && <p className="mt-1 text-xs text-ink-muted">{cert.note}</p>}
             {cert.href && (
               <a
                 href={cert.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-accent"
-                aria-label={`View ${cert.title} certificate`}
+                aria-label={`${cert.hrefLabel ?? 'View certificate'}: ${cert.title}`}
               >
-                <span className="link-underline">View certificate</span> <ArrowUpRight size={12} />
+                <span className="link-underline">{cert.hrefLabel ?? 'View certificate'}</span> <ArrowUpRight size={12} />
               </a>
             )}
           </div>

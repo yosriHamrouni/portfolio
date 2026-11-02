@@ -75,7 +75,7 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
 2. **Email:** which address should appear on the site?
 3. **Builderz / Gleam repos:** both links 404. Should they be made public, or stay unlinked?
 4. **ServiceField repo:** is it the L-Mobile project? If so, can it be linked?
-5. **Certifications:** the brief lists 6. I removed the two Google Cloud Credly badges and "Version Control" because the brief doesn't list them. Should they come back?
+5. ~~**Certifications**~~ — resolved 2026-11-02 from the files on the PC (see log). Still unverified, with no file found: *AI For Everyone* and *Unix Tools and Scripting*. If you have the full *Meta Front-End Developer* / *Google UX Design* professional certificates, send them and the course entries can be upgraded.
 6. **SaaS assistant:** the README says it uses "rule-based responses + optional local AI provider"; the CV says "RAG chatbot (embeddings, vector store, LLM)". The site describes it as a context-restricted assistant built with a RAG approach. Please confirm.
 7. **Agentic AI Healthcare Workflow** (on the CV): should it be added as a project?
 8. **Where will the site be hosted?** The answer decides the sitemap, canonical URL and SPA rewrites.
@@ -106,3 +106,9 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
   - **Player:** `DemoVideo.tsx` — native controls, six chapter buttons that seek and follow playback. The SaaS card shows a "Video demo · 2:24" badge.
   - **Verified:** metadata loads (144.5s); the Student chapter seeks to 1:51 and plays; 720p is chosen in the narrow pane, 1080p at 1366px.
   - **Tool:** ffmpeg 4.4.1 bundled with Stremio (not on PATH). Edit script: the filter graph in the session scratchpad.
+- **2026-11-02** — Certifications rebuilt from the files on the PC (Downloads, OneDrive).
+  - **Added:** AWS Academy Graduate – Cloud Foundations (Nov 2025, 20 h, Credly + badge image); Cisco CCNA: Switching, Routing & Wireless Essentials (Credly); TOEIC L&R 795/990 (May 2025; L 420 B2, R 375 B1); Meta courses on Coursera (Intro to Front-End Dev Apr 2023, Programming with JavaScript Sep 2023, Version Control Sep 2023); Google *Foundations of UX Design* (Feb 2023).
+  - **Corrected:** the two Credly badges the old site called "Google Cloud Fundamentals" are actually AWS Cloud Foundations and Cisco CCNA SRWE. The Space Academy bootcamp completed 16 Sep 2023 (it was shown as Jan 2023).
+  - **Replaced:** "Meta Front-End Developer" and "Google UX Design" were shown as full professional certificates, but only individual course certificates were found. They're now listed as courses ("… program").
+  - **Not linked:** the TOEIC digital score report shows date of birth and ID number.
+  - **Verified:** all Coursera and Credly links return 200 and point to the right badge or course.

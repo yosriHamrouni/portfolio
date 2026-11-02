@@ -1,4 +1,5 @@
 import { profile } from '../data/profile';
+import { stagger } from '../lib/motion';
 import { ArrowUpRight, Download } from './Icons';
 import Section from './Section';
 
@@ -10,46 +11,54 @@ const Contact = () => {
   ].filter((c): c is { label: string; value: string; href: string; external: boolean } => Boolean(c));
 
   return (
-    <Section
-      id="contact"
-      index="06"
-      label="Contact"
-      title="Let’s talk about your team."
-      intro="I’m looking for my first full-time role as a software engineer — in Tunisia, in France or remote. If you’re hiring or want to discuss a project, I’d be glad to hear from you."
-    >
-      <ul className="border-t border-line-strong reveal">
-        {channels.map((channel) => (
-          <li key={channel.label} className="border-b border-line">
-            <a
-              href={channel.href}
-              {...(channel.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-              className="group grid grid-cols-9 gap-x-6 py-6 items-baseline"
-            >
-              <span className="col-span-3 md:col-span-2 meta text-ink-subtle">{channel.label}</span>
-              <span className="col-span-5 md:col-span-6 text-h3 font-semibold text-ink group-hover:text-accent transition-colors break-all">
-                {channel.value}
-              </span>
-              <span className="col-span-1 flex justify-end text-ink-subtle group-hover:text-accent transition-colors">
-                <ArrowUpRight size={20} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </span>
-            </a>
-          </li>
-        ))}
-        <li className="grid grid-cols-9 gap-x-6 py-6 items-baseline border-b border-line">
-          <span className="col-span-3 md:col-span-2 meta text-ink-subtle">Location</span>
-          <span className="col-span-6 md:col-span-7 text-h3 font-semibold text-ink">{profile.location}</span>
-        </li>
-      </ul>
+    <Section id="contact" eyebrow="Contact" title="Let’s talk about your team">
+      <div className="reveal relative overflow-hidden rounded-2xl border border-line bg-surface/60 p-8 sm:p-10 lg:p-16">
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_120%,var(--glow-strong),transparent_60%)] opacity-40" />
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="lg:col-span-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-paper border border-line mb-6">
+              <span className="w-2 h-2 rounded-full bg-accent pulse-dot" />
+              <span className="meta text-ink-muted normal-case tracking-normal">Ready to collaborate</span>
+            </div>
+            <p className="text-lead text-ink-muted">
+              I’m looking for my first full-time role as a software engineer — in Tunisia, in France or remote. If
+              you’re hiring or want to discuss a project, I’d be glad to hear from you.
+            </p>
+            <p className="mt-4 meta text-ink-subtle normal-case tracking-normal">Based in {profile.location}</p>
+            {profile.cvUrl && (
+              <a
+                href={profile.cvUrl}
+                download
+                className="mt-8 h-12 px-6 inline-flex items-center gap-2 rounded-full bg-accent text-on-accent font-semibold text-small glow-btn transition-shadow"
+              >
+                <Download /> Download my CV <span className="meta opacity-80 normal-case tracking-normal">{profile.cvNote}</span>
+              </a>
+            )}
+          </div>
 
-      {profile.cvUrl && (
-        <a
-          href={profile.cvUrl}
-          download
-          className="reveal mt-10 inline-flex items-center gap-3 h-12 px-6 rounded-sm bg-ink text-paper font-medium hover:bg-accent transition-colors"
-        >
-          <Download /> Download my CV <span className="meta opacity-70">{profile.cvNote}</span>
-        </a>
-      )}
+          <ul className="lg:col-span-6 space-y-3">
+            {channels.map((channel, i) => (
+              <li key={channel.label} style={stagger(i)} className="reveal">
+                <a
+                  href={channel.href}
+                  {...(channel.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className="group card card-hover flex items-center justify-between gap-4 px-5 py-4"
+                >
+                  <span>
+                    <span className="block meta text-ink-subtle">{channel.label}</span>
+                    <span className="block mt-1 font-display text-h3 font-semibold text-ink group-hover:text-accent transition-colors break-all">
+                      {channel.value}
+                    </span>
+                  </span>
+                  <span className="w-10 h-10 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 transition-transform group-hover:rotate-45" aria-hidden="true">
+                    <ArrowUpRight />
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </Section>
   );
 };

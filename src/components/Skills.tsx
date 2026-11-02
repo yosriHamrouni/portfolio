@@ -2,34 +2,48 @@ import { skillGroups } from '../data/skills';
 import { stagger } from '../lib/motion';
 import Section from './Section';
 
-const Skills = () => {
-  return (
-    <Section
-      id="skills"
-      index="04"
-      label="Skills"
-      title="The tools I build with."
-      intro="Grouped by area. Technologies in bright text are ones I have used in internships or projects; dimmed ones I have worked with less."
-    >
-      <dl className="border-t border-line-strong">
-        {skillGroups.map((group, i) => (
-          <div key={group.name} className="reveal grid grid-cols-9 gap-x-6 gap-y-2 py-6 border-b border-line" style={stagger(i % 3)}>
-            <dt className="col-span-9 md:col-span-3 text-small font-semibold text-ink">{group.name}</dt>
-            <dd className="col-span-9 md:col-span-6 text-small leading-relaxed">
-              <span className="text-ink">{group.core.join(', ')}</span>
-              {group.also && <span className="text-ink-subtle">, {group.also.join(', ')}</span>}
-              {group.exploring && (
-                <p className="mt-2 text-ink-muted">
-                  <span className="meta text-accent mr-2">Currently exploring</span>
-                  {group.exploring.join(', ')}
-                </p>
-              )}
-            </dd>
-          </div>
-        ))}
-      </dl>
-    </Section>
-  );
-};
+// Bento spans for the seven groups on large screens (12 columns).
+const spans = ['lg:col-span-4', 'lg:col-span-4', 'lg:col-span-4', 'lg:col-span-3', 'lg:col-span-5', 'lg:col-span-4', 'lg:col-span-12'];
+
+const Skills = () => (
+  <Section
+    id="skills"
+    eyebrow="Core capabilities"
+    title="The tools I build with"
+    intro="Highlighted technologies are the ones I have used in internships or projects; the others I have worked with less."
+  >
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 lg:gap-6">
+      {skillGroups.map((group, i) => (
+        <div key={group.name} className={`reveal card card-hover p-6 ${spans[i] ?? 'lg:col-span-4'}`} style={stagger(i % 3)}>
+          <h3 className="text-h3 font-semibold text-ink mb-5">{group.name}</h3>
+          <ul className="flex flex-wrap gap-2">
+            {group.core.map((tech) => (
+              <li key={tech} className="px-3 py-1.5 rounded-full bg-accent/10 border border-accent/25 text-small text-ink">
+                {tech}
+              </li>
+            ))}
+            {group.also?.map((tech) => (
+              <li key={tech} className="px-3 py-1.5 rounded-full border border-line text-small text-ink-subtle">
+                {tech}
+              </li>
+            ))}
+          </ul>
+          {group.exploring && (
+            <div className="mt-5 pt-4 border-t border-line">
+              <p className="meta text-tertiary mb-3">Currently exploring</p>
+              <ul className="flex flex-wrap gap-2">
+                {group.exploring.map((tech) => (
+                  <li key={tech} className="px-3 py-1.5 rounded-full border border-dashed border-line-strong text-small text-ink-muted">
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </Section>
+);
 
 export default Skills;

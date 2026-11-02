@@ -2,6 +2,7 @@ import { useEffect, useState, type MouseEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { profile } from '../data/profile';
 import { Download } from './Icons';
+import ThemeToggle from './ThemeToggle';
 
 const links = [
   { id: 'about', label: 'About' },
@@ -37,7 +38,7 @@ const Nav = () => {
   }, [pathname]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -64,76 +65,75 @@ const Nav = () => {
   };
 
   const linkClass = (id: string) =>
-    `relative py-1 transition-colors duration-200 ${
-      active === id ? 'text-accent' : 'text-ink-muted hover:text-ink'
+    `px-3 py-1.5 rounded-full transition-colors duration-200 ${
+      active === id ? 'text-accent bg-accent/10' : 'text-ink-muted hover:text-ink'
     }`;
 
   return (
-    <header
-      className={`fixed top-0 inset-x-0 z-50 bg-paper/95 border-b transition-colors duration-300 ${
-        scrolled || open ? 'border-line' : 'border-transparent'
-      }`}
-    >
-      <nav aria-label="Primary" className="container-page h-16 flex items-center justify-between gap-6">
-        <Link to="/" onClick={() => setOpen(false)} className="flex items-baseline gap-3">
-          <span className="font-semibold tracking-tight text-ink">{profile.name}</span>
-          <span className="hidden sm:inline meta text-ink-subtle">{profile.role}</span>
-        </Link>
+    <header className="fixed top-3 sm:top-4 inset-x-0 z-50 px-4">
+      <nav
+        aria-label="Primary"
+        className={`max-w-6xl mx-auto border backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 ${
+          open ? 'rounded-3xl' : 'rounded-full'
+        } ${scrolled || open ? 'bg-paper/80 border-line shadow-lg shadow-black/10' : 'bg-paper/40 border-transparent'}`}
+      >
+        <div className="h-14 pl-4 pr-2 flex items-center justify-between gap-4">
+          <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2.5 font-display font-semibold text-ink tracking-tight">
+            <span className="w-8 h-8 rounded-lg bg-accent text-on-accent font-mono text-xs flex items-center justify-center">YH</span>
+            <span className="hidden sm:inline">{profile.name}</span>
+          </Link>
 
-        <div className="hidden lg:flex items-center gap-7 text-small">
-          {links.map(({ id, label }) => (
-            <Link key={id} to={`/#${id}`} onClick={go(id)} className={linkClass(id)} aria-current={active === id ? 'true' : undefined}>
-              {label}
-              {active === id && <span className="absolute -bottom-[21px] inset-x-0 h-px bg-accent" aria-hidden="true" />}
-            </Link>
-          ))}
-        </div>
+          <div className="hidden lg:flex items-center gap-1 text-small font-medium">
+            {links.map(({ id, label }) => (
+              <Link key={id} to={`/#${id}`} onClick={go(id)} className={linkClass(id)} aria-current={active === id ? 'true' : undefined}>
+                {label}
+              </Link>
+            ))}
+          </div>
 
-        <div className="flex items-center gap-3">
-          {profile.cvUrl && (
-            <a
-              href={profile.cvUrl}
-              download
-              className="hidden sm:inline-flex items-center gap-2 h-9 px-4 rounded-sm border border-ink text-small font-medium text-ink hover:bg-ink hover:text-paper transition-colors"
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            {profile.cvUrl && (
+              <a
+                href={profile.cvUrl}
+                download
+                className="hidden sm:inline-flex items-center gap-2 h-10 px-5 rounded-full bg-accent text-on-accent text-small font-semibold glow-btn transition-shadow"
+              >
+                <Download size={15} />
+                CV
+              </a>
+            )}
+            <button
+              type="button"
+              className="lg:hidden w-10 h-10 rounded-full border border-line flex items-center justify-center text-ink"
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              onClick={() => setOpen(!open)}
             >
-              <Download size={15} />
-              CV
-            </a>
-          )}
-          <button
-            type="button"
-            className="lg:hidden h-9 px-3 -mr-3 meta text-ink"
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? 'Close' : 'Menu'}
-          </button>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                {open ? <path d="M18 6 6 18M6 6l12 12" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+              </svg>
+            </button>
+          </div>
         </div>
-      </nav>
 
-      {open && (
-        <div id="mobile-menu" className="lg:hidden border-t border-line bg-paper">
-          <ul className="container-page py-4">
-            {links.map(({ id, label }, i) => (
-              <li key={id} className="border-b border-line last:border-b-0">
-                <Link to={`/#${id}`} onClick={go(id)} className={`flex items-baseline gap-4 py-3.5 text-lead ${active === id ? 'text-accent' : 'text-ink'}`}>
-                  <span className="meta text-ink-subtle w-6">{String(i + 1).padStart(2, '0')}</span>
-                  {label}
-                </Link>
-              </li>
+        {open && (
+          <div id="mobile-menu" className="lg:hidden px-3 pb-4 grid gap-1">
+            {links.map(({ id, label }) => (
+              <Link key={id} to={`/#${id}`} onClick={go(id)} className={`${linkClass(id)} py-2.5 text-body`}>
+                {label}
+              </Link>
             ))}
             {profile.cvUrl && (
-              <li className="pt-4">
-                <a href={profile.cvUrl} download className="inline-flex items-center gap-2 h-11 px-5 rounded-sm bg-ink text-paper font-medium">
-                  <Download size={16} />
-                  Download CV <span className="meta opacity-70">{profile.cvNote}</span>
-                </a>
-              </li>
+              <a href={profile.cvUrl} download className="mt-2 inline-flex items-center justify-center gap-2 h-11 rounded-full bg-accent text-on-accent font-semibold">
+                <Download size={16} />
+                Download CV <span className="meta opacity-80">{profile.cvNote}</span>
+              </a>
             )}
-          </ul>
-        </div>
-      )}
+          </div>
+        )}
+      </nav>
     </header>
   );
 };

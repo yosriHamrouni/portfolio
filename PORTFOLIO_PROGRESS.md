@@ -59,15 +59,16 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
 
 ## 3. Architectural decisions
 - **Content lives in `src/data/`.** Components only render it. Profile links (CV, email) come from `profile.ts` and the UI hides them while they're `null`.
-- **Light theme only.** I removed the theme toggle because the brief asks for one coherent light identity, and a second theme would double the design and QA surface.
+- **Dark-first with a light toggle.** The theme is saved in localStorage and applied before first paint by a script in `index.html`.
 - **No animation library.** Scroll reveal uses one `IntersectionObserver`. Route changes use a CSS fade. Everything respects `prefers-reduced-motion`.
 - **Projects without screenshots show no image.** I didn't make fake previews (the brief says not to invent screenshots).
 
 ## 4. Design decisions
-- **Swiss editorial grid:** 12 columns. Each section has a numbered label column (3 cols) and a content column (9 cols). Hairline rules separate sections.
-- **Palette (changed 2026-11-02 at Yosri's request):** the original dark "Stitch" palette from the old DESIGN.md — obsidian `#051424`, text `#d4e4fa` / `#bbc9cf`, outline `#859399`, electric cyan accent `#22d3ee`, plus the cobalt glow at the top of the page. The brief's light/green palette is no longer used; the Swiss layout and content are kept. All text passes WCAG AA (see DESIGN.md).
-- **Type:** Geist for everything, Geist Mono for small metadata (dates, labels). Tight tracking on large headings.
-- **Shape:** 2–4px radius, no shadows except the sticky nav hairline.
+- **Changed on 2026-11-02 at Yosri's request:** the visual direction is the original dark "Stitch" look again — obsidian canvas, cyan accent, glass cards with a hover glow, floating pill nav, bento projects, timeline, stats band, light/dark toggle. The brief's Swiss/minimal direction is dropped. Full spec is in `DESIGN.md`.
+- **Kept from the brief:** all content rules (no invented metrics, links or screenshots), the case-study structure, Education, and the CV download.
+- **Accuracy guards:**
+  - The stats band only counts items listed on the page.
+  - Projects without screenshots get a labelled gradient cover, not a fake UI.
 
 ## 5. Open questions for Yosri
 1. ~~**CV**~~ — resolved: the latest French CV is published. Swap the file in `public/` when an English version exists (and change `cvNote` in `profile.ts`). Note that the PDF includes the phone number and email.
@@ -97,3 +98,4 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
 - **2026-11-02** — Audit written. Swiss/light redesign implemented (see roadmap 1–5).
 - **2026-11-02** — CV download enabled in the nav, hero and contact sections, labelled "PDF · French". Verified: all three links serve the PDF (200, application/pdf).
 - **2026-11-02** — Switched to the original blue/cyan dark palette (tokens only; layout and content unchanged). Strong list rules now use `line-strong`. Favicon and theme-color recolored. Build and lint are clean; checked in the browser (home and case study).
+- **2026-11-02** — Restyled to the original dark Stitch design: floating pill nav, glow hero, cards, timeline, stats band, bento projects and skills, contact banner, light toggle. Fonts are back to Geist + Inter + JetBrains Mono. Build and lint are clean. Checked: desktop sections, the light toggle (persists), mobile with no horizontal overflow on the home and case-study pages.

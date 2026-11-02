@@ -4,6 +4,7 @@ import Nav from './components/Nav';
 import Hero from './components/Hero';
 import About from './components/About';
 import Experience from './components/Experience';
+import Stats from './components/Stats';
 import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Education from './components/Education';
@@ -41,7 +42,7 @@ const RouteEffects = () => {
           }
         });
       },
-      { rootMargin: '0px 0px -6% 0px' },
+      { rootMargin: '0px 0px -8% 0px' },
     );
     document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => observer.observe(el));
     return () => observer.disconnect();
@@ -63,6 +64,7 @@ const Page = () => {
               <Hero />
               <About />
               <Experience />
+              <Stats />
               <Projects />
               <Skills />
               <Education />
@@ -81,7 +83,7 @@ function App() {
     <BrowserRouter>
       <RouteEffects />
       <div id="top" className="min-h-screen flex flex-col">
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-ink focus:text-paper focus:px-4 focus:py-2">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-accent focus:text-on-accent focus:px-4 focus:py-2 focus:rounded-full">
           Skip to content
         </a>
         <Nav />

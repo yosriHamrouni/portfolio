@@ -1,92 +1,109 @@
 import { Link } from 'react-router-dom';
-import { projects } from '../data/projects';
+import { projects, type Project } from '../data/projects';
+import { profile } from '../data/profile';
 import { stagger } from '../lib/motion';
-import { ArrowRight, ArrowUpRight } from './Icons';
+import { ArrowUpRight } from './Icons';
 import Section from './Section';
 
-const Projects = () => {
-  const [featured, ...rest] = projects;
-  const cover = featured.screenshots[0];
-
+// Real screenshot when one exists; otherwise a plain gradient panel with the
+// project's category — clearly not pretending to be a screenshot.
+export const ProjectCover = ({ project }: { project: Project }) => {
+  const shot = project.screenshots[0];
+  if (shot) {
+    return (
+      <img
+        src={shot.src}
+        alt={`${project.title} — ${shot.caption}`}
+        width={1600}
+        height={900}
+        loading="lazy"
+        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+      />
+    );
+  }
   return (
-    <Section
-      id="projects"
-      index="03"
-      label="Projects"
-      title="Selected work."
-      intro="Each project has a case study covering the problem, my contribution, the architecture and the trade-offs."
-    >
-      {/* Featured project */}
-      <article className="reveal group relative">
-        <div className="overflow-hidden rounded-sm border border-line bg-muted">
-          <img
-            src={cover.src}
-            alt={`${featured.title} — ${cover.caption}`}
-            width={1600}
-            height={900}
-            loading="lazy"
-            className="w-full aspect-[16/9] object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.015]"
-          />
-        </div>
-        <div className="mt-6 grid grid-cols-9 gap-x-6 gap-y-4">
-          <div className="col-span-9 md:col-span-6">
-            <p className="meta text-accent">01 · {featured.category}</p>
-            <h3 className="mt-2 text-h2 font-semibold text-ink">
-              {/* Stretched link: the whole block opens the case study */}
-              <Link to={`/project/${featured.slug}`} className="after:absolute after:inset-0">
-                {featured.title}
-              </Link>
-            </h3>
-            <p className="mt-3 text-ink-muted max-w-[36rem]">{featured.tagline}</p>
-          </div>
-          <div className="col-span-9 md:col-span-3 md:text-right flex md:flex-col md:items-end justify-between gap-4">
-            <p className="meta text-ink-subtle">{featured.period}</p>
-            <span className="inline-flex items-center gap-2 text-small font-medium text-accent">
-              Read case study
-              <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
-            </span>
-          </div>
-        </div>
-        <p className="mt-4 meta text-ink-subtle normal-case tracking-normal">{featured.stack.join(' / ')}</p>
-        {featured.repo && (
-          <a
-            href={featured.repo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="relative z-10 mt-4 inline-flex items-center gap-1.5 text-small text-ink link-underline"
-          >
-            Source on GitHub <ArrowUpRight size={14} />
-          </a>
-        )}
-      </article>
-
-      {/* Index of the other projects */}
-      <ol className="mt-16 border-t border-line-strong">
-        {rest.map((project, i) => (
-          <li key={project.slug} className="reveal border-b border-line" style={stagger(i)}>
-            <Link
-              to={`/project/${project.slug}`}
-              className="group grid grid-cols-9 gap-x-6 gap-y-2 py-7 items-baseline"
-            >
-              <span className="col-span-1 meta text-ink-subtle">0{i + 2}</span>
-              <span className="col-span-8 md:col-span-4">
-                <span className="block text-h3 font-semibold text-ink group-hover:text-accent transition-colors">
-                  {project.title}
-                </span>
-                <span className="block mt-1 text-small text-ink-muted">{project.tagline}</span>
-              </span>
-              <span className="col-span-8 col-start-2 md:col-span-3 md:col-start-auto meta text-ink-subtle">
-                {project.category}
-              </span>
-              <span className="hidden md:flex col-span-1 justify-end text-ink-subtle group-hover:text-accent transition-colors">
-                <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ol>
-    </Section>
+    <div className="w-full h-full relative bg-gradient-to-br from-accent-soft/40 via-muted to-paper">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,var(--glow-strong),transparent_60%)] opacity-40 transition-opacity duration-500 group-hover:opacity-70" />
+      <div className="absolute inset-0 p-6 flex flex-col justify-between">
+        <span className="meta text-accent">{project.category}</span>
+        <span className="font-display text-2xl sm:text-3xl font-semibold text-ink/80">{project.title}</span>
+      </div>
+    </div>
   );
 };
+
+const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
+  // Bento rhythm: 7/5 then 5/7.
+  const wide = index % 4 === 0 || index % 4 === 3;
+  return (
+    <article
+      className={`reveal group relative card card-hover overflow-hidden flex flex-col ${wide ? 'md:col-span-7' : 'md:col-span-5'}`}
+      style={stagger(index % 2)}
+    >
+      <div className="aspect-[16/9] bg-muted overflow-hidden border-b border-line">
+        <ProjectCover project={project} />
+      </div>
+
+      <div className="p-6 flex flex-col gap-4 flex-1">
+        <div className="flex flex-wrap items-center justify-between gap-2 meta">
+          <span className="px-2.5 py-1 rounded-full bg-accent/10 text-accent">{project.category}</span>
+          {project.period && <span className="text-ink-subtle normal-case tracking-normal">{project.period}</span>}
+        </div>
+
+        <div>
+          <h3 className="text-h3 font-semibold text-ink group-hover:text-accent transition-colors">
+            {/* Stretched link: the whole card opens the case study */}
+            <Link to={`/project/${project.slug}`} className="after:absolute after:inset-0">
+              {project.title}
+            </Link>
+          </h3>
+          <p className="mt-2 text-small text-ink-muted">{project.tagline}</p>
+        </div>
+
+        <div className="mt-auto pt-4 border-t border-line flex items-center justify-between gap-4">
+          <div className="flex flex-wrap gap-1.5">
+            {project.stack.slice(0, 5).map((tech) => (
+              <span key={tech} className="font-mono text-[10px] text-ink-muted px-2 py-0.5 rounded border border-line">
+                {tech}
+              </span>
+            ))}
+            {project.stack.length > 5 && (
+              <span className="font-mono text-[10px] text-ink-subtle px-1 py-0.5">+{project.stack.length - 5}</span>
+            )}
+          </div>
+          <span className="w-9 h-9 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:rotate-45" aria-hidden="true">
+            <ArrowUpRight />
+          </span>
+        </div>
+      </div>
+    </article>
+  );
+};
+
+const Projects = () => (
+  <Section
+    id="projects"
+    eyebrow="Selected work"
+    title="Featured projects"
+    intro="Each project opens a case study: the problem, my contribution, the architecture and the trade-offs."
+    action={
+      <a
+        href={profile.links.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 text-small font-semibold text-accent shrink-0"
+      >
+        <span className="link-underline">GitHub profile</span>
+        <ArrowUpRight size={14} />
+      </a>
+    }
+  >
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-6">
+      {projects.map((project, i) => (
+        <ProjectCard key={project.slug} project={project} index={i} />
+      ))}
+    </div>
+  </Section>
+);
 
 export default Projects;

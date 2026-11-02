@@ -74,7 +74,7 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
 1. ~~**CV**~~ — resolved: the latest French CV is published. Swap the file in `public/` when an English version exists (and change `cvNote` in `profile.ts`). Note that the PDF includes the phone number and email.
 2. **Email:** which address should appear on the site?
 3. **Builderz / Gleam repos:** both links 404. Should they be made public, or stay unlinked?
-4. **ServiceField repo:** is it the L-Mobile project? If so, can it be linked?
+4. ~~**ServiceField repo**~~ — confirmed as the L-Mobile project (team repo `houyembn/ServiceField`, Yosri's fork `yosriHamrouni/ServiceField`). Link the fork after the hardening work in session "Harden ServiceField fork before showcasing" lands.
 5. ~~**Certifications**~~ — resolved 2026-11-02 from the files on the PC (see log). Still unverified, with no file found: *AI For Everyone* and *Unix Tools and Scripting*. If you have the full *Meta Front-End Developer* / *Google UX Design* professional certificates, send them and the course entries can be upgraded.
 6. **SaaS assistant:** the README says it uses "rule-based responses + optional local AI provider"; the CV says "RAG chatbot (embeddings, vector store, LLM)". The site describes it as a context-restricted assistant built with a RAG approach. Please confirm.
 7. **Agentic AI Healthcare Workflow** (on the CV): should it be added as a project?
@@ -112,3 +112,9 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
   - **Replaced:** "Meta Front-End Developer" and "Google UX Design" were shown as full professional certificates, but only individual course certificates were found. They're now listed as courses ("… program").
   - **Not linked:** the TOEIC digital score report shows date of birth and ID number.
   - **Verified:** all Coursera and Credly links return 200 and point to the right badge or course.
+- **2026-11-03** — Field Service case study rewritten from the team repo (`houyembn/ServiceField`).
+  - **Facts used:** .NET 8 ASP.NET Core Web API, EF Core + SQL Server, Swagger, React 18 + Vite; team of 3 interns.
+  - **Yosri's part (from his commits):** the Articles/Items module end to end, the app shell (NavBar/SideBar/HomePage), Users and sign-in/up, and the Articles + Service case merge; about 10 of 36 commits.
+  - **Repo link:** none yet — the page shows "public link coming soon" through the new `repoNote` field. The Outcome section mentions the auth weaknesses and the hardening in progress.
+  - **Experience entry:** the L-Mobile entry is aligned with the same facts.
+  - **TODO:** once the fork is hardened, set `repo` to `https://github.com/yosriHamrouni/ServiceField`, remove `repoNote`, and add screenshots captured from a local run.

@@ -12,6 +12,8 @@ export type Project = {
   role: string;
   stack: string[];
   repo?: string;
+  /** Shown instead of the repo button when there is no public link yet. */
+  repoNote?: string;
   demo?: string;
   /** Real screenshots only. */
   screenshots: { src: string; caption: string }[];
@@ -221,31 +223,51 @@ export const projects: Project[] = [
   {
     slug: 'field-service-application',
     title: 'Field Service Application',
-    tagline: 'Modernizing a field-service management application with React and ASP.NET Core.',
+    tagline: 'A service-management web app built by a team of three interns with ASP.NET Core (.NET 8) and React.',
     category: 'Full-Stack Application',
-    context: 'Internship at L-Mobile, Nabeul',
+    context: 'Team internship project at L-Mobile, Nabeul (3 interns)',
     period: 'Jul 2024 – Sep 2024',
     role: 'Full-Stack Developer Intern',
-    stack: ['React', 'ASP.NET Core', 'C#', 'REST APIs', 'GitHub', 'Agile / Scrum'],
+    stack: ['C#', 'ASP.NET Core (.NET 8)', 'Entity Framework Core', 'SQL Server', 'Swagger / OpenAPI', 'React 18', 'Vite', 'axios', 'Bootstrap', 'MUI'],
+    repoNote: 'Team repository — public link coming soon',
     screenshots: [],
-    problem: 'An existing field-service management application needed a modernized interface and backend while keeping its business workflows intact.',
-    solution: 'New React interfaces connected to ASP.NET Core services through REST APIs, delivered incrementally in Scrum sprints.',
+    problem:
+      'Field-service teams juggle service orders, service cases, customer installations, spare parts and invoicing. The internship goal was to rebuild a field-service management application on a modern stack, with each intern owning part of the domain.',
+    solution:
+      'A layered ASP.NET Core Web API (controllers, DTOs and mappers over Entity Framework Core models) on SQL Server, documented with Swagger, and a React + Vite client with role-based navigation for admins and technicians. The three of us split the work by module on feature branches and merged into a shared main.',
     contribution: [
-      'Developed React components for the modernized interface.',
-      'Implemented backend functionality in ASP.NET Core.',
-      'Integrated frontend screens with REST APIs.',
-      'Worked with Git workflows and code reviews in an Agile/Scrum team.',
+      'Built the Articles / Items module end to end: Article, ItemType and BarcodeType models, EF Core migrations, DTOs and mappers, REST controllers, and React screens to list, create, view, edit and delete items.',
+      'Created the application shell used by every module: navigation bar, sidebar and home page.',
+      'Added the Users feature: user model and migrations, a users API with create, read, update, delete and login, and the sign-in / sign-up screens.',
+      'Integrated my Articles module with the team’s Service case work and resolved the conflicting database migrations during the merge.',
+      'Worked in an Agile/Scrum setup with Git feature branches — about 10 of the project’s 36 commits.',
     ],
     architecture: [
-      { title: 'Frontend', text: 'React components consuming the REST API.' },
-      { title: 'Backend', text: 'ASP.NET Core Web API exposing the business operations.' },
+      { title: 'Client', text: 'React 18 + Vite with React Router and axios; Bootstrap and MUI components; separate navigation for admins and technicians.' },
+      { title: 'API', text: 'ASP.NET Core Web API on .NET 8, one controller per module, Swagger UI in development.' },
+      { title: 'Mapping layer', text: 'Request/response DTOs and mapper extension methods keep the database models out of the API contract.' },
+      { title: 'Data', text: 'Entity Framework Core code-first models and migrations on SQL Server.' },
     ],
-    choices: ['A clear REST contract let the frontend and backend evolve in parallel during the modernization.'],
+    choices: [
+      'DTOs + mappers: each module exposes a stable API shape even when its entity changes.',
+      'EF Core code-first migrations let each intern evolve their own tables in the same database.',
+      'Swagger made it possible to test endpoints before the React screens existed.',
+    ],
     challenges: [
-      { title: 'Integration', text: 'Keeping frontend screens and backend endpoints aligned while both were being reworked.' },
-      { title: 'Team workflow', text: 'Working inside an existing codebase with reviews and sprint planning.' },
+      { title: 'Merging parallel work', text: 'Separate branches produced conflicting EF Core migrations; merging Articles with Service cases meant consolidating them into a consistent schema.' },
+      { title: 'A shared shell', text: 'The navigation bar and sidebar had to work for every module the team was building at the same time.' },
+      { title: 'New ecosystem', text: 'First real project in C# and .NET: dependency injection, EF Core and the ASP.NET Core request pipeline.' },
     ],
-    features: ['Modernized React interfaces', 'ASP.NET Core backend functionality', 'REST API integration'],
-    outcome: 'My first full-stack experience in a professional team, from frontend components to backend endpoints.',
+    features: [
+      'Service orders and order management',
+      'Service cases with categories, objects, elements, checklists and skills',
+      'Companies and master data',
+      'Installations',
+      'Invoicing',
+      'Articles / items with item and barcode types',
+      'Users with roles (admin, technician)',
+    ],
+    outcome:
+      'My first full-stack project in a professional team. Looking back, authentication was the weak spot of this prototype — passwords were not hashed and roles were trusted on the client — so I am hardening my fork with hashed passwords, JWT authentication and role-based authorization.',
   },
 ];

@@ -111,7 +111,7 @@ const ProjectDetail = () => {
                   View source on GitHub <ArrowUpRight size={14} />
                 </a>
               ) : (
-                <p className="h-11 flex items-center justify-center rounded-full border border-line text-ink-subtle">Source not publicly available</p>
+                <p className="h-11 flex items-center justify-center rounded-full border border-line text-ink-subtle">{project.repoNote ?? 'Source not publicly available'}</p>
               )}
               {project.demo && (
                 <a href={project.demo} target="_blank" rel="noopener noreferrer" className="mt-2 w-full h-11 inline-flex items-center justify-center gap-2 rounded-full border border-line-strong text-ink hover:border-accent hover:text-accent transition-colors">

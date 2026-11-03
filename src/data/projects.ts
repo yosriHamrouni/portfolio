@@ -193,7 +193,7 @@ export const projects: Project[] = [
   {
     slug: 'builderz',
     title: 'Builderz',
-    tagline: 'A Spring Boot backend for an AI-assisted automation platform.',
+    tagline: 'A construction company management platform — public website and back office — on a secured Spring Boot backend.',
     category: 'Java Backend Engineering',
     context: 'Selected project',
     role: 'Backend developer',
@@ -216,9 +216,9 @@ export const projects: Project[] = [
     ],
     screenshotNote: 'Screenshots of the Builderz web app — public website and back office.',
     problem:
-      'Teams lose time on repetitive operational tasks, and backends that automate them need solid authentication, clear API contracts and a reproducible delivery pipeline.',
+      'A construction company has to handle client project requests, site tasks and meetings, staff leave and salary-advance requests, bills, offers and insurance. Spread across separate tools, it is hard to see which projects are pending or approved, and where they are.',
     solution:
-      'A Spring Boot backend exposing documented REST APIs, secured with JWT and Keycloak, with AI-assisted automation mechanisms, packaged with Docker and built through GitHub Actions.',
+      'Builderz brings it into one platform. On the public website, clients browse services and submit project requests. In the back office, staff review requests on a map by status, plan tasks as a list or kanban board, schedule meetings, handle leave and advance requests, and manage bills with online payment, offers, insurance and stock. Everything runs on a Spring Boot REST backend secured with JWT and Keycloak.',
     contribution: [
       'Designed the Spring Boot backend architecture with REST APIs and JPA persistence.',
       'Implemented authentication and authorization with Spring Security, JWT and Keycloak.',
@@ -227,7 +227,8 @@ export const projects: Project[] = [
       'Containerized the application with Docker and set up CI/CD with GitHub Actions.',
     ],
     architecture: [
-      { title: 'API layer', text: 'Spring Boot REST controllers documented with OpenAPI.' },
+      { title: 'Clients', text: 'A public website for clients and a back office for staff, both consuming the same REST API.' },
+      { title: 'API layer', text: 'Spring Boot REST controllers per module — projects, tasks, meetings, HR, finance — documented with OpenAPI.' },
       { title: 'Security', text: 'Spring Security 6 with JWT tokens and Keycloak as identity provider.' },
       { title: 'Persistence', text: 'Spring Data JPA over PostgreSQL.' },
       { title: 'Delivery', text: 'Docker images built and checked by GitHub Actions pipelines.' },
@@ -239,10 +240,23 @@ export const projects: Project[] = [
     ],
     challenges: [
       { title: 'Security configuration', text: 'Combining Spring Security 6, JWT validation and Keycloak roles into one consistent authorization model.' },
+      { title: 'Many modules, one API', text: 'Projects, tasks, meetings, leave, advances, bills, offers and insurance each needed endpoints that follow the same conventions and permissions.' },
       { title: 'Pipeline', text: 'Keeping the containerized build and CI workflow in sync with the application configuration.' },
     ],
-    features: ['REST APIs with JPA persistence', 'JWT + Keycloak authentication', 'Swagger / OpenAPI documentation', 'AI-assisted automation', 'Docker packaging', 'GitHub Actions CI/CD'],
-    outcome: 'Evidence of my Java and Spring Boot backend work: security, API design, containerization and CI/CD.',
+    features: [
+      'Public website with client project requests',
+      'Request management — pending, approved and rejected projects on a map',
+      'Tasks as a list and a kanban board',
+      'Meetings calendar',
+      'Leave and salary-advance requests with approval and statistics',
+      'Bill management with online payment',
+      'Offers, insurance and stock management',
+      'JWT + Keycloak authentication',
+      'Swagger / OpenAPI documentation',
+      'AI-assisted automation',
+      'Docker packaging and GitHub Actions CI/CD',
+    ],
+    outcome: 'A working platform that covers a construction company’s client requests, planning, HR and finance in one place — and evidence of my Java and Spring Boot backend work: security, API design, containerization and CI/CD.',
   },
   {
     slug: 'gleam-inspired-platform',

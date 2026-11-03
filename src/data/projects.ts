@@ -1,6 +1,8 @@
 // Case studies. Every statement here must be traceable to the master brief, the CV
 // or the project's public README — no invented metrics, links or screenshots.
 
+import { warda } from './warda';
+
 // Fields every project card and page needs.
 type BaseProject = {
   slug: string;
@@ -43,26 +45,38 @@ export type EngineeringProject = BaseProject & {
   outcome: string;
 };
 
-// UX/UI case study: rendered by `UxCaseStudy` (cover, overview, problem, users, process, my work).
+// UX/UI case study: rendered by `UxCaseStudy` as a Discover → Define → Ideate → Design story.
+type Shot = { src: string; caption: string };
 export type UxProject = BaseProject & {
   kind: 'ux';
   /** Optional dedicated cover image; otherwise the first screens are shown as phone mockups. */
   cover?: string;
   tools: { name: string; use: string }[];
   overview: string;
+  /** Who did what — research is credited to the team. */
+  roleSplit: { who: 'team' | 'me'; text: string }[];
+  stages: string[];
   problemIntro: string;
   problemPoints: string[];
-  personas: { name: string; role: string; need: string }[];
-  /** Research done as a team — credited on the page. */
-  process: {
-    credit: string;
-    steps: { title: string; text: string; tags?: string[] }[];
-    images: { src: string; caption: string; wide?: boolean }[];
+  research: {
+    methods: { title: string; detail: string; samples: string[] }[];
+    segments: { name: string; items: string[] }[];
+    competitors: { names: string[]; criteria: string[]; images: Shot[] };
   };
-  work: {
-    intro: string;
-    flows: { title: string; steps: string[]; screens?: { src: string; caption: string }[] }[];
+  personas: { name: string; role: string; profile: string; quote?: string; need: string }[];
+  storyboards: { intro: string; stories: { persona: string; story: string }[]; image: Shot };
+  journey: { persona: string; stages: { name: string; action: string; pain: string; opportunity: string }[] };
+  ideation: {
+    ideaCount: number;
+    groupedCount: number;
+    steps: { title: string; text: string }[];
+    clusters: { name: string; count: number; examples: string[] }[];
+    image: Shot;
   };
+  /** Research insight → team idea → my design decision → the screen that shows it. */
+  decisions: { theme: string; insight: string; idea: string; decision: string; screen: Shot }[];
+  userFlows: { title: string; nodes: { label: string; kind: 'step' | 'decision' | 'end'; alt?: string }[] }[];
+  work: { intro: string; flows: { title: string; steps: string[]; screens?: Shot[] }[] };
 };
 
 export type Project = EngineeringProject | UxProject;
@@ -311,104 +325,5 @@ export const projects: Project[] = [
     outcome:
       'My first full-stack project in a professional team. Looking back, authentication was the weak spot of this prototype — passwords were not hashed and roles were trusted on the client — so I am hardening my fork with hashed passwords, JWT authentication and role-based authorization.',
   },
-  {
-    kind: 'ux',
-    slug: 'warda',
-    title: 'Warda',
-    tagline: 'A mobile app for ordering and sending flowers across Tunisia.',
-    category: 'UX/UI Design',
-    context: 'UX/UI bootcamp project — Space Academy',
-    period: '2023',
-    role: 'UX/UI designer — all user flows and screens',
-    stack: ['Figma', 'FigJam'],
-    tools: [
-      { name: 'Figma', use: 'Wireframes and high-fidelity screens' },
-      { name: 'FigJam', use: 'Research and user flows' },
-    ],
-    screenshots: [
-      { src: '/project-imgs/warda/screen-product.webp', caption: 'Product details with add-to-cart' },
-      { src: '/project-imgs/warda/screen-catalogue.webp', caption: 'Catalogue — browse by type, occasion and colour' },
-    ],
-    overview:
-      'Warda is an app for ordering flowers online. Users browse arrangements, customize bouquets, schedule delivery and send flowers for occasions.',
-    problemIntro: 'Users in Tunisia who want flowers delivered face gaps:',
-    problemPoints: [
-      'Few florists offer personalized bouquets or bulk orders.',
-      'Delivery times are hard to schedule.',
-      'Sending flowers from abroad with local payment is difficult.',
-      'Allergies and freshness are rarely considered.',
-    ],
-    personas: [
-      { name: 'Rym', role: 'Event coordinator', need: 'Orders bouquets for client meetings and worries about freshness and presentation.' },
-      { name: 'Sami', role: 'Events planner', need: 'Needs large, customized orders on tight deadlines.' },
-      { name: 'Leila', role: 'Yoga instructor', need: 'Needs meditation flowers and must consider client allergies.' },
-      { name: 'Karim', role: 'Tunisian living abroad', need: 'Sends flowers home for Eid, with currency and payment problems.' },
-      { name: 'Mahmoud', role: 'Busy professional', need: 'Forgets occasions and needs reliable same-day delivery.' },
-    ],
-    process: {
-      credit: 'Research was a team effort: the personas, storyboards, “How might we” questions and affinity map were produced together by the bootcamp team.',
-      steps: [
-        {
-          title: 'Storyboards',
-          text: 'We used storyboards to follow a persona’s situation step by step and see where ordering flowers breaks down — for example Karim trying to send flowers home for Eid and getting stuck at payment.',
-        },
-        {
-          title: '“How might we” questions',
-          text: 'Pain points from the storyboards became “How might we” questions, collected by the team as sticky notes.',
-        },
-        {
-          title: 'Affinity map',
-          text: 'We grouped the questions into themes that shaped the features of the app.',
-          tags: ['Notifications', 'Payment', 'Customization', 'Delivery timing', 'Allergies'],
-        },
-      ],
-      images: [
-        { src: '/project-imgs/warda/storyboard-karim.webp', caption: 'Storyboard for Karim with the team’s “How might we” notes (FigJam)' },
-        { src: '/project-imgs/warda/affinity-map.webp', caption: 'Affinity map grouping the “How might we” questions by theme (FigJam)', wide: true },
-      ],
-    },
-    work: {
-      intro: 'I designed all the user flows and screens, from wireframes to high-fidelity designs in Figma.',
-      flows: [
-        {
-          title: 'Checkout',
-          steps: ['Cart', 'Shipping & billing', 'Delivery time', 'Payment — cash on delivery or online with OTP', 'Confirmation'],
-          screens: [
-            { src: '/project-imgs/warda/screen-cart.webp', caption: 'Cart with card message and order summary' },
-            { src: '/project-imgs/warda/screen-checkout.webp', caption: 'Checkout — payment, delivery address and time' },
-          ],
-        },
-        {
-          title: 'Catalogue & search',
-          steps: ['Browse by occasion', 'Filter by product type and colour', 'Search results'],
-          screens: [
-            { src: '/project-imgs/warda/screen-home.webp', caption: 'Home — gifts by occasion and categories' },
-            { src: '/project-imgs/warda/screen-popular.webp', caption: 'Results with category, occasion and colour filters' },
-            { src: '/project-imgs/warda/screen-search.webp', caption: 'Search by product type and flower colour' },
-          ],
-        },
-        {
-          title: 'Product',
-          steps: ['Product details', 'Add to cart'],
-          screens: [{ src: '/project-imgs/warda/screen-product.webp', caption: 'Product details and add-to-cart' }],
-        },
-        {
-          title: 'Recipient details',
-          steps: ['Address on a map or entered manually', 'Delivery time selection'],
-          screens: [
-            { src: '/project-imgs/warda/screen-recipient.webp', caption: 'Recipient address — map or manual entry' },
-            { src: '/project-imgs/warda/screen-delivery-time.webp', caption: 'Delivery date and time slot' },
-          ],
-        },
-        {
-          title: 'Account',
-          steps: ['Profile', 'Saved addresses', 'Orders', 'Favourites', 'Settings'],
-          screens: [
-            { src: '/project-imgs/warda/screen-profile.webp', caption: 'Profile — orders, addresses, occasions, favourites' },
-            { src: '/project-imgs/warda/screen-orders.webp', caption: 'My orders with order status' },
-          ],
-        },
-      ],
-    },
-  },
+  warda,
 ];

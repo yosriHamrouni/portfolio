@@ -4,13 +4,39 @@ import type { Project, UxProject } from '../data/projects';
 import { stagger } from '../lib/motion';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from './Icons';
 
-// Same numbered eyebrow as the engineering case studies.
-const Label = ({ index, children }: { index: string; children: ReactNode }) => (
-  <h2 className="meta text-accent flex items-center gap-3 mb-5">
-    <span className="w-6 h-px bg-accent" aria-hidden="true" />
-    <span aria-hidden="true" className="text-ink-subtle">{index}</span>
-    {children}
-  </h2>
+type Who = 'team' | 'me';
+
+// Credits who did a piece of work: team research vs. my design work.
+const WhoBadge = ({ who }: { who: Who }) => (
+  <span
+    className={`shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full meta ${
+      who === 'team' ? 'bg-tertiary/15 text-tertiary' : 'bg-accent/15 text-accent'
+    }`}
+  >
+    {who === 'team' ? 'Team research' : 'My work'}
+  </span>
+);
+
+const SubHeading = ({ children, who }: { children: ReactNode; who?: Who }) => (
+  <div className="reveal flex flex-wrap items-center gap-3 mb-5">
+    <h3 className="text-h3 font-semibold text-ink">{children}</h3>
+    {who && <WhoBadge who={who} />}
+  </div>
+);
+
+// One stage of the design process: Discover, Define, Ideate, Design.
+const Stage = ({ index, name, title, children }: { index: number; name: string; title: string; children: ReactNode }) => (
+  <section id={`stage-${name.toLowerCase()}`} className="scroll-mt-24 pt-16 lg:pt-24 border-t border-line">
+    <div className="reveal mb-10">
+      <p className="meta text-accent flex items-center gap-3">
+        <span className="w-6 h-px bg-accent" aria-hidden="true" />
+        <span className="text-ink-subtle" aria-hidden="true">{String(index).padStart(2, '0')}</span>
+        {name}
+      </p>
+      <h2 className="mt-3 text-h2 font-semibold text-ink">{title}</h2>
+    </div>
+    <div className="space-y-16">{children}</div>
+  </section>
 );
 
 // A real Figma screen inside a simple phone frame.
@@ -19,8 +45,28 @@ const Phone = ({ src, caption, className = '' }: { src: string; caption: string;
     <div className="rounded-[2rem] border-4 border-line-strong bg-muted overflow-hidden shadow-2xl shadow-black/30">
       <img src={src} alt={caption} width={428} height={926} loading="lazy" className="block w-full h-auto" />
     </div>
-    <figcaption className="mt-3 text-center text-xs text-ink-subtle">{caption}</figcaption>
+    {caption && <figcaption className="mt-3 text-center text-xs text-ink-subtle">{caption}</figcaption>}
   </figure>
+);
+
+const Figure = ({ src, caption, wide = false }: { src: string; caption: string; wide?: boolean }) => (
+  <figure className="reveal min-w-0">
+    <div className={`rounded-2xl border border-line overflow-hidden bg-white ${wide ? 'overflow-x-auto' : ''}`}>
+      <img src={src} alt={caption} loading="lazy" className={wide ? 'block max-w-none w-[1600px] lg:w-full h-auto' : 'block w-full h-auto'} />
+    </div>
+    <figcaption className="mt-3 flex flex-wrap justify-between gap-3 text-small text-ink-muted">
+      <span>{caption}</span>
+      <a href={src} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-accent font-semibold text-xs">
+        <span className="link-underline">Open full size</span> <ArrowUpRight size={12} />
+      </a>
+    </figcaption>
+  </figure>
+);
+
+const Chip = ({ children, strong = false }: { children: ReactNode; strong?: boolean }) => (
+  <li className={`px-3 py-1 rounded-full text-xs ${strong ? 'bg-accent/10 border border-accent/25 text-ink' : 'border border-line text-ink-muted'}`}>
+    {children}
+  </li>
 );
 
 export const UxCover = ({ project, compact = false }: { project: UxProject; compact?: boolean }) => {
@@ -43,12 +89,42 @@ export const UxCover = ({ project, compact = false }: { project: UxProject; comp
   );
 };
 
+// User flow drawn as connected nodes; decisions show their alternative branch.
+const FlowDiagram = ({ flow }: { flow: UxProject['userFlows'][number] }) => (
+  <div className="reveal card p-6">
+    <h4 className="font-semibold text-ink mb-5">{flow.title}</h4>
+    <ol className="flex flex-wrap gap-x-3 gap-y-5 items-start">
+      <li className="shrink-0 self-center px-3 py-1.5 rounded-full bg-muted border border-line meta text-ink-subtle">Start</li>
+      {flow.nodes.map((node) => (
+        <li key={node.label} className="shrink-0 flex items-start gap-3">
+          <ArrowRight size={14} className="mt-4 text-ink-subtle" />
+          <div className="w-36">
+            <div
+              className={`px-3 py-3 text-xs text-center leading-snug ${
+                node.kind === 'decision'
+                  ? 'rounded-xl border-2 border-dashed border-tertiary/60 bg-tertiary/5 text-ink'
+                  : node.kind === 'end'
+                    ? 'rounded-full bg-accent text-on-accent font-semibold'
+                    : 'rounded-lg border border-line bg-muted text-ink'
+              }`}
+            >
+              {node.label}
+            </div>
+            {node.alt && <p className="mt-2 text-[11px] leading-snug text-ink-subtle">↳ {node.alt}</p>}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+);
+
 const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) => {
   const facts = [
     { label: 'Role', value: project.role },
     { label: 'Context', value: project.context },
     project.period && { label: 'Year', value: project.period },
   ].filter(Boolean) as { label: string; value: string }[];
+  const { research, storyboards, journey, ideation } = project;
 
   return (
     <article className="pt-28 lg:pt-32 pb-16">
@@ -57,7 +133,7 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
           <ArrowLeft size={14} /> All projects
         </Link>
 
-        {/* 1 — Cover */}
+        {/* Cover */}
         <header className="grid lg:grid-cols-12 gap-10 mt-10 mb-12">
           <div className="lg:col-span-7 self-center">
             <span className="reveal inline-block px-3 py-1 rounded-full bg-accent/10 text-accent meta">{project.category}</span>
@@ -88,119 +164,255 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
           </div>
         </header>
 
-        {/* 2 — Overview */}
-        <section className="reveal card p-6 lg:p-10 mb-20">
-          <Label index="01">Overview</Label>
+        {/* Overview, who did what, and the process at a glance */}
+        <section className="reveal card p-6 lg:p-10 mb-4">
           <p className="text-lead text-ink max-w-3xl">{project.overview}</p>
-        </section>
-
-        {/* 3 — Problem */}
-        <section className="mb-20">
-          <div className="reveal">
-            <Label index="02">The problem</Label>
-            <p className="text-lead text-ink mb-6">{project.problemIntro}</p>
-          </div>
-          <ul className="grid sm:grid-cols-2 gap-4">
-            {project.problemPoints.map((point, i) => (
-              <li key={point} className="reveal card p-5 flex items-start gap-4" style={stagger(i % 2)}>
-                <span className="font-mono text-2xl text-accent/50 leading-none">{String(i + 1).padStart(2, '0')}</span>
-                <span className="text-ink">{point}</span>
+          <ul className="mt-6 grid md:grid-cols-2 gap-3">
+            {project.roleSplit.map((r) => (
+              <li key={r.who} className="flex items-start gap-3 rounded-xl border border-line p-4 text-small text-ink-muted">
+                <WhoBadge who={r.who} />
+                {r.text}
               </li>
             ))}
           </ul>
         </section>
-
-        {/* 4 — Users */}
-        <section className="mb-20">
-          <div className="reveal flex flex-wrap items-end justify-between gap-4 mb-6">
-            <Label index="03">Users</Label>
-            <p className="meta text-ink-subtle normal-case tracking-normal mb-5">Personas from team research</p>
-          </div>
-          <ul className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {project.personas.map((persona, i) => (
-              <li key={persona.name} className="reveal card card-hover p-5" style={stagger(i)}>
-                <span className="w-11 h-11 rounded-full bg-accent/10 border border-accent/30 text-accent font-display font-semibold text-lg flex items-center justify-center" aria-hidden="true">
-                  {persona.name[0]}
-                </span>
-                <h3 className="mt-4 text-h3 font-semibold text-ink">{persona.name}</h3>
-                <p className="meta text-accent normal-case tracking-normal">{persona.role}</p>
-                <p className="mt-3 text-small text-ink-muted">{persona.need}</p>
+        <nav aria-label="Design process" className="reveal mb-4">
+          <ol className="flex flex-wrap items-center gap-2">
+            {project.stages.map((stage, i) => (
+              <li key={stage} className="flex items-center gap-2">
+                <a href={`#stage-${stage.toLowerCase()}`} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-line text-small text-ink hover:border-accent hover:text-accent transition-colors">
+                  <span className="font-mono text-[11px] text-accent">{String(i + 1).padStart(2, '0')}</span>
+                  {stage}
+                </a>
+                {i < project.stages.length - 1 && <ArrowRight size={14} className="text-ink-subtle" />}
               </li>
             ))}
-          </ul>
-        </section>
+          </ol>
+        </nav>
 
-        {/* 5 — Process (team research) */}
-        <section className="mb-20">
-          <div className="reveal">
-            <Label index="04">Process — research & design</Label>
-            <p className="inline-flex items-start gap-3 rounded-xl border border-tertiary/30 bg-tertiary/5 px-4 py-3 text-small text-ink max-w-3xl">
-              <span className="shrink-0 px-2 py-0.5 rounded-full bg-tertiary/15 text-tertiary meta">Team</span>
-              {project.process.credit}
-            </p>
+        {/* 01 — Discover */}
+        <Stage index={1} name="Discover" title="Understanding the problem">
+          <div>
+            <SubHeading who="team">The problem</SubHeading>
+            <p className="reveal text-lead text-ink mb-6">{project.problemIntro}</p>
+            <ul className="grid sm:grid-cols-2 gap-4">
+              {project.problemPoints.map((point, i) => (
+                <li key={point} className="reveal card p-5 flex items-start gap-4" style={stagger(i % 2)}>
+                  <span className="font-mono text-2xl text-accent/50 leading-none">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="text-ink">{point}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="mt-6 grid md:grid-cols-3 gap-4">
-            {project.process.steps.map((step, i) => (
-              <div key={step.title} className="reveal card p-6" style={stagger(i)}>
-                <span className="font-mono text-3xl text-accent/40 block mb-3">{String(i + 1).padStart(2, '0')}</span>
-                <h3 className="text-h3 font-semibold text-ink mb-2">{step.title}</h3>
-                <p className="text-small text-ink-muted">{step.text}</p>
-                {step.tags && (
-                  <ul className="mt-4 flex flex-wrap gap-2">
-                    {step.tags.map((tag) => (
-                      <li key={tag} className="px-3 py-1 rounded-full bg-accent/10 border border-accent/25 text-xs text-ink">{tag}</li>
+
+          <div>
+            <SubHeading who="team">Research plan</SubHeading>
+            <div className="grid md:grid-cols-2 gap-4">
+              {research.methods.map((m, i) => (
+                <div key={m.title} className="reveal card p-6" style={stagger(i)}>
+                  <p className="font-semibold text-ink">{m.title}</p>
+                  <p className="meta text-ink-subtle normal-case tracking-normal mt-1">{m.detail}</p>
+                  <ul className="mt-4 space-y-2">
+                    {m.samples.map((q) => (
+                      <li key={q} className="text-small text-ink-muted pl-4 border-l-2 border-accent/40">“{q}”</li>
                     ))}
                   </ul>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="mt-6 grid grid-cols-1 gap-6">
-            {project.process.images.map((image) => (
-              <figure key={image.src} className="reveal min-w-0">
-                <div className={`rounded-2xl border border-line overflow-hidden bg-white ${image.wide ? 'overflow-x-auto' : ''}`}>
-                  <img
-                    src={image.src}
-                    alt={image.caption}
-                    loading="lazy"
-                    className={image.wide ? 'block max-w-none w-[1600px] lg:w-full h-auto' : 'block w-full h-auto'}
-                  />
                 </div>
-                <figcaption className="mt-3 flex flex-wrap justify-between gap-3 text-small text-ink-muted">
-                  <span>{image.caption}</span>
-                  <a href={image.src} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-accent font-semibold text-xs">
-                    <span className="link-underline">Open full size</span> <ArrowUpRight size={12} />
-                  </a>
-                </figcaption>
-              </figure>
-            ))}
+              ))}
+            </div>
           </div>
-        </section>
 
-        {/* 6 — My work */}
-        <section className="mb-16">
-          <div className="reveal">
-            <Label index="05">My work — user flows & screens</Label>
-            <p className="text-lead text-ink max-w-3xl">{project.work.intro}</p>
+          <div>
+            <SubHeading who="team">Who might use it</SubHeading>
+            <div className="grid md:grid-cols-2 gap-4">
+              {research.segments.map((seg, i) => (
+                <div key={seg.name} className="reveal card p-6" style={stagger(i)}>
+                  <p className="font-semibold text-ink mb-4">{seg.name}</p>
+                  <ul className="flex flex-wrap gap-2">
+                    {seg.items.map((it) => <Chip key={it}>{it}</Chip>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="mt-8 grid grid-cols-1 gap-4">
-            {project.work.flows.map((flow, i) => (
-              <article key={flow.title} className="reveal card p-6 lg:p-8" style={stagger(i % 2)}>
-                <div>
-                  <div>
-                    <h3 className="text-h3 font-semibold text-ink">{flow.title}</h3>
-                    <ol className="mt-5 flex flex-wrap items-center gap-2">
-                      {flow.steps.map((step, s) => (
-                        <li key={step} className="flex items-center gap-2">
-                          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-line bg-muted text-small text-ink">
-                            <span className="font-mono text-[11px] text-accent">{s + 1}</span>
-                            {step}
-                          </span>
-                          {s < flow.steps.length - 1 && <ArrowRight size={14} className="text-ink-subtle" />}
-                        </li>
+
+          <div>
+            <SubHeading who="team">Competitor analysis</SubHeading>
+            <div className="reveal flex flex-wrap gap-x-8 gap-y-3 mb-6 text-small">
+              <div>
+                <p className="meta text-ink-subtle mb-2">Compared</p>
+                <ul className="flex flex-wrap gap-2">{research.competitors.names.map((n) => <Chip key={n} strong>{n}</Chip>)}</ul>
+              </div>
+              <div>
+                <p className="meta text-ink-subtle mb-2">Criteria</p>
+                <ul className="flex flex-wrap gap-2">{research.competitors.criteria.map((c) => <Chip key={c}>{c}</Chip>)}</ul>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              {research.competitors.images.map((im) => <Figure key={im.src} {...im} />)}
+            </div>
+          </div>
+        </Stage>
+
+        {/* 02 — Define */}
+        <Stage index={2} name="Define" title="Who we design for">
+          <div>
+            <SubHeading who="team">Personas</SubHeading>
+            <ul className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              {project.personas.map((p, i) => (
+                <li key={p.name} className="reveal card card-hover p-5 flex flex-col" style={stagger(i)}>
+                  <span className="w-11 h-11 rounded-full bg-accent/10 border border-accent/30 text-accent font-display font-semibold text-lg flex items-center justify-center" aria-hidden="true">
+                    {p.name[0]}
+                  </span>
+                  <h4 className="mt-4 font-display text-lg font-semibold text-ink">{p.name}</h4>
+                  <p className="meta text-accent normal-case tracking-normal">{p.role}</p>
+                  <p className="mt-1 text-xs text-ink-subtle">{p.profile}</p>
+                  {p.quote && <p className="mt-3 text-small italic text-ink">“{p.quote}”</p>}
+                  <p className="mt-3 text-small text-ink-muted">{p.need}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <SubHeading who="team">Storyboards</SubHeading>
+            <p className="reveal text-ink-muted max-w-3xl mb-6">{storyboards.intro}</p>
+            <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+              {storyboards.stories.map((s, i) => (
+                <li key={s.persona} className="reveal card p-5" style={stagger(i % 3)}>
+                  <p className="meta text-accent normal-case tracking-normal">{s.persona}</p>
+                  <p className="mt-2 text-small text-ink-muted">{s.story}</p>
+                </li>
+              ))}
+            </ul>
+            <Figure {...storyboards.image} />
+          </div>
+
+          <div>
+            <SubHeading who="team">Journey map — {journey.persona}</SubHeading>
+            <div className="reveal card overflow-x-auto">
+              <table className="w-full min-w-[960px] text-small border-collapse">
+                <thead>
+                  <tr>
+                    <th scope="col" className="sr-only">Row</th>
+                    {journey.stages.map((s, i) => (
+                      <th key={s.name} scope="col" className="text-left align-bottom px-3 py-3 border-b border-line">
+                        <span className="font-mono text-[11px] text-accent">{String(i + 1).padStart(2, '0')}</span>
+                        <span className="block font-semibold text-ink">{s.name}</span>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {([
+                    ['Action', 'action', 'text-ink'],
+                    ['Pain point', 'pain', 'text-ink-muted'],
+                    ['Opportunity', 'opportunity', 'text-ink-muted'],
+                  ] as const).map(([label, key, tone]) => (
+                    <tr key={key} className="align-top">
+                      <th scope="row" className="sr-only">{label}</th>
+                      {journey.stages.map((s) => (
+                        <td key={s.name} className={`px-3 py-3 border-b border-line last:border-r-0 ${tone}`}>
+                          <span className={`block meta mb-1 ${key === 'pain' ? 'text-ink-subtle' : key === 'opportunity' ? 'text-accent' : 'text-ink-subtle'}`}>{label}</span>
+                          {s[key]}
+                        </td>
                       ))}
-                    </ol>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </Stage>
+
+        {/* 03 — Ideate */}
+        <Stage index={3} name="Ideate" title="From ideas to features">
+          <div>
+            <SubHeading who="team">Brainstorm, prioritize, cluster</SubHeading>
+            <ol className="grid md:grid-cols-3 gap-4 mb-6">
+              {ideation.steps.map((step, i) => (
+                <li key={step.title} className="reveal card p-6" style={stagger(i)}>
+                  <span className="font-display text-4xl font-bold text-accent">
+                    {i === 0 ? ideation.ideaCount : i === 1 ? '2×2' : ideation.groupedCount}
+                  </span>
+                  <p className="mt-2 font-semibold text-ink">{step.title}</p>
+                  <p className="mt-2 text-small text-ink-muted">{step.text}</p>
+                </li>
+              ))}
+            </ol>
+            <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+              {ideation.clusters.map((c, i) => (
+                <li key={c.name} className="reveal rounded-xl border border-line p-4" style={stagger(i % 4)}>
+                  <p className="flex items-baseline justify-between gap-2">
+                    <span className="font-semibold text-ink">{c.name}</span>
+                    <span className="font-mono text-xs text-accent">{c.count} ideas</span>
+                  </p>
+                  <p className="mt-2 text-xs text-ink-muted">{c.examples.join(' · ')}</p>
+                </li>
+              ))}
+            </ul>
+            <Figure {...ideation.image} wide />
+          </div>
+
+          <div>
+            <SubHeading who="me">From insight to interface</SubHeading>
+            <p className="reveal text-ink-muted max-w-3xl mb-6">
+              How each research finding became a design decision on a real screen.
+            </p>
+            <ol className="grid grid-cols-1 gap-4">
+              {project.decisions.map((d, i) => (
+                <li key={d.theme} className="reveal card p-6 grid md:grid-cols-12 gap-6 items-center" style={stagger(i % 2)}>
+                  <div className="md:col-span-9">
+                    <p className="flex items-center gap-3">
+                      <span className="font-mono text-xs text-accent">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="font-semibold text-ink">{d.theme}</span>
+                    </p>
+                    <dl className="mt-4 grid sm:grid-cols-3 gap-3 text-small">
+                      {([['Insight', d.insight, 'team'], ['Team idea', d.idea, 'team'], ['My design decision', d.decision, 'me']] as const).map(([label, text, who], j) => (
+                        <div key={label} className={`relative rounded-xl p-4 ${who === 'me' ? 'bg-accent/10 border border-accent/30' : 'border border-line'}`}>
+                          <dt className={`meta mb-1 ${who === 'me' ? 'text-accent' : 'text-ink-subtle'}`}>{label}</dt>
+                          <dd className={who === 'me' ? 'text-ink' : 'text-ink-muted'}>{text}</dd>
+                          {j < 2 && <ArrowRight size={14} className="hidden sm:block absolute -right-3 top-1/2 -translate-y-1/2 text-ink-subtle" />}
+                        </div>
+                      ))}
+                    </dl>
                   </div>
+                  <div className="md:col-span-3 flex justify-center">
+                    <Phone src={d.screen.src} caption={d.screen.caption} className="w-28 lg:w-32" />
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <div>
+            <SubHeading who="me">User flows</SubHeading>
+            <div className="grid grid-cols-1 gap-4">
+              {project.userFlows.map((flow) => <FlowDiagram key={flow.title} flow={flow} />)}
+            </div>
+          </div>
+        </Stage>
+
+        {/* 04 — Design */}
+        <Stage index={4} name="Design" title="High-fidelity screens">
+          <div>
+            <SubHeading who="me">Flows and screens</SubHeading>
+            <p className="reveal text-lead text-ink max-w-3xl mb-8">{project.work.intro}</p>
+            <div className="grid grid-cols-1 gap-4">
+              {project.work.flows.map((flow, i) => (
+                <article key={flow.title} className="reveal card p-6 lg:p-8" style={stagger(i % 2)}>
+                  <h4 className="text-h3 font-semibold text-ink">{flow.title}</h4>
+                  <ol className="mt-5 flex flex-wrap items-center gap-2">
+                    {flow.steps.map((step, s) => (
+                      <li key={step} className="flex items-center gap-2">
+                        <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-line bg-muted text-small text-ink">
+                          <span className="font-mono text-[11px] text-accent">{s + 1}</span>
+                          {step}
+                        </span>
+                        {s < flow.steps.length - 1 && <ArrowRight size={14} className="text-ink-subtle" />}
+                      </li>
+                    ))}
+                  </ol>
                   {flow.screens?.length ? (
                     // Screens follow the flow left to right; scrolls sideways on small screens.
                     <div className="mt-8 -mx-6 px-6 lg:mx-0 lg:px-0 flex gap-6 overflow-x-auto pb-2">
@@ -209,13 +421,13 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
                       ))}
                     </div>
                   ) : null}
-                </div>
-              </article>
-            ))}
+                </article>
+              ))}
+            </div>
           </div>
-        </section>
+        </Stage>
 
-        <Link to={`/project/${next.slug}`} className="group block card card-hover p-6 lg:p-10">
+        <Link to={`/project/${next.slug}`} className="group mt-16 block card card-hover p-6 lg:p-10">
           <span className="meta text-ink-subtle">Next project</span>
           <span className="mt-2 flex items-center justify-between gap-6">
             <span className="text-h2 font-display font-semibold text-ink group-hover:text-accent transition-colors">{next.title}</span>

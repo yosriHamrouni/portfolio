@@ -373,11 +373,19 @@ export const projects: Project[] = [
         {
           title: 'Checkout',
           steps: ['Cart', 'Shipping & billing', 'Delivery time', 'Payment — cash on delivery or online with OTP', 'Confirmation'],
+          screens: [
+            { src: '/project-imgs/warda/screen-cart.webp', caption: 'Cart with card message and order summary' },
+            { src: '/project-imgs/warda/screen-checkout.webp', caption: 'Checkout — payment, delivery address and time' },
+          ],
         },
         {
           title: 'Catalogue & search',
           steps: ['Browse by occasion', 'Filter by product type and colour', 'Search results'],
-          screens: [{ src: '/project-imgs/warda/screen-catalogue.webp', caption: 'Catalogue — browse by type and colour' }],
+          screens: [
+            { src: '/project-imgs/warda/screen-home.webp', caption: 'Home — gifts by occasion and categories' },
+            { src: '/project-imgs/warda/screen-popular.webp', caption: 'Results with category, occasion and colour filters' },
+            { src: '/project-imgs/warda/screen-search.webp', caption: 'Search by product type and flower colour' },
+          ],
         },
         {
           title: 'Product',
@@ -387,10 +395,18 @@ export const projects: Project[] = [
         {
           title: 'Recipient details',
           steps: ['Address on a map or entered manually', 'Delivery time selection'],
+          screens: [
+            { src: '/project-imgs/warda/screen-recipient.webp', caption: 'Recipient address — map or manual entry' },
+            { src: '/project-imgs/warda/screen-delivery-time.webp', caption: 'Delivery date and time slot' },
+          ],
         },
         {
           title: 'Account',
           steps: ['Profile', 'Saved addresses', 'Orders', 'Favourites', 'Settings'],
+          screens: [
+            { src: '/project-imgs/warda/screen-profile.webp', caption: 'Profile — orders, addresses, occasions, favourites' },
+            { src: '/project-imgs/warda/screen-orders.webp', caption: 'My orders with order status' },
+          ],
         },
       ],
     },

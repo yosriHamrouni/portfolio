@@ -186,8 +186,8 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
           <div className="mt-8 grid grid-cols-1 gap-4">
             {project.work.flows.map((flow, i) => (
               <article key={flow.title} className="reveal card p-6 lg:p-8" style={stagger(i % 2)}>
-                <div className={`grid gap-8 ${flow.screens?.length ? 'lg:grid-cols-12 items-center' : ''}`}>
-                  <div className={flow.screens?.length ? 'lg:col-span-8' : ''}>
+                <div>
+                  <div>
                     <h3 className="text-h3 font-semibold text-ink">{flow.title}</h3>
                     <ol className="mt-5 flex flex-wrap items-center gap-2">
                       {flow.steps.map((step, s) => (
@@ -202,9 +202,10 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
                     </ol>
                   </div>
                   {flow.screens?.length ? (
-                    <div className="lg:col-span-4 flex justify-center gap-4">
+                    // Screens follow the flow left to right; scrolls sideways on small screens.
+                    <div className="mt-8 -mx-6 px-6 lg:mx-0 lg:px-0 flex gap-6 overflow-x-auto pb-2">
                       {flow.screens.map((screen) => (
-                        <Phone key={screen.src} src={screen.src} caption={screen.caption} className="w-44" />
+                        <Phone key={screen.src} src={screen.src} caption={screen.caption} className="w-44 sm:w-52 shrink-0" />
                       ))}
                     </div>
                   ) : null}

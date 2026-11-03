@@ -13,7 +13,7 @@ export const education = [
     school: 'CESI École d’Ingénieurs',
     degree: 'International academic mobility (ESPRIT exchange program)',
     location: 'Caen, France',
-    text: 'Studied in a French engineering school and worked in multicultural project teams — a useful test of adaptability and communication across backgrounds.',
+    text: 'Studied in a French engineering school and worked in multicultural project teams — a useful test of adaptability and communication across backgrounds. Research project: machine learning to predict pathogenic genetic variants from ClinVar.',
   },
 ];
 

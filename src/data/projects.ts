@@ -355,5 +355,58 @@ export const projects: Project[] = [
     outcome:
       'My first full-stack project in a professional team. Looking back, authentication was the weak spot of this prototype — passwords were not hashed and roles were trusted on the client — so I am hardening my fork with hashed passwords, JWT authentication and role-based authorization.',
   },
+  {
+    slug: 'ai-genetic-variants',
+    title: 'AI for Pathogenic Genetic Variants',
+    tagline: 'Machine learning on 64,000 ClinVar variants to flag mutations that may cause disease.',
+    category: 'Applied AI · Machine Learning',
+    context: 'Research project (ADS) — CESI École d’Ingénieurs, Caen · team of two',
+    period: 'Spring 2025',
+    role: 'Co-author with Zakaria Rabih',
+    stack: ['Python', 'pandas', 'NumPy', 'scikit-learn', 'Random Forest', 'ExtraTrees', 'Logistic Regression', 'cyvcf2', 'Matplotlib', 'Jupyter', 'ClinVar'],
+    screenshots: [
+      { src: '/project-imgs/ads-genetique/01-poster.webp', caption: 'Research poster presented at CESI' },
+      { src: '/project-imgs/ads-genetique/02-roc-curves.webp', caption: 'ROC curves — Random Forest (AUC 0.74) vs logistic regression (AUC 0.58)' },
+      { src: '/project-imgs/ads-genetique/03-confusion-logistic.webp', caption: 'Logistic regression collapses onto one class — the class-imbalance problem' },
+    ],
+    screenshotNote: 'Charts generated in the project notebooks; poster from the final presentation.',
+    problem:
+      'Deciding whether a genetic mutation is benign or pathogenic is central to precision medicine, but it is still largely manual: geneticists compare each variant against databases such as ClinVar. It is slow, costly and hard to scale to the volume of modern sequencing data.',
+    solution:
+      'We built and compared supervised models that classify ClinVar variants as benign or pathogenic, then documented what limits them and how to improve them, in a research report and a scientific poster.',
+    contribution: [
+      'Converted the ClinVar VCF file into a 64,533-row dataset with cyvcf2 (chromosome, position, ref/alt alleles, clinical significance, gene).',
+      'Cleaned the clinical labels into benign and pathogenic, dropped uncertain variants, and derived variant type and length-difference features.',
+      'Trained and compared Random Forest, logistic regression and ExtraTrees with scikit-learn on an 80/20 train/test split.',
+      'Evaluated with precision, recall, F1, confusion matrices and ROC curves, and identified class imbalance as the main limitation.',
+      'Wrote the research report and presented the results on a scientific poster.',
+    ],
+    architecture: [
+      { title: 'Data extraction', text: 'ClinVar VCF parsed with cyvcf2 into a CSV of 64,533 variants.' },
+      { title: 'Label cleaning', text: 'Clinical significance simplified to benign or pathogenic (likely-* included); uncertain variants removed, leaving about 30,000 labelled variants, roughly 80% benign.' },
+      { title: 'Features', text: 'Genomic position and the length difference between reference and alternate alleles; variant type (SNP, insertion, deletion) derived for analysis.' },
+      { title: 'Models & evaluation', text: 'Random Forest, logistic regression and class-balanced ExtraTrees, compared on 6,013 test variants with precision, recall, F1, confusion matrices and ROC/AUC.' },
+    ],
+    choices: [
+      'Tree ensembles first: they handle unscaled, heterogeneous features and give a strong baseline quickly.',
+      'Recall on the pathogenic class matters more than accuracy: missing a harmful variant is worse than a false alarm.',
+      'Class weighting (ExtraTrees, class_weight = balanced) as the first answer to the 80/20 imbalance, before resampling such as SMOTE.',
+    ],
+    challenges: [
+      { title: 'Class imbalance', text: 'Benign variants outnumber pathogenic ones about 4 to 1, so accuracy alone is misleading — logistic regression put every variant in a single class.' },
+      { title: 'Thin features', text: 'Position and allele length say little about biology; conservation scores and functional annotations would be needed for clinical-grade predictions.' },
+      { title: 'Noisy labels', text: 'ClinVar mixes conflicting and incomplete annotations, which had to be simplified before training.' },
+    ],
+    features: [
+      'ClinVar VCF → CSV extraction pipeline',
+      'Label cleaning and feature engineering',
+      'Random Forest: 0.79 accuracy, AUC 0.74 — benign F1 0.87, pathogenic F1 0.45',
+      'Class-balanced ExtraTrees: pathogenic recall raised from 0.44 to 0.67',
+      'Model comparison with confusion matrices and ROC curves',
+      'Research report and scientific poster',
+    ],
+    outcome:
+      'Random Forest was the best overall model (accuracy 0.79, AUC 0.74) but detected under half of pathogenic variants; class-balanced ExtraTrees caught two thirds of them at the cost of overall accuracy. The next steps we identified are richer biological features (conservation scores, CADD, SIFT, PolyPhen), resampling such as SMOTE, cross-validation, and sequence models such as CNNs.',
+  },
   warda,
 ];

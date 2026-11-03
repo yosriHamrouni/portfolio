@@ -30,7 +30,7 @@ const Gallery = ({ project }: { project: Project }) => {
     <div className="reveal">
       <figure>
         <div className="aspect-[16/9] rounded-2xl border border-line overflow-hidden bg-muted">
-          <img src={shot.src} alt={`${project.title} — ${shot.caption}`} width={1600} height={900} className="w-full h-full object-cover object-top" />
+          <img src={shot.src} alt={`${project.title} — ${shot.caption}`} width={1600} height={900} className="w-full h-full object-contain" />
         </div>
         <figcaption className="mt-3 flex justify-between gap-4 text-small text-ink-muted">
           <span>{shot.caption}</span>

@@ -230,7 +230,17 @@ export const projects: Project[] = [
     role: 'Full-Stack Developer Intern',
     stack: ['C#', 'ASP.NET Core (.NET 8)', 'Entity Framework Core', 'SQL Server', 'Swagger / OpenAPI', 'React 18', 'Vite', 'axios', 'Bootstrap', 'MUI'],
     repoNote: 'Team repository — public link coming soon',
-    screenshots: [],
+    screenshots: [
+      { src: '/project-imgs/field-service/03-articles.webp', caption: 'Articles inventory (my module)' },
+      { src: '/project-imgs/field-service/04-article-form.webp', caption: 'New article form (my module)' },
+      { src: '/project-imgs/field-service/02-home.webp', caption: 'Dashboard — orders by service type and invoicing type' },
+      { src: '/project-imgs/field-service/05-orders.webp', caption: 'Service orders' },
+      { src: '/project-imgs/field-service/06-order-detail.webp', caption: 'Service order details' },
+      { src: '/project-imgs/field-service/07-case-detail.webp', caption: 'Service case details' },
+      { src: '/project-imgs/field-service/08-installations.webp', caption: 'Customer installations' },
+      { src: '/project-imgs/field-service/01-login.webp', caption: 'Sign-in' },
+    ],
+    screenshotNote: 'Captured from a local run of the original code with fictional sample data.',
     problem:
       'Field-service teams juggle service orders, service cases, customer installations, spare parts and invoicing. The internship goal was to rebuild a field-service management application on a modern stack, with each intern owning part of the domain.',
     solution:
@@ -266,6 +276,7 @@ export const projects: Project[] = [
       'Invoicing',
       'Articles / items with item and barcode types',
       'Users with roles (admin, technician)',
+      'Dashboard charts by service type and invoicing type',
     ],
     outcome:
       'My first full-stack project in a professional team. Looking back, authentication was the weak spot of this prototype — passwords were not hashed and roles were trusted on the client — so I am hardening my fork with hashed passwords, JWT authentication and role-based authorization.',

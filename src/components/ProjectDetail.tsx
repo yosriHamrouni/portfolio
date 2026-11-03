@@ -6,6 +6,7 @@ import { stagger } from '../lib/motion';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from './Icons';
 import DemoVideo from './DemoVideo';
 import { ProjectCover } from './Projects';
+import UxCaseStudy from './UxCaseStudy';
 
 const Label = ({ index, children }: { index: string; children: ReactNode }) => (
   <h2 className="meta text-accent flex items-center gap-3 mb-5">
@@ -79,6 +80,10 @@ const ProjectDetail = () => {
   }
 
   const next = projects[(index + 1) % projects.length];
+
+  // UX/UI case studies have their own section layout.
+  if (project.kind === 'ux') return <UxCaseStudy project={project} next={next} />;
+
   const facts = [
     { label: 'Role', value: project.role },
     { label: 'Context', value: project.context },

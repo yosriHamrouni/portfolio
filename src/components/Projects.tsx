@@ -4,10 +4,13 @@ import { profile } from '../data/profile';
 import { stagger } from '../lib/motion';
 import { ArrowUpRight } from './Icons';
 import Section from './Section';
+import { UxCover } from './UxCaseStudy';
 
 // Real screenshot when one exists; otherwise a plain gradient panel with the
 // project's category — clearly not pretending to be a screenshot.
 export const ProjectCover = ({ project }: { project: Project }) => {
+  // UX case studies: phone screens, not a cropped 16:9 screenshot.
+  if (project.kind === 'ux') return <UxCover project={project} compact />;
   const shot = project.screenshots[0];
   if (shot) {
     return (
@@ -35,12 +38,14 @@ export const ProjectCover = ({ project }: { project: Project }) => {
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
   // Bento rhythm: 7/5 then 5/7.
   const wide = index % 4 === 0 || index % 4 === 3;
+  // An unpaired last card fills the whole row.
+  const fullRow = index === projects.length - 1 && index % 2 === 0;
   return (
     <article
-      className={`reveal group relative card card-hover overflow-hidden flex flex-col ${wide ? 'md:col-span-7' : 'md:col-span-5'}`}
+      className={`reveal group relative card card-hover overflow-hidden flex flex-col ${fullRow ? 'md:col-span-12 md:flex-row' : wide ? 'md:col-span-7' : 'md:col-span-5'}`}
       style={stagger(index % 2)}
     >
-      <div className="relative aspect-[16/9] bg-muted overflow-hidden border-b border-line">
+      <div className={`relative aspect-[16/9] bg-muted overflow-hidden border-b border-line ${fullRow ? 'md:w-7/12 md:shrink-0 md:aspect-auto md:min-h-80 md:border-b-0 md:border-r' : ''}`}>
         <ProjectCover project={project} />
         {project.video && (
           <span className="absolute left-4 bottom-4 inline-flex items-center gap-2 h-8 pl-2 pr-3 rounded-full bg-paper/80 backdrop-blur-md border border-line text-small font-medium text-ink">

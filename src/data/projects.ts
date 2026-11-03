@@ -1,7 +1,8 @@
 // Case studies. Every statement here must be traceable to the master brief, the CV
 // or the project's public README — no invented metrics, links or screenshots.
 
-export type Project = {
+// Fields every project card and page needs.
+type BaseProject = {
   slug: string;
   title: string;
   /** One line under the title. */
@@ -26,6 +27,11 @@ export type Project = {
     chapters: { label: string; time: number }[];
     note: string;
   };
+};
+
+// Software case study: rendered by the 8-section engineering layout.
+export type EngineeringProject = BaseProject & {
+  kind?: 'engineering';
   problem: string;
   solution: string;
   contribution: string[];
@@ -36,6 +42,30 @@ export type Project = {
   features: string[];
   outcome: string;
 };
+
+// UX/UI case study: rendered by `UxCaseStudy` (cover, overview, problem, users, process, my work).
+export type UxProject = BaseProject & {
+  kind: 'ux';
+  /** Optional dedicated cover image; otherwise the first screens are shown as phone mockups. */
+  cover?: string;
+  tools: { name: string; use: string }[];
+  overview: string;
+  problemIntro: string;
+  problemPoints: string[];
+  personas: { name: string; role: string; need: string }[];
+  /** Research done as a team — credited on the page. */
+  process: {
+    credit: string;
+    steps: { title: string; text: string; tags?: string[] }[];
+    images: { src: string; caption: string; wide?: boolean }[];
+  };
+  work: {
+    intro: string;
+    flows: { title: string; steps: string[]; screens?: { src: string; caption: string }[] }[];
+  };
+};
+
+export type Project = EngineeringProject | UxProject;
 
 const frame = (n: string, caption: string) => ({ src: `/project-imgs/project_demo_${n}.webp`, caption });
 
@@ -280,5 +310,89 @@ export const projects: Project[] = [
     ],
     outcome:
       'My first full-stack project in a professional team. Looking back, authentication was the weak spot of this prototype — passwords were not hashed and roles were trusted on the client — so I am hardening my fork with hashed passwords, JWT authentication and role-based authorization.',
+  },
+  {
+    kind: 'ux',
+    slug: 'warda',
+    title: 'Warda',
+    tagline: 'A mobile app for ordering and sending flowers across Tunisia.',
+    category: 'UX/UI Design',
+    context: 'UX/UI bootcamp project — Space Academy',
+    period: '2023',
+    role: 'UX/UI designer — all user flows and screens',
+    stack: ['Figma', 'FigJam'],
+    tools: [
+      { name: 'Figma', use: 'Wireframes and high-fidelity screens' },
+      { name: 'FigJam', use: 'Research and user flows' },
+    ],
+    screenshots: [
+      { src: '/project-imgs/warda/screen-product.webp', caption: 'Product details with add-to-cart' },
+      { src: '/project-imgs/warda/screen-catalogue.webp', caption: 'Catalogue — browse by type, occasion and colour' },
+    ],
+    overview:
+      'Warda is an app for ordering flowers online. Users browse arrangements, customize bouquets, schedule delivery and send flowers for occasions.',
+    problemIntro: 'Users in Tunisia who want flowers delivered face gaps:',
+    problemPoints: [
+      'Few florists offer personalized bouquets or bulk orders.',
+      'Delivery times are hard to schedule.',
+      'Sending flowers from abroad with local payment is difficult.',
+      'Allergies and freshness are rarely considered.',
+    ],
+    personas: [
+      { name: 'Rym', role: 'Event coordinator', need: 'Orders bouquets for client meetings and worries about freshness and presentation.' },
+      { name: 'Sami', role: 'Events planner', need: 'Needs large, customized orders on tight deadlines.' },
+      { name: 'Leila', role: 'Yoga instructor', need: 'Needs meditation flowers and must consider client allergies.' },
+      { name: 'Karim', role: 'Tunisian living abroad', need: 'Sends flowers home for Eid, with currency and payment problems.' },
+      { name: 'Mahmoud', role: 'Busy professional', need: 'Forgets occasions and needs reliable same-day delivery.' },
+    ],
+    process: {
+      credit: 'Research was a team effort: the personas, storyboards, “How might we” questions and affinity map were produced together by the bootcamp team.',
+      steps: [
+        {
+          title: 'Storyboards',
+          text: 'We used storyboards to follow a persona’s situation step by step and see where ordering flowers breaks down — for example Karim trying to send flowers home for Eid and getting stuck at payment.',
+        },
+        {
+          title: '“How might we” questions',
+          text: 'Pain points from the storyboards became “How might we” questions, collected by the team as sticky notes.',
+        },
+        {
+          title: 'Affinity map',
+          text: 'We grouped the questions into themes that shaped the features of the app.',
+          tags: ['Notifications', 'Payment', 'Customization', 'Delivery timing', 'Allergies'],
+        },
+      ],
+      images: [
+        { src: '/project-imgs/warda/storyboard-karim.webp', caption: 'Storyboard for Karim with the team’s “How might we” notes (FigJam)' },
+        { src: '/project-imgs/warda/affinity-map.webp', caption: 'Affinity map grouping the “How might we” questions by theme (FigJam)', wide: true },
+      ],
+    },
+    work: {
+      intro: 'I designed all the user flows and screens, from wireframes to high-fidelity designs in Figma.',
+      flows: [
+        {
+          title: 'Checkout',
+          steps: ['Cart', 'Shipping & billing', 'Delivery time', 'Payment — cash on delivery or online with OTP', 'Confirmation'],
+        },
+        {
+          title: 'Catalogue & search',
+          steps: ['Browse by occasion', 'Filter by product type and colour', 'Search results'],
+          screens: [{ src: '/project-imgs/warda/screen-catalogue.webp', caption: 'Catalogue — browse by type and colour' }],
+        },
+        {
+          title: 'Product',
+          steps: ['Product details', 'Add to cart'],
+          screens: [{ src: '/project-imgs/warda/screen-product.webp', caption: 'Product details and add-to-cart' }],
+        },
+        {
+          title: 'Recipient details',
+          steps: ['Address on a map or entered manually', 'Delivery time selection'],
+        },
+        {
+          title: 'Account',
+          steps: ['Profile', 'Saved addresses', 'Orders', 'Favourites', 'Settings'],
+        },
+      ],
+    },
   },
 ];

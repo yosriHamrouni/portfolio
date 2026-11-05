@@ -6,16 +6,16 @@ import { ArrowRight, ArrowUpRight, Download } from './Icons';
 
 const microStats = [
   {
-    label: 'ESPRIT Engineering · 2026',
+    label: 'Engineering degree, ESPRIT 2026',
     icon: <><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></>,
   },
   {
-    label: profile.location,
-    icon: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></>,
+    label: 'Exchange semester, CESI Caen (France)',
+    icon: <><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" /></>,
   },
   {
-    label: 'CESI France exchange',
-    icon: <><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" /></>,
+    label: `Based in ${profile.location}`,
+    icon: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></>,
   },
 ];
 
@@ -35,12 +35,12 @@ const Hero = () => {
           <div className="lg:col-span-7 space-y-8">
             <div className="reveal inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-accent/10 border border-accent/30">
               <span className="w-2 h-2 rounded-full bg-accent pulse-dot" />
-              <span className="meta text-accent normal-case tracking-normal">Available for full-time roles</span>
+              <span className="meta text-accent normal-case tracking-normal">Open to full-time roles · available now</span>
             </div>
 
             <h1 id="hero-title" className="reveal text-display font-bold text-ink text-balance" style={stagger(1)}>
-              Software engineer building full-stack applications and{' '}
-              <span className="bg-gradient-to-r from-accent to-tertiary bg-clip-text text-transparent">AI-powered solutions</span>.
+              I build full-stack business applications — and{' '}
+              <span className="bg-gradient-to-r from-accent to-tertiary bg-clip-text text-transparent">add AI where it actually helps</span>.
             </h1>
 
             <p className="reveal text-lead text-ink-muted max-w-xl" style={stagger(2)}>
@@ -48,14 +48,24 @@ const Hero = () => {
             </p>
 
             <div className="reveal flex flex-wrap items-center gap-3" style={stagger(3)}>
-              <Link to="/#projects" className={`group ${pillButton} bg-accent text-on-accent glow-btn`}>
-                View projects
+              <Link to={`/project/${profile.demoProject}`} className={`group ${pillButton} bg-accent text-on-accent glow-btn`}>
+                Watch the 2-min product demo
                 <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
               </Link>
-              {profile.cvUrl && (
-                <a href={profile.cvUrl} download className={`${pillButton} border border-line-strong text-ink hover:border-accent hover:text-accent`}>
-                  <Download /> Download CV <span className="meta text-ink-subtle normal-case tracking-normal">{profile.cvNote}</span>
-                </a>
+              <Link to="/#projects" className={`${pillButton} border border-line-strong text-ink hover:border-accent hover:text-accent`}>
+                See all projects
+              </Link>
+              {profile.cvs[0] && (
+                <span className="inline-flex items-center gap-3">
+                  <a href={profile.cvs[0].url} download className="inline-flex items-center gap-2 text-small font-semibold text-ink hover:text-accent transition-colors">
+                    <Download /> Download CV <span className="meta text-ink-subtle normal-case tracking-normal">{profile.cvs[0].label}</span>
+                  </a>
+                  {profile.cvs.slice(1).map((cv) => (
+                    <a key={cv.url} href={cv.url} download className="meta text-ink-subtle normal-case tracking-normal hover:text-accent transition-colors" aria-label={`Download CV — ${cv.label}`}>
+                      {cv.lang}
+                    </a>
+                  ))}
+                </span>
               )}
             </div>
 
@@ -91,7 +101,7 @@ const Hero = () => {
                   <div className="text-small font-semibold text-ink">{profile.name}</div>
                   <div className="font-mono text-[11px] text-ink-subtle">{profile.role}</div>
                 </div>
-                <span className="font-mono text-[11px] text-accent">Full-Stack · AI</span>
+                <span className="font-mono text-[11px] text-accent">Tunisia ↔ France</span>
               </div>
             </div>
           </div>

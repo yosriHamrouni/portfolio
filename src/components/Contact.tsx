@@ -18,22 +18,28 @@ const Contact = () => {
           <div className="lg:col-span-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-paper border border-line mb-6">
               <span className="w-2 h-2 rounded-full bg-accent pulse-dot" />
-              <span className="meta text-ink-muted normal-case tracking-normal">Ready to collaborate</span>
+              <span className="meta text-ink-muted normal-case tracking-normal">Available immediately</span>
             </div>
             <p className="text-lead text-ink-muted">
-              I’m looking for my first full-time role as a software engineer — in Tunisia, in France or remote. If
-              you’re hiring or want to discuss a project, I’d be glad to hear from you.
+              I’m looking for my first full-time role as a full-stack engineer, in Tunisia, in France or remotely, and I
+              can start right away. The fastest way to reach me is email.
             </p>
             <p className="mt-4 meta text-ink-subtle normal-case tracking-normal">Based in {profile.location}</p>
-            {profile.cvUrl && (
-              <a
-                href={profile.cvUrl}
-                download
-                className="mt-8 h-12 px-6 inline-flex items-center gap-2 rounded-full bg-accent text-on-accent font-semibold text-small glow-btn transition-shadow"
-              >
-                <Download /> Download my CV <span className="meta opacity-80 normal-case tracking-normal">{profile.cvNote}</span>
-              </a>
-            )}
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              {profile.cvs.map((cv, i) => (
+                <a
+                  key={cv.url}
+                  href={cv.url}
+                  download
+                  className={`h-12 px-6 inline-flex items-center gap-2 rounded-full font-semibold text-small transition-shadow ${
+                    i === 0 ? 'bg-accent text-on-accent glow-btn' : 'border border-line-strong text-ink hover:border-accent hover:text-accent'
+                  }`}
+                >
+                  <Download /> {i === 0 ? 'Download my CV' : 'CV'}{' '}
+                  <span className="meta opacity-80 normal-case tracking-normal">{cv.label}</span>
+                </a>
+              ))}
+            </div>
           </div>
 
           <ul className="lg:col-span-6 space-y-3">

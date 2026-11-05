@@ -4,7 +4,6 @@ import Nav from './components/Nav';
 import Hero from './components/Hero';
 import About from './components/About';
 import Experience from './components/Experience';
-import Stats from './components/Stats';
 import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Education from './components/Education';
@@ -12,7 +11,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ProjectDetail from './components/ProjectDetail';
 
-const HOME_TITLE = 'Yosri Hamrouni — Software Engineer';
+const HOME_TITLE = 'Yosri Hamrouni — Full-Stack Software Engineer';
 
 // Scrolls to the hash target (or top) on every route change, and reveals
 // `.reveal` elements as they enter the viewport.
@@ -64,7 +63,6 @@ const Page = () => {
               <Hero />
               <About />
               <Experience />
-              <Stats />
               <Projects />
               <Skills />
               <Education />

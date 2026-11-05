@@ -10,7 +10,7 @@ export const warda: UxProject = {
   slug: 'warda',
   title: 'Warda',
   tagline: 'A mobile app for ordering and sending flowers across Tunisia — from user research to high-fidelity screens.',
-  category: 'UX/UI Design',
+  category: 'Product design · UX bootcamp',
   context: 'UX/UI bootcamp project — Space Academy',
   period: '2023',
   role: 'UX/UI designer — user flows and all screens',

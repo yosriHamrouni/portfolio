@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import { activities, certifications, education } from '../data/education';
 import { stagger } from '../lib/motion';
-import { ArrowUpRight } from './Icons';
+import { ArrowRight, ArrowUpRight } from './Icons';
 import Section from './Section';
 
 const Education = () => (
@@ -15,6 +16,12 @@ const Education = () => (
           <h3 className="mt-3 text-h3 font-semibold text-ink">{item.school}</h3>
           <p className="mt-1 text-small text-ink">{item.degree}</p>
           <p className="mt-4 text-small text-ink-muted">{item.text}</p>
+          {item.project && (
+            <Link to={`/project/${item.project}`} className="group mt-5 inline-flex items-center gap-2 text-small font-semibold text-accent">
+              <span className="link-underline">See the research project</span>
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          )}
         </article>
       ))}
     </div>
@@ -64,7 +71,7 @@ const Education = () => (
             <span className="meta text-ink-subtle shrink-0">{activity.since}</span>
           </div>
           <p className="text-small text-accent">{activity.org}</p>
-          <p className="mt-3 text-small text-ink-muted">{activity.text}</p>
+          {activity.text && <p className="mt-3 text-small text-ink-muted">{activity.text}</p>}
         </li>
       ))}
     </ul>

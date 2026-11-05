@@ -11,9 +11,11 @@ export const education = [
   },
   {
     school: 'CESI École d’Ingénieurs',
-    degree: 'International academic mobility (ESPRIT exchange program)',
+    degree: 'Exchange semester in software engineering (ESPRIT exchange program)',
+    period: 'Feb 2025 – Jun 2025',
     location: 'Caen, France',
-    text: 'Studied in a French engineering school and worked in multicultural project teams — a useful test of adaptability and communication across backgrounds. Research project: machine learning to predict pathogenic genetic variants from ClinVar.',
+    text: 'Studied in a French engineering school and worked in French in multicultural project teams. Co-authored a machine-learning research project predicting pathogenic genetic variants from ClinVar, delivered as a research report and a scientific poster.',
+    project: 'ai-genetic-variants',
   },
 ];
 
@@ -95,8 +97,6 @@ export const certifications: Certification[] = [
     href: uxBootcampCert,
     hrefLabel: 'View certificate',
   },
-  { title: 'AI For Everyone', issuer: 'DeepLearning.AI' },
-  { title: 'Unix Tools and Scripting' },
 ];
 
 export const languages = [
@@ -105,7 +105,7 @@ export const languages = [
   { name: 'English', level: 'Professional (TOEIC 795, B2)' },
 ];
 
-export const activities = [
+export const activities: { title: string; org: string; since: string; text?: string }[] = [
   {
     title: 'Guitar teacher',
     org: 'Dimouzika Club, Nabeul',
@@ -116,6 +116,5 @@ export const activities = [
     title: 'Volunteer',
     org: 'Tunisian Red Crescent',
     since: 'Since 2019',
-    text: 'Volunteer involvement with the Tunisian Red Crescent.',
   },
 ];

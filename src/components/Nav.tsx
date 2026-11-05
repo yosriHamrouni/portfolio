@@ -93,9 +93,9 @@ const Nav = () => {
 
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            {profile.cvUrl && (
+            {profile.cvs[0] && (
               <a
-                href={profile.cvUrl}
+                href={profile.cvs[0].url}
                 download
                 className="hidden sm:inline-flex items-center gap-2 h-10 px-5 rounded-full bg-accent text-on-accent text-small font-semibold glow-btn transition-shadow"
               >
@@ -125,12 +125,19 @@ const Nav = () => {
                 {label}
               </Link>
             ))}
-            {profile.cvUrl && (
-              <a href={profile.cvUrl} download className="mt-2 inline-flex items-center justify-center gap-2 h-11 rounded-full bg-accent text-on-accent font-semibold">
+            {profile.cvs.map((cv, i) => (
+              <a
+                key={cv.url}
+                href={cv.url}
+                download
+                className={`inline-flex items-center justify-center gap-2 h-11 rounded-full font-semibold ${
+                  i === 0 ? 'mt-2 bg-accent text-on-accent' : 'border border-line text-ink'
+                }`}
+              >
                 <Download size={16} />
-                Download CV <span className="meta opacity-80">{profile.cvNote}</span>
+                Download CV <span className="meta opacity-80">{cv.label}</span>
               </a>
-            )}
+            ))}
           </div>
         )}
       </nav>

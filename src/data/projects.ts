@@ -87,12 +87,12 @@ export const projects: Project[] = [
   {
     slug: 'school-management-saas',
     title: 'School Management SaaS',
-    tagline: 'A multi-tenant platform for academic and administrative management, with AI-assisted student risk detection.',
+    tagline: 'One platform for many schools, with data kept separate, an explainable student-risk score and an assistant that respects each user’s permissions.',
     category: 'Full-Stack SaaS · Applied AI',
     context: 'Final-year engineering project (PFE) at Maison du Web',
     period: 'Feb 2026 – Aug 2026',
-    role: 'Full-Stack Software Engineering Intern',
-    stack: ['Laravel', 'PHP', 'React', 'TypeScript', 'Inertia.js', 'PostgreSQL', 'Tailwind CSS', 'Python'],
+    role: 'Full-Stack Software Engineering Intern · sole developer',
+    stack: ['Laravel', 'PHP', 'React', 'TypeScript', 'Inertia.js', 'PostgreSQL', 'Tailwind CSS', 'Ollama', 'Python', 'Docker', 'GitHub Actions'],
     repo: 'https://github.com/yosriHamrouni/School-Management-SaaS',
     screenshots: [
       frame('01', 'Public landing page'),
@@ -126,10 +126,11 @@ export const projects: Project[] = [
     solution:
       'A single web platform that several institutions share while keeping their data isolated. Each actor — platform admin, institution admin, teacher, student and parent — gets an interface and permissions matched to their role. Academic data is reused to flag students who may need support, with an explanation of why.',
     contribution: [
-      'Designed and developed business modules: academic structure, students, teachers, classes, schedules, grades, attendance, payments and dashboards.',
+      'Built the whole platform on my own, from database schema to interface: academic structure, students, teachers, classes, schedules, grades, attendance, payments and dashboards.',
       'Implemented REST APIs and Laravel services with tenant-aware authorization and data isolation per institution.',
       'Designed the explainable student risk detection engine, including fallback behaviour when data is incomplete.',
-      'Integrated a RAG-based assistant restricted to the data the authenticated user can access, and worked on prompt design to improve answer relevance.',
+      'Integrated a RAG assistant running on a local LLM (Ollama): it retrieves only the records the signed-in user may access, and I wrote the prompt rules that keep answers grounded in that context.',
+      'Set up Docker packaging and GitHub Actions workflows for linting and tests.',
       'Documented the design with PlantUML and worked in an Agile process with Git and Taiga.',
     ],
     architecture: [
@@ -147,7 +148,7 @@ export const projects: Project[] = [
       },
       {
         title: 'Intelligence',
-        text: 'A rule-based engine computes an interpretable risk score with reasons. An experimental Python ML service can refine it; if it is unavailable, the system falls back to the rules.',
+        text: 'A rule-based engine computes an interpretable risk score with reasons; an experimental Python ML service can refine it. The assistant retrieves the grade, attendance and risk data in the user’s scope and sends it to a local Ollama model. If the model or the ML service is unavailable, the system falls back to the rules.',
       },
     ],
     choices: [
@@ -170,7 +171,7 @@ export const projects: Project[] = [
       },
       {
         title: 'Scoped AI answers',
-        text: 'The assistant must respect the same permissions as the rest of the app, so its context is limited to what the signed-in user can access.',
+        text: 'The assistant must respect the same permissions as the rest of the app. Retrieval is filtered by institution and role — a teacher only gets their own classes and subjects, a parent only their children — and the model is instructed to answer from that context only, and to say so when the answer is not there.',
       },
     ],
     features: [
@@ -188,172 +189,7 @@ export const projects: Project[] = [
       'Context-restricted academic assistant',
     ],
     outcome:
-      'Delivered as my final-year engineering project. The rule-based engine is the functional reference; the ML component remains experimental because its value depends on the amount of historical data available.',
-  },
-  {
-    slug: 'builderz',
-    title: 'Builderz',
-    tagline: 'A construction management platform with an Angular front office and back office, running on Spring Boot microservices.',
-    category: 'Full-Stack · Microservices',
-    context: 'Academic team project — ESPRIT',
-    period: 'Feb 2025 – May 2025',
-    role: 'Team member — engineering project',
-    stack: ['Java 17', 'Spring Boot 3', 'Spring Security', 'JWT', 'Spring Data JPA', 'MySQL', 'Spring Cloud Gateway', 'Eureka', 'Resilience4j', 'Docker Compose', 'Angular 17', 'Angular Material', 'Bootstrap', 'FullCalendar', 'Chart.js', 'Stripe', 'OpenAI API'],
-    screenshots: [
-      { src: '/project-imgs/builderz/01-home.webp', caption: 'Public website — home page' },
-      { src: '/project-imgs/builderz/02-login.webp', caption: 'Sign-in' },
-      { src: '/project-imgs/builderz/03-request-map.webp', caption: 'Request management — projects by status, located on a map' },
-      { src: '/project-imgs/builderz/04-requests-list.webp', caption: 'Client project requests with budget, duration and location' },
-      { src: '/project-imgs/builderz/05-tasks.webp', caption: 'Task list with status, priority, dates and assignee' },
-      { src: '/project-imgs/builderz/06-tasks-kanban.webp', caption: 'Tasks as a kanban board — to do, in progress, done' },
-      { src: '/project-imgs/builderz/07-meetings.webp', caption: 'Meetings calendar' },
-      { src: '/project-imgs/builderz/08-advances.webp', caption: 'Employee advance requests' },
-      { src: '/project-imgs/builderz/09-advance-stats.webp', caption: 'Advance request statistics' },
-      { src: '/project-imgs/builderz/10-leave-requests.webp', caption: 'Leave requests with approval status' },
-      { src: '/project-imgs/builderz/11-bills.webp', caption: 'Bill management with payment method and status' },
-      { src: '/project-imgs/builderz/12-payment.webp', caption: 'Online bill payment form' },
-      { src: '/project-imgs/builderz/13-offers.webp', caption: 'Offer management' },
-      { src: '/project-imgs/builderz/14-insurance.webp', caption: 'Insurance management' },
-    ],
-    screenshotNote: 'Screenshots of the Builderz web app — public website and back office.',
-    problem:
-      'A construction project involves engineers, project managers, HR, employees and clients from site planning to delivery. Client requests, site tasks and stages, meetings, staff leave and salary advances, bills, offers, insurance and stock are usually tracked in separate tools, which makes collaboration and follow-up slow.',
-    solution:
-      'Builderz brings it into one platform. On the front office, clients submit project requests and employees manage their leave and advance requests. In the back office, staff review requests on a map by status, plan tasks and project stages, schedule meetings, approve HR requests and handle bills with online payment, offers, insurance and stock. An Angular app talks to Spring Boot services behind an API gateway.',
-    contribution: [
-      'Worked on the Spring Boot backend: REST controllers, services and Spring Data JPA repositories.',
-      'Worked with JWT authentication and authorization built on Spring Security.',
-      'Worked with the AI-assisted features that analyse project requests with the OpenAI API.',
-      'Ran the stack with Docker and Docker Compose.',
-    ],
-    architecture: [
-      { title: 'Angular front end', text: 'Angular 17 front office for clients and employees, and a back office for staff, with Angular Material, Bootstrap, FullCalendar and Chart.js.' },
-      { title: 'API gateway & discovery', text: 'Spring Cloud Gateway as the single entry point, Eureka for service discovery, Resilience4j circuit breaker and retries.' },
-      { title: 'Backend service', text: 'Spring Boot 3 REST API with controllers, services and repositories per module, JWT security and email notifications.' },
-      { title: 'Data', text: 'Spring Data JPA over MySQL.' },
-      { title: 'Integrations', text: 'Stripe payment intents for bills; OpenAI (GPT-3.5) to analyse project request descriptions, plus a rule-based recommendation score.' },
-      { title: 'Delivery', text: 'Dockerfiles and Docker Compose running MySQL, Eureka, the backend and the gateway together.' },
-    ],
-    choices: [
-      'An API gateway with Eureka gives the Angular app one entry point while services are found by name.',
-      'Stateless JWT authentication fits a gateway in front of several services.',
-      'Stripe payment intents keep card data out of the platform.',
-      'Docker Compose starts the whole stack — database, registry, backend and gateway — with one command.',
-    ],
-    challenges: [
-      { title: 'Many modules, one platform', text: 'Ten modules — requests, validation, tasks, stages, meetings, leave, advances, bills, offers, insurance, stock — built in parallel on feature branches and merged into one app.' },
-      { title: 'Security across services', text: 'Combining Spring Security, JWT validation and role-based access behind an API gateway.' },
-      { title: 'Payments', text: 'Creating Stripe payment intents for bills and handling the payment result in the front end.' },
-    ],
-    features: [
-      'Sign-up with email verification and password reset',
-      'Client project requests with AI analysis and a recommendation score',
-      'Request management — pending, approved and rejected projects on a map',
-      'Tasks as a list and a kanban board, and project stages',
-      'Meetings calendar',
-      'Leave and salary-advance requests with documents, approval and charts',
-      'Bills with Stripe payment and payment history',
-      'Offers, insurance and stock management',
-    ],
-    outcome:
-      'An ESPRIT engineering team project delivered as a working platform: an Angular app on Spring Boot microservices behind a gateway, with Stripe payments and OpenAI-assisted request analysis.',
-  },
-  {
-    slug: 'gleam-inspired-platform',
-    title: 'Gleam.io-inspired Platform',
-    tagline: 'A web platform for interactive campaigns and user engagement.',
-    category: 'Full-Stack Web Application',
-    context: 'Internship at Krenova',
-    period: 'Jul 2025 – Aug 2025',
-    role: 'Software Developer Intern',
-    stack: ['React', 'Tailwind CSS', 'React Query', 'Node.js', 'Express.js', 'MongoDB', 'JWT', 'OpenAI API'],
-    screenshots: [],
-    problem:
-      'Brands run engagement campaigns that depend on users completing actions across several social platforms, which requires authentication, external API integrations and an interactive interface.',
-    solution:
-      'A React and Node.js platform, inspired by Gleam.io, where campaigns are created and users take part in them, with social media integrations and AI-assisted functionality.',
-    contribution: [
-      'Developed interactive frontend features with React, Tailwind CSS and React Query.',
-      'Implemented backend APIs with Node.js, Express.js and MongoDB.',
-      'Worked on JWT authentication and authorization.',
-      'Integrated social media APIs and explored AI-assisted features with the OpenAI API.',
-    ],
-    architecture: [
-      { title: 'Frontend', text: 'React with Tailwind CSS; server state handled by React Query.' },
-      { title: 'Backend', text: 'Express.js REST API on Node.js with MongoDB storage.' },
-      { title: 'Integrations', text: 'JWT-based auth, social media APIs and the OpenAI API.' },
-    ],
-    choices: [
-      'React Query removes hand-written caching and loading state for API data.',
-      'A JavaScript stack end to end keeps types of data and tooling consistent between client and server.',
-    ],
-    challenges: [
-      { title: 'External APIs', text: 'Each social platform has its own authentication flow, limits and response format.' },
-      { title: 'Access control', text: 'Protecting campaign management and participation endpoints with JWT.' },
-    ],
-    features: ['Campaign interfaces', 'JWT authentication', 'Social media API integrations', 'AI-assisted functionality (OpenAI API)'],
-    outcome: 'Hands-on experience with the JavaScript ecosystem and third-party API integration in a product setting.',
-  },
-  {
-    slug: 'field-service-application',
-    title: 'Field Service Application',
-    tagline: 'A service-management web app built by a team of three interns with ASP.NET Core (.NET 8) and React.',
-    category: 'Full-Stack Application',
-    context: 'Team internship project at L-Mobile, Nabeul (3 interns)',
-    period: 'Jul 2024 – Sep 2024',
-    role: 'Full-Stack Developer Intern',
-    stack: ['C#', 'ASP.NET Core (.NET 8)', 'Entity Framework Core', 'SQL Server', 'Swagger / OpenAPI', 'React 18', 'Vite', 'axios', 'Bootstrap', 'MUI'],
-    repoNote: 'Team repository — public link coming soon',
-    screenshots: [
-      { src: '/project-imgs/field-service/03-articles.webp', caption: 'Articles inventory (my module)' },
-      { src: '/project-imgs/field-service/04-article-form.webp', caption: 'New article form (my module)' },
-      { src: '/project-imgs/field-service/02-home.webp', caption: 'Dashboard — orders by service type and invoicing type' },
-      { src: '/project-imgs/field-service/05-orders.webp', caption: 'Service orders' },
-      { src: '/project-imgs/field-service/06-order-detail.webp', caption: 'Service order details' },
-      { src: '/project-imgs/field-service/07-case-detail.webp', caption: 'Service case details' },
-      { src: '/project-imgs/field-service/08-installations.webp', caption: 'Customer installations' },
-      { src: '/project-imgs/field-service/01-login.webp', caption: 'Sign-in' },
-    ],
-    screenshotNote: 'Captured from a local run of the original code with fictional sample data.',
-    problem:
-      'Field-service teams juggle service orders, service cases, customer installations, spare parts and invoicing. The internship goal was to rebuild a field-service management application on a modern stack, with each intern owning part of the domain.',
-    solution:
-      'A layered ASP.NET Core Web API (controllers, DTOs and mappers over Entity Framework Core models) on SQL Server, documented with Swagger, and a React + Vite client with role-based navigation for admins and technicians. The three of us split the work by module on feature branches and merged into a shared main.',
-    contribution: [
-      'Built the Articles / Items module end to end: Article, ItemType and BarcodeType models, EF Core migrations, DTOs and mappers, REST controllers, and React screens to list, create, view, edit and delete items.',
-      'Created the application shell used by every module: navigation bar, sidebar and home page.',
-      'Added the Users feature: user model and migrations, a users API with create, read, update, delete and login, and the sign-in / sign-up screens.',
-      'Integrated my Articles module with the team’s Service case work and resolved the conflicting database migrations during the merge.',
-      'Worked in an Agile/Scrum setup with Git feature branches — about 10 of the project’s 36 commits.',
-    ],
-    architecture: [
-      { title: 'Client', text: 'React 18 + Vite with React Router and axios; Bootstrap and MUI components; separate navigation for admins and technicians.' },
-      { title: 'API', text: 'ASP.NET Core Web API on .NET 8, one controller per module, Swagger UI in development.' },
-      { title: 'Mapping layer', text: 'Request/response DTOs and mapper extension methods keep the database models out of the API contract.' },
-      { title: 'Data', text: 'Entity Framework Core code-first models and migrations on SQL Server.' },
-    ],
-    choices: [
-      'DTOs + mappers: each module exposes a stable API shape even when its entity changes.',
-      'EF Core code-first migrations let each intern evolve their own tables in the same database.',
-      'Swagger made it possible to test endpoints before the React screens existed.',
-    ],
-    challenges: [
-      { title: 'Merging parallel work', text: 'Separate branches produced conflicting EF Core migrations; merging Articles with Service cases meant consolidating them into a consistent schema.' },
-      { title: 'A shared shell', text: 'The navigation bar and sidebar had to work for every module the team was building at the same time.' },
-      { title: 'New ecosystem', text: 'First real project in C# and .NET: dependency injection, EF Core and the ASP.NET Core request pipeline.' },
-    ],
-    features: [
-      'Service orders and order management',
-      'Service cases with categories, objects, elements, checklists and skills',
-      'Companies and master data',
-      'Installations',
-      'Invoicing',
-      'Articles / items with item and barcode types',
-      'Users with roles (admin, technician)',
-      'Dashboard charts by service type and invoicing type',
-    ],
-    outcome:
-      'My first full-stack project in a professional team. Looking back, authentication was the weak spot of this prototype — passwords were not hashed and roles were trusted on the client — so I am hardening my fork with hashed passwords, JWT authentication and role-based authorization.',
+      'Deployed, piloted with a school and handed over to Maison du Web at the end of my final-year project. The rule-based score is what the product relies on; the ML layer stays experimental until there is enough historical data to beat the rules — a trade-off I would make again.',
   },
   {
     slug: 'ai-genetic-variants',
@@ -407,6 +243,188 @@ export const projects: Project[] = [
     ],
     outcome:
       'Random Forest was the best overall model (accuracy 0.79, AUC 0.74) but detected under half of pathogenic variants; class-balanced ExtraTrees caught two thirds of them at the cost of overall accuracy. The next steps we identified are richer biological features (conservation scores, CADD, SIFT, PolyPhen), resampling such as SMOTE, cross-validation, and sequence models such as CNNs.',
+  },
+  {
+    slug: 'field-service-application',
+    title: 'Field Service Application',
+    tagline: 'I owned the inventory and user modules, and the shared app shell, of a field-service app built by three interns in ASP.NET Core and React.',
+    category: 'Full-Stack Application',
+    context: 'Team internship project at L-Mobile, Nabeul (3 interns)',
+    period: 'Jul 2024 – Sep 2024',
+    role: 'Full-Stack Developer Intern',
+    stack: ['C#', 'ASP.NET Core (.NET 8)', 'Entity Framework Core', 'SQL Server', 'Swagger / OpenAPI', 'React 18', 'Vite', 'axios', 'Bootstrap', 'MUI'],
+    repoNote: 'Team repository — public link coming soon',
+    screenshots: [
+      { src: '/project-imgs/field-service/03-articles.webp', caption: 'Articles inventory (my module)' },
+      { src: '/project-imgs/field-service/04-article-form.webp', caption: 'New article form (my module)' },
+      { src: '/project-imgs/field-service/02-home.webp', caption: 'Dashboard — orders by service type and invoicing type' },
+      { src: '/project-imgs/field-service/05-orders.webp', caption: 'Service orders' },
+      { src: '/project-imgs/field-service/06-order-detail.webp', caption: 'Service order details' },
+      { src: '/project-imgs/field-service/07-case-detail.webp', caption: 'Service case details' },
+      { src: '/project-imgs/field-service/08-installations.webp', caption: 'Customer installations' },
+      { src: '/project-imgs/field-service/01-login.webp', caption: 'Sign-in' },
+    ],
+    screenshotNote: 'Captured from a local run of the original code with fictional sample data.',
+    problem:
+      'Field-service teams juggle service orders, service cases, customer installations, spare parts and invoicing. The internship goal was to rebuild a field-service management application on a modern stack, with each intern owning part of the domain.',
+    solution:
+      'A layered ASP.NET Core Web API (controllers, DTOs and mappers over Entity Framework Core models) on SQL Server, documented with Swagger, and a React + Vite client with role-based navigation for admins and technicians. The three of us split the work by module on feature branches and merged into a shared main.',
+    contribution: [
+      'Built the Articles / Items module end to end: Article, ItemType and BarcodeType models, EF Core migrations, DTOs and mappers, REST controllers, and React screens to list, create, view, edit and delete items.',
+      'Created the application shell used by every module: navigation bar, sidebar and home page.',
+      'Added the Users feature: user model and migrations, a users API with create, read, update, delete and login, and the sign-in / sign-up screens.',
+      'Integrated my Articles module with the team’s Service case work and resolved the conflicting database migrations during the merge.',
+      'Worked in Scrum with Git feature branches and code review.',
+    ],
+    architecture: [
+      { title: 'Client', text: 'React 18 + Vite with React Router and axios; Bootstrap and MUI components; separate navigation for admins and technicians.' },
+      { title: 'API', text: 'ASP.NET Core Web API on .NET 8, one controller per module, Swagger UI in development.' },
+      { title: 'Mapping layer', text: 'Request/response DTOs and mapper extension methods keep the database models out of the API contract.' },
+      { title: 'Data', text: 'Entity Framework Core code-first models and migrations on SQL Server.' },
+    ],
+    choices: [
+      'DTOs + mappers: each module exposes a stable API shape even when its entity changes.',
+      'EF Core code-first migrations let each intern evolve their own tables in the same database.',
+      'Swagger made it possible to test endpoints before the React screens existed.',
+    ],
+    challenges: [
+      { title: 'Merging parallel work', text: 'Separate branches produced conflicting EF Core migrations; merging Articles with Service cases meant consolidating them into a consistent schema.' },
+      { title: 'A shared shell', text: 'The navigation bar and sidebar had to work for every module the team was building at the same time.' },
+      { title: 'New ecosystem', text: 'First real project in C# and .NET: dependency injection, EF Core and the ASP.NET Core request pipeline.' },
+    ],
+    features: [
+      'Service orders and order management',
+      'Service cases with categories, objects, elements, checklists and skills',
+      'Companies and master data',
+      'Installations',
+      'Invoicing',
+      'Articles / items with item and barcode types',
+      'Users with roles (admin, technician)',
+      'Dashboard charts by service type and invoicing type',
+    ],
+    outcome:
+      'My first full-stack project in a professional team. What I would do differently: put authentication on the server from day one. I have since applied that in my own fork — hashed passwords, JWT authentication and server-side role checks.',
+  },
+  {
+    slug: 'builderz',
+    title: 'Builderz',
+    tagline: 'A construction management platform I built on my own: an Angular front office and back office on a Spring Boot backend behind an API gateway.',
+    category: 'Full-Stack · Java & Angular',
+    context: 'Academic engineering project — ESPRIT',
+    period: 'Feb 2025 – May 2025',
+    role: 'Sole developer',
+    stack: ['Java 17', 'Spring Boot 3', 'Spring Security', 'JWT', 'Spring Data JPA', 'MySQL', 'Spring Cloud Gateway', 'Eureka', 'Resilience4j', 'Docker Compose', 'Angular 17', 'Angular Material', 'Bootstrap', 'FullCalendar', 'Chart.js', 'Stripe', 'OpenAI API'],
+    screenshots: [
+
+      { src: '/project-imgs/builderz/01-home.webp', caption: 'Public website — home page' },
+
+      { src: '/project-imgs/builderz/02-login.webp', caption: 'Sign-in' },
+
+      { src: '/project-imgs/builderz/03-request-map.webp', caption: 'Request management — projects by status, located on a map' },
+
+      { src: '/project-imgs/builderz/04-requests-list.webp', caption: 'Client project requests with budget, duration and location' },
+
+      { src: '/project-imgs/builderz/05-tasks.webp', caption: 'Task list with status, priority, dates and assignee' },
+
+      { src: '/project-imgs/builderz/06-tasks-kanban.webp', caption: 'Tasks as a kanban board — to do, in progress, done' },
+
+      { src: '/project-imgs/builderz/07-meetings.webp', caption: 'Meetings calendar' },
+
+      { src: '/project-imgs/builderz/08-advances.webp', caption: 'Employee advance requests' },
+
+      { src: '/project-imgs/builderz/09-advance-stats.webp', caption: 'Advance request statistics' },
+
+      { src: '/project-imgs/builderz/10-leave-requests.webp', caption: 'Leave requests with approval status' },
+
+      { src: '/project-imgs/builderz/11-bills.webp', caption: 'Bill management with payment method and status' },
+
+      { src: '/project-imgs/builderz/12-payment.webp', caption: 'Online bill payment form' },
+
+      { src: '/project-imgs/builderz/13-offers.webp', caption: 'Offer management' },
+
+      { src: '/project-imgs/builderz/14-insurance.webp', caption: 'Insurance management' },
+
+    ],
+
+    screenshotNote: 'Screenshots of the Builderz web app — public website and back office.',
+
+    problem:
+      'A construction project involves engineers, project managers, HR, employees and clients from site planning to delivery. Client requests, site tasks and stages, meetings, staff leave and salary advances, bills, offers, insurance and stock are usually tracked in separate tools, which makes collaboration and follow-up slow.',
+    solution:
+      'Builderz brings it into one platform. On the front office, clients submit project requests and employees manage their leave and advance requests. In the back office, staff review requests on a map by status, plan tasks and project stages, schedule meetings, approve HR requests and handle bills with online payment, offers, insurance and stock. An Angular app talks to Spring Boot services behind an API gateway.',
+    contribution: [
+      'Built the whole platform: the Spring Boot backend (REST controllers, services, Spring Data JPA repositories) and the Angular front office and back office.',
+      'Implemented JWT authentication and role-based authorization with Spring Security, behind a Spring Cloud Gateway with Eureka discovery and Resilience4j.',
+      'Built the OpenAI-based analysis of project requests and the rule-based recommendation score.',
+      'Integrated Stripe payment intents for bills, and wrote the Dockerfiles and Docker Compose setup that start the whole stack.',
+    ],
+    architecture: [
+      { title: 'Angular front end', text: 'Angular 17 front office for clients and employees, and a back office for staff, with Angular Material, Bootstrap, FullCalendar and Chart.js.' },
+      { title: 'API gateway & discovery', text: 'Spring Cloud Gateway as the single entry point, Eureka for service discovery, Resilience4j circuit breaker and retries.' },
+      { title: 'Backend service', text: 'Spring Boot 3 REST API with controllers, services and repositories per module, JWT security and email notifications.' },
+      { title: 'Data', text: 'Spring Data JPA over MySQL.' },
+      { title: 'Integrations', text: 'Stripe payment intents for bills; OpenAI (GPT-3.5) to analyse project request descriptions, plus a rule-based recommendation score.' },
+      { title: 'Delivery', text: 'Dockerfiles and Docker Compose running MySQL, Eureka, the backend and the gateway together.' },
+    ],
+    choices: [
+      'An API gateway with Eureka gives the Angular app one entry point while services are found by name.',
+      'Stateless JWT authentication fits a gateway in front of several services.',
+      'Stripe payment intents keep card data out of the platform.',
+      'Docker Compose starts the whole stack — database, registry, backend and gateway — with one command.',
+    ],
+    challenges: [
+      { title: 'Many modules, one platform', text: 'Eleven modules — requests, validation, tasks, stages, meetings, leave, advances, bills, offers, insurance, stock — designed to share one data model, one security layer and one interface.' },
+      { title: 'Security across services', text: 'Combining Spring Security, JWT validation and role-based access behind an API gateway.' },
+      { title: 'Payments', text: 'Creating Stripe payment intents for bills and handling the payment result in the front end.' },
+    ],
+    features: [
+      'Sign-up with email verification and password reset',
+      'Client project requests with AI analysis and a recommendation score',
+      'Request management — pending, approved and rejected projects on a map',
+      'Tasks as a list and a kanban board, and project stages',
+      'Meetings calendar',
+      'Leave and salary-advance requests with documents, approval and charts',
+      'Bills with Stripe payment and payment history',
+      'Offers, insurance and stock management',
+    ],
+    outcome:
+      'Delivered as a working platform for my ESPRIT engineering project: an Angular app on a Spring Boot backend behind a gateway, with Stripe payments and OpenAI-assisted request analysis.',
+  },
+  {
+    slug: 'gleam-inspired-platform',
+    title: 'Social Campaign Platform',
+    tagline: 'A Gleam.io-style platform where brands run giveaway campaigns that users join through social actions — built front to back during my Krenova internship.',
+    category: 'Full-Stack Web Application',
+    context: 'Internship at Krenova',
+    period: 'Jul 2025 – Aug 2025',
+    role: 'Software Developer Intern',
+    stack: ['React', 'Tailwind CSS', 'React Query', 'Node.js', 'Express.js', 'MongoDB', 'JWT', 'OpenAI API'],
+    screenshots: [],
+    problem:
+      'Brands run engagement campaigns that depend on users completing actions across several social platforms, which requires authentication, external API integrations and an interactive interface.',
+    solution:
+      'A React and Node.js platform, in the style of Gleam.io, where brands create campaigns and users take part in them, with social media integrations and AI-assisted functionality. I built it end to end.',
+    contribution: [
+      'Built the React interface with Tailwind CSS, using React Query for server state.',
+      'Built the Express.js REST API on Node.js and MongoDB.',
+      'Implemented JWT authentication and authorization for campaign management and participation.',
+      'Integrated social media APIs and the OpenAI API for AI-assisted features.',
+    ],
+    architecture: [
+      { title: 'Frontend', text: 'React with Tailwind CSS; server state handled by React Query.' },
+      { title: 'Backend', text: 'Express.js REST API on Node.js with MongoDB storage.' },
+      { title: 'Integrations', text: 'JWT-based auth, social media APIs and the OpenAI API.' },
+    ],
+    choices: [
+      'React Query removes hand-written caching and loading state for API data.',
+      'A JavaScript stack end to end keeps types of data and tooling consistent between client and server.',
+    ],
+    challenges: [
+      { title: 'External APIs', text: 'Each social platform has its own authentication flow, limits and response format.' },
+      { title: 'Access control', text: 'Protecting campaign management and participation endpoints with JWT.' },
+    ],
+    features: ['Campaign interfaces', 'JWT authentication', 'Social media API integrations', 'AI-assisted functionality (OpenAI API)'],
+    outcome: 'A complete JavaScript product built front to back in two months. Most of the work was making several external APIs — each with its own auth flow, limits and formats — behave as one feature.',
   },
   warda,
 ];

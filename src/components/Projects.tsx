@@ -97,7 +97,7 @@ const Projects = () => (
   <Section
     id="projects"
     eyebrow="Selected work"
-    title="Featured projects"
+    title="Projects, and what I did on each"
     intro="Each project opens a case study: the problem, my contribution, the architecture and the trade-offs."
     action={
       <a

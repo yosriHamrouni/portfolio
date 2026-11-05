@@ -8,9 +8,9 @@ const spans = ['lg:col-span-4', 'lg:col-span-4', 'lg:col-span-4', 'lg:col-span-3
 const Skills = () => (
   <Section
     id="skills"
-    eyebrow="Core capabilities"
-    title="The tools I build with"
-    intro="Highlighted technologies are the ones I have used in internships or projects; the others I have worked with less."
+    eyebrow="Skills"
+    title="What I’ve used in real projects"
+    intro="Highlighted technologies are the ones I have used in internships or projects shown on this page; the others I have worked with less."
   >
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 lg:gap-6">
       {skillGroups.map((group, i) => (

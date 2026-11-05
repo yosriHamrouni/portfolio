@@ -8,8 +8,8 @@ const Experience = () => {
   return (
     <Section
       id="experience"
-      eyebrow="Professional experience"
-      title="Career timeline"
+      eyebrow="Experience"
+      title="Where I’ve built software"
       intro="Four internships, each on a real product — from a Laravel hotel application in 2022 to a six-month multi-tenant SaaS with AI features in 2026."
     >
       <ol className="relative space-y-6 before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-px before:bg-gradient-to-b before:from-accent before:via-line-strong before:to-transparent">
@@ -32,7 +32,7 @@ const Experience = () => {
                 </div>
                 <div className="lg:col-span-8">
                   <p className={exp.featured ? 'text-lead text-ink' : 'text-ink'}>{exp.summary}</p>
-                  <ul className={`mt-4 grid gap-x-6 gap-y-2 ${exp.contributions.length > 2 ? 'sm:grid-cols-2' : ''}`}>
+                  {exp.contributions.length > 0 && <ul className={`mt-4 grid gap-x-6 gap-y-2 ${exp.contributions.length > 2 ? 'sm:grid-cols-2' : ''}`}>
                     {exp.contributions.map((item) => (
                       <li key={item} className="flex items-start gap-2.5 text-small text-ink-muted">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-accent mt-1 shrink-0" aria-hidden="true">
@@ -41,7 +41,7 @@ const Experience = () => {
                         <span>{item}</span>
                       </li>
                     ))}
-                  </ul>
+                  </ul>}
                   <div className="mt-5 flex flex-wrap gap-2">
                     {exp.stack.map((tech) => (
                       <span key={tech} className="px-2.5 py-1 rounded-full bg-muted border border-line font-mono text-[11px] text-ink-muted">

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useLanguage } from '../i18n/useLanguage';
 
 // Dark-first: the site is dark unless the visitor picks light.
 const ThemeToggle = () => {
+  const { ui } = useLanguage();
   const [isDark, setIsDark] = useState(() => !document.documentElement.classList.contains('light'));
 
   useEffect(() => {
@@ -13,7 +15,7 @@ const ThemeToggle = () => {
     }
   }, [isDark]);
 
-  const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+  const label = isDark ? ui.theme.toLight : ui.theme.toDark;
 
   return (
     <button

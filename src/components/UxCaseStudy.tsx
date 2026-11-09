@@ -1,21 +1,25 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import type { Project, UxProject } from '../data/projects';
+import type { Project, UxProject } from '../data/types';
+import { useLanguage } from '../i18n/useLanguage';
 import { stagger } from '../lib/motion';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from './Icons';
 
 type Who = 'team' | 'me';
 
 // Credits who did a piece of work: team research vs. my design work.
-const WhoBadge = ({ who }: { who: Who }) => (
-  <span
-    className={`shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full meta ${
-      who === 'team' ? 'bg-tertiary/15 text-tertiary' : 'bg-accent/15 text-accent'
-    }`}
-  >
-    {who === 'team' ? 'Team research' : 'My work'}
-  </span>
-);
+const WhoBadge = ({ who }: { who: Who }) => {
+  const { ui } = useLanguage();
+  return (
+    <span
+      className={`shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full meta ${
+        who === 'team' ? 'bg-tertiary/15 text-tertiary' : 'bg-accent/15 text-accent'
+      }`}
+    >
+      {who === 'team' ? ui.ux.teamResearch : ui.ux.myWork}
+    </span>
+  );
+};
 
 const SubHeading = ({ children, who }: { children: ReactNode; who?: Who }) => (
   <div className="reveal flex flex-wrap items-center gap-3 mb-5">
@@ -26,7 +30,7 @@ const SubHeading = ({ children, who }: { children: ReactNode; who?: Who }) => (
 
 // One stage of the design process: Discover, Define, Ideate, Design.
 const Stage = ({ index, name, title, children }: { index: number; name: string; title: string; children: ReactNode }) => (
-  <section id={`stage-${name.toLowerCase()}`} className="scroll-mt-24 pt-16 lg:pt-24 border-t border-line">
+  <section id={`stage-${index}`} className="scroll-mt-24 pt-16 lg:pt-24 border-t border-line">
     <div className="reveal mb-10">
       <p className="meta text-accent flex items-center gap-3">
         <span className="w-6 h-px bg-accent" aria-hidden="true" />
@@ -49,7 +53,9 @@ const Phone = ({ src, caption, className = '' }: { src: string; caption: string;
   </figure>
 );
 
-const Figure = ({ src, caption, wide = false }: { src: string; caption: string; wide?: boolean }) => (
+const Figure = ({ src, caption, wide = false }: { src: string; caption: string; wide?: boolean }) => {
+  const { ui } = useLanguage();
+  return (
   <figure className="reveal min-w-0">
     <div className={`rounded-2xl border border-line overflow-hidden bg-white ${wide ? 'overflow-x-auto' : ''}`}>
       <img src={src} alt={caption} loading="lazy" className={wide ? 'block max-w-none w-[1600px] lg:w-full h-auto' : 'block w-full h-auto'} />
@@ -57,11 +63,12 @@ const Figure = ({ src, caption, wide = false }: { src: string; caption: string; 
     <figcaption className="mt-3 flex flex-wrap justify-between gap-3 text-small text-ink-muted">
       <span>{caption}</span>
       <a href={src} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-accent font-semibold text-xs">
-        <span className="link-underline">Open full size</span> <ArrowUpRight size={12} />
+        <span className="link-underline">{ui.ux.openFullSize}</span> <ArrowUpRight size={12} />
       </a>
     </figcaption>
   </figure>
-);
+  );
+};
 
 const Chip = ({ children, strong = false }: { children: ReactNode; strong?: boolean }) => (
   <li className={`px-3 py-1 rounded-full text-xs ${strong ? 'bg-accent/10 border border-accent/25 text-ink' : 'border border-line text-ink-muted'}`}>
@@ -70,10 +77,11 @@ const Chip = ({ children, strong = false }: { children: ReactNode; strong?: bool
 );
 
 export const UxCover = ({ project, compact = false }: { project: UxProject; compact?: boolean }) => {
+  const { ui } = useLanguage();
   if (project.cover) {
     return (
       <div className="rounded-2xl border border-line overflow-hidden bg-muted">
-        <img src={project.cover} alt={`${project.title} cover`} className="w-full h-auto" />
+        <img src={project.cover} alt={ui.ux.coverAlt(project.title)} className="w-full h-auto" />
       </div>
     );
   }
@@ -90,11 +98,13 @@ export const UxCover = ({ project, compact = false }: { project: UxProject; comp
 };
 
 // User flow drawn as connected nodes; decisions show their alternative branch.
-const FlowDiagram = ({ flow }: { flow: UxProject['userFlows'][number] }) => (
+const FlowDiagram = ({ flow }: { flow: UxProject['userFlows'][number] }) => {
+  const { ui } = useLanguage();
+  return (
   <div className="reveal card p-6">
     <h4 className="font-semibold text-ink mb-5">{flow.title}</h4>
     <ol className="flex flex-wrap gap-x-3 gap-y-5 items-start">
-      <li className="shrink-0 self-center px-3 py-1.5 rounded-full bg-muted border border-line meta text-ink-subtle">Start</li>
+      <li className="shrink-0 self-center px-3 py-1.5 rounded-full bg-muted border border-line meta text-ink-subtle">{ui.ux.flowStart}</li>
       {flow.nodes.map((node) => (
         <li key={node.label} className="shrink-0 flex items-start gap-3">
           <ArrowRight size={14} className="mt-4 text-ink-subtle" />
@@ -110,19 +120,21 @@ const FlowDiagram = ({ flow }: { flow: UxProject['userFlows'][number] }) => (
             >
               {node.label}
             </div>
-            {node.alt && <p className="mt-2 text-[11px] leading-snug text-ink-subtle">↳ {node.alt}</p>}
+            {node.alt && <p className="mt-2 text-[11px] leading-snug text-ink-subtle">{ui.ux.branch} {node.alt}</p>}
           </div>
         </li>
       ))}
     </ol>
   </div>
-);
+  );
+};
 
 const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) => {
+  const { ui } = useLanguage();
   const facts = [
-    { label: 'Role', value: project.role },
-    { label: 'Context', value: project.context },
-    project.period && { label: 'Year', value: project.period },
+    { label: ui.project.role, value: project.role },
+    { label: ui.project.context, value: project.context },
+    project.period && { label: ui.project.year, value: project.period },
   ].filter(Boolean) as { label: string; value: string }[];
   const { research, storyboards, journey, ideation } = project;
 
@@ -130,7 +142,7 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
     <article className="pt-28 lg:pt-32 pb-16">
       <div className="container-page">
         <Link to="/#projects" className="inline-flex items-center gap-2 text-small text-ink-muted hover:text-accent transition-colors">
-          <ArrowLeft size={14} /> All projects
+          <ArrowLeft size={14} /> {ui.project.allProjects}
         </Link>
 
         {/* Cover */}
@@ -143,12 +155,12 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
               {facts.map((fact) => (
                 <div key={fact.label} className="flex justify-between gap-4 px-5 py-3.5">
                   <dt className="font-mono text-xs text-ink-subtle pt-0.5">{fact.label}</dt>
-                  <dd className="text-ink text-right">{fact.value}</dd>
+                  <dd className="text-ink text-end">{fact.value}</dd>
                 </div>
               ))}
               <div className="flex justify-between gap-4 px-5 py-3.5">
-                <dt className="font-mono text-xs text-ink-subtle pt-0.5">Tools</dt>
-                <dd className="text-right space-y-1">
+                <dt className="font-mono text-xs text-ink-subtle pt-0.5">{ui.project.tools}</dt>
+                <dd className="text-end space-y-1">
                   {project.tools.map((tool) => (
                     <p key={tool.name}>
                       <span className="text-ink">{tool.name}</span>
@@ -176,12 +188,12 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
             ))}
           </ul>
         </section>
-        <nav aria-label="Design process" className="reveal mb-4">
+        <nav aria-label={ui.ux.designProcess} className="reveal mb-4">
           <ol className="flex flex-wrap items-center gap-2">
             {project.stages.map((stage, i) => (
               <li key={stage} className="flex items-center gap-2">
-                <a href={`#stage-${stage.toLowerCase()}`} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-line text-small text-ink hover:border-accent hover:text-accent transition-colors">
-                  <span className="font-mono text-[11px] text-accent">{String(i + 1).padStart(2, '0')}</span>
+                <a href={`#stage-${i + 1}`} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-line text-small text-ink hover:border-accent hover:text-accent transition-colors">
+                  <span className="font-code text-[11px] text-accent">{String(i + 1).padStart(2, '0')}</span>
                   {stage}
                 </a>
                 {i < project.stages.length - 1 && <ArrowRight size={14} className="text-ink-subtle" />}
@@ -191,14 +203,14 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
         </nav>
 
         {/* 01 — Discover */}
-        <Stage index={1} name="Discover" title="Understanding the problem">
+        <Stage index={1} name={project.stages[0]} title={ui.ux.stageTitles[0]}>
           <div>
-            <SubHeading who="team">The problem</SubHeading>
+            <SubHeading who="team">{ui.ux.problem}</SubHeading>
             <p className="reveal text-lead text-ink mb-6">{project.problemIntro}</p>
             <ul className="grid sm:grid-cols-2 gap-4">
               {project.problemPoints.map((point, i) => (
                 <li key={point} className="reveal card p-5 flex items-start gap-4" style={stagger(i % 2)}>
-                  <span className="font-mono text-2xl text-accent/50 leading-none">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="font-code text-2xl text-accent/50 leading-none">{String(i + 1).padStart(2, '0')}</span>
                   <span className="text-ink">{point}</span>
                 </li>
               ))}
@@ -206,7 +218,7 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
           </div>
 
           <div>
-            <SubHeading who="team">Research plan</SubHeading>
+            <SubHeading who="team">{ui.ux.researchPlan}</SubHeading>
             <div className="grid md:grid-cols-2 gap-4">
               {research.methods.map((m, i) => (
                 <div key={m.title} className="reveal card p-6" style={stagger(i)}>
@@ -214,7 +226,7 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
                   <p className="meta text-ink-subtle normal-case tracking-normal mt-1">{m.detail}</p>
                   <ul className="mt-4 space-y-2">
                     {m.samples.map((q) => (
-                      <li key={q} className="text-small text-ink-muted pl-4 border-l-2 border-accent/40">“{q}”</li>
+                      <li key={q} className="text-small text-ink-muted ps-4 border-s-2 border-accent/40"><q>{q}</q></li>
                     ))}
                   </ul>
                 </div>
@@ -223,7 +235,7 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
           </div>
 
           <div>
-            <SubHeading who="team">Who might use it</SubHeading>
+            <SubHeading who="team">{ui.ux.whoMightUse}</SubHeading>
             <div className="grid md:grid-cols-2 gap-4">
               {research.segments.map((seg, i) => (
                 <div key={seg.name} className="reveal card p-6" style={stagger(i)}>
@@ -237,14 +249,14 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
           </div>
 
           <div>
-            <SubHeading who="team">Competitor analysis</SubHeading>
+            <SubHeading who="team">{ui.ux.competitorAnalysis}</SubHeading>
             <div className="reveal flex flex-wrap gap-x-8 gap-y-3 mb-6 text-small">
               <div>
-                <p className="meta text-ink-subtle mb-2">Compared</p>
+                <p className="meta text-ink-subtle mb-2">{ui.ux.compared}</p>
                 <ul className="flex flex-wrap gap-2">{research.competitors.names.map((n) => <Chip key={n} strong>{n}</Chip>)}</ul>
               </div>
               <div>
-                <p className="meta text-ink-subtle mb-2">Criteria</p>
+                <p className="meta text-ink-subtle mb-2">{ui.ux.criteria}</p>
                 <ul className="flex flex-wrap gap-2">{research.competitors.criteria.map((c) => <Chip key={c}>{c}</Chip>)}</ul>
               </div>
             </div>
@@ -255,9 +267,9 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
         </Stage>
 
         {/* 02 — Define */}
-        <Stage index={2} name="Define" title="Who we design for">
+        <Stage index={2} name={project.stages[1]} title={ui.ux.stageTitles[1]}>
           <div>
-            <SubHeading who="team">Personas</SubHeading>
+            <SubHeading who="team">{ui.ux.personas}</SubHeading>
             <ul className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
               {project.personas.map((p, i) => (
                 <li key={p.name} className="reveal card card-hover p-5 flex flex-col" style={stagger(i)}>
@@ -267,7 +279,7 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
                   <h4 className="mt-4 font-display text-lg font-semibold text-ink">{p.name}</h4>
                   <p className="meta text-accent normal-case tracking-normal">{p.role}</p>
                   <p className="mt-1 text-xs text-ink-subtle">{p.profile}</p>
-                  {p.quote && <p className="mt-3 text-small italic text-ink">“{p.quote}”</p>}
+                  {p.quote && <p className="mt-3 text-small italic text-ink"><q>{p.quote}</q></p>}
                   <p className="mt-3 text-small text-ink-muted">{p.need}</p>
                 </li>
               ))}
@@ -275,7 +287,7 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
           </div>
 
           <div>
-            <SubHeading who="team">Storyboards</SubHeading>
+            <SubHeading who="team">{ui.ux.storyboards}</SubHeading>
             <p className="reveal text-ink-muted max-w-3xl mb-6">{storyboards.intro}</p>
             <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
               {storyboards.stories.map((s, i) => (
@@ -289,15 +301,15 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
           </div>
 
           <div>
-            <SubHeading who="team">Journey map — {journey.persona}</SubHeading>
+            <SubHeading who="team">{ui.ux.journeyMap(journey.persona)}</SubHeading>
             <div className="reveal card overflow-x-auto">
               <table className="w-full min-w-[960px] text-small border-collapse">
                 <thead>
                   <tr>
-                    <th scope="col" className="sr-only">Row</th>
+                    <th scope="col" className="sr-only">{ui.ux.row}</th>
                     {journey.stages.map((s, i) => (
-                      <th key={s.name} scope="col" className="text-left align-bottom px-3 py-3 border-b border-line">
-                        <span className="font-mono text-[11px] text-accent">{String(i + 1).padStart(2, '0')}</span>
+                      <th key={s.name} scope="col" className="text-start align-bottom px-3 py-3 border-b border-line">
+                        <span className="font-code text-[11px] text-accent">{String(i + 1).padStart(2, '0')}</span>
                         <span className="block font-semibold text-ink">{s.name}</span>
                       </th>
                     ))}
@@ -305,14 +317,14 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
                 </thead>
                 <tbody>
                   {([
-                    ['Action', 'action', 'text-ink'],
-                    ['Pain point', 'pain', 'text-ink-muted'],
-                    ['Opportunity', 'opportunity', 'text-ink-muted'],
+                    [ui.ux.action, 'action', 'text-ink'],
+                    [ui.ux.pain, 'pain', 'text-ink-muted'],
+                    [ui.ux.opportunity, 'opportunity', 'text-ink-muted'],
                   ] as const).map(([label, key, tone]) => (
                     <tr key={key} className="align-top">
                       <th scope="row" className="sr-only">{label}</th>
                       {journey.stages.map((s) => (
-                        <td key={s.name} className={`px-3 py-3 border-b border-line last:border-r-0 ${tone}`}>
+                        <td key={s.name} className={`px-3 py-3 border-b border-line ${tone}`}>
                           <span className={`block meta mb-1 ${key === 'pain' ? 'text-ink-subtle' : key === 'opportunity' ? 'text-accent' : 'text-ink-subtle'}`}>{label}</span>
                           {s[key]}
                         </td>
@@ -326,13 +338,13 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
         </Stage>
 
         {/* 03 — Ideate */}
-        <Stage index={3} name="Ideate" title="From ideas to features">
+        <Stage index={3} name={project.stages[2]} title={ui.ux.stageTitles[2]}>
           <div>
-            <SubHeading who="team">Brainstorm, prioritize, cluster</SubHeading>
+            <SubHeading who="team">{ui.ux.brainstorm}</SubHeading>
             <ol className="grid md:grid-cols-3 gap-4 mb-6">
               {ideation.steps.map((step, i) => (
                 <li key={step.title} className="reveal card p-6" style={stagger(i)}>
-                  <span className="font-display text-4xl font-bold text-accent">
+                  <span dir="ltr" className="inline-block font-display text-4xl font-bold text-accent">
                     {i === 0 ? ideation.ideaCount : i === 1 ? '2×2' : ideation.groupedCount}
                   </span>
                   <p className="mt-2 font-semibold text-ink">{step.title}</p>
@@ -345,7 +357,7 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
                 <li key={c.name} className="reveal rounded-xl border border-line p-4" style={stagger(i % 4)}>
                   <p className="flex items-baseline justify-between gap-2">
                     <span className="font-semibold text-ink">{c.name}</span>
-                    <span className="font-mono text-xs text-accent">{c.count} ideas</span>
+                    <span className="font-mono text-xs text-accent shrink-0">{ui.ux.ideas(c.count)}</span>
                   </p>
                   <p className="mt-2 text-xs text-ink-muted">{c.examples.join(' · ')}</p>
                 </li>
@@ -355,24 +367,22 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
           </div>
 
           <div>
-            <SubHeading who="me">From insight to interface</SubHeading>
-            <p className="reveal text-ink-muted max-w-3xl mb-6">
-              How each research finding became a design decision on a real screen.
-            </p>
+            <SubHeading who="me">{ui.ux.insightToInterface}</SubHeading>
+            <p className="reveal text-ink-muted max-w-3xl mb-6">{ui.ux.insightIntro}</p>
             <ol className="grid grid-cols-1 gap-4">
               {project.decisions.map((d, i) => (
                 <li key={d.theme} className="reveal card p-6 grid md:grid-cols-12 gap-6 items-center" style={stagger(i % 2)}>
                   <div className="md:col-span-9">
                     <p className="flex items-center gap-3">
-                      <span className="font-mono text-xs text-accent">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="font-code text-xs text-accent">{String(i + 1).padStart(2, '0')}</span>
                       <span className="font-semibold text-ink">{d.theme}</span>
                     </p>
                     <dl className="mt-4 grid sm:grid-cols-3 gap-3 text-small">
-                      {([['Insight', d.insight, 'team'], ['Team idea', d.idea, 'team'], ['My design decision', d.decision, 'me']] as const).map(([label, text, who], j) => (
+                      {([[ui.ux.insight, d.insight, 'team'], [ui.ux.teamIdea, d.idea, 'team'], [ui.ux.myDecision, d.decision, 'me']] as const).map(([label, text, who], j) => (
                         <div key={label} className={`relative rounded-xl p-4 ${who === 'me' ? 'bg-accent/10 border border-accent/30' : 'border border-line'}`}>
                           <dt className={`meta mb-1 ${who === 'me' ? 'text-accent' : 'text-ink-subtle'}`}>{label}</dt>
                           <dd className={who === 'me' ? 'text-ink' : 'text-ink-muted'}>{text}</dd>
-                          {j < 2 && <ArrowRight size={14} className="hidden sm:block absolute -right-3 top-1/2 -translate-y-1/2 text-ink-subtle" />}
+                          {j < 2 && <ArrowRight size={14} className="hidden sm:block absolute -end-3 top-1/2 -translate-y-1/2 text-ink-subtle" />}
                         </div>
                       ))}
                     </dl>
@@ -386,7 +396,7 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
           </div>
 
           <div>
-            <SubHeading who="me">User flows</SubHeading>
+            <SubHeading who="me">{ui.ux.userFlows}</SubHeading>
             <div className="grid grid-cols-1 gap-4">
               {project.userFlows.map((flow) => <FlowDiagram key={flow.title} flow={flow} />)}
             </div>
@@ -394,9 +404,9 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
         </Stage>
 
         {/* 04 — Design */}
-        <Stage index={4} name="Design" title="High-fidelity screens">
+        <Stage index={4} name={project.stages[3]} title={ui.ux.stageTitles[3]}>
           <div>
-            <SubHeading who="me">Flows and screens</SubHeading>
+            <SubHeading who="me">{ui.ux.flowsAndScreens}</SubHeading>
             <p className="reveal text-lead text-ink max-w-3xl mb-8">{project.work.intro}</p>
             <div className="grid grid-cols-1 gap-4">
               {project.work.flows.map((flow, i) => (
@@ -406,7 +416,7 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
                     {flow.steps.map((step, s) => (
                       <li key={step} className="flex items-center gap-2">
                         <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-line bg-muted text-small text-ink">
-                          <span className="font-mono text-[11px] text-accent">{s + 1}</span>
+                          <span className="font-code text-[11px] text-accent">{s + 1}</span>
                           {step}
                         </span>
                         {s < flow.steps.length - 1 && <ArrowRight size={14} className="text-ink-subtle" />}
@@ -414,7 +424,7 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
                     ))}
                   </ol>
                   {flow.screens?.length ? (
-                    // Screens follow the flow left to right; scrolls sideways on small screens.
+                    // Screens follow the flow in reading order; scrolls sideways on small screens.
                     <div className="mt-8 -mx-6 px-6 lg:mx-0 lg:px-0 flex gap-6 overflow-x-auto pb-2">
                       {flow.screens.map((screen) => (
                         <Phone key={screen.src} src={screen.src} caption={screen.caption} className="w-44 sm:w-52 shrink-0" />
@@ -428,10 +438,10 @@ const UxCaseStudy = ({ project, next }: { project: UxProject; next: Project }) =
         </Stage>
 
         <Link to={`/project/${next.slug}`} className="group mt-16 block card card-hover p-6 lg:p-10">
-          <span className="meta text-ink-subtle">Next project</span>
+          <span className="meta text-ink-subtle">{ui.project.nextProject}</span>
           <span className="mt-2 flex items-center justify-between gap-6">
             <span className="text-h2 font-display font-semibold text-ink group-hover:text-accent transition-colors">{next.title}</span>
-            <span className="w-12 h-12 rounded-full bg-accent text-on-accent flex items-center justify-center shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true">
+            <span className="w-12 h-12 rounded-full bg-accent text-on-accent flex items-center justify-center shrink-0 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" aria-hidden="true">
               <ArrowRight size={20} />
             </span>
           </span>

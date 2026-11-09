@@ -1,22 +1,15 @@
 import { Link } from 'react-router-dom';
 import devPhoto from '../assets/dev-photo.jpg';
-import { pillars, profile } from '../data/profile';
+import { profile } from '../data/profile';
+import { useCvs, useLanguage } from '../i18n/useLanguage';
 import { stagger } from '../lib/motion';
 import { ArrowRight, ArrowUpRight, Download } from './Icons';
 
-const microStats = [
-  {
-    label: 'Engineering degree, ESPRIT 2026',
-    icon: <><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></>,
-  },
-  {
-    label: 'Exchange semester, CESI Caen (France)',
-    icon: <><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" /></>,
-  },
-  {
-    label: `Based in ${profile.location}`,
-    icon: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></>,
-  },
+// Icons for the three hero facts (degree, exchange, location), in content order.
+const factIcons = [
+  <><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></>,
+  <><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" /></>,
+  <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></>,
 ];
 
 const pillarIcons = [
@@ -28,6 +21,8 @@ const pillarIcons = [
 const pillButton = 'h-12 px-6 inline-flex items-center gap-2 rounded-full font-semibold text-small transition-all duration-200';
 
 const Hero = () => {
+  const { ui, content } = useLanguage();
+  const cvs = useCvs();
   return (
     <section aria-labelledby="hero-title" className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden">
       <div className="container-page">
@@ -35,34 +30,36 @@ const Hero = () => {
           <div className="lg:col-span-7 space-y-8">
             <div className="reveal inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-accent/10 border border-accent/30">
               <span className="w-2 h-2 rounded-full bg-accent pulse-dot" />
-              <span className="meta text-accent normal-case tracking-normal">Open to full-time roles · available now</span>
+              <span className="meta text-accent normal-case tracking-normal">{ui.hero.badge}</span>
             </div>
 
             <h1 id="hero-title" className="reveal text-display font-bold text-ink text-balance" style={stagger(1)}>
-              I build full-stack business applications — and{' '}
-              <span className="bg-gradient-to-r from-accent to-tertiary bg-clip-text text-transparent">add AI where it actually helps</span>.
+              {ui.hero.titleStart}
+              {/* The gradient follows the reading direction. */}
+              <span className="bg-gradient-to-r rtl:bg-gradient-to-l from-accent to-tertiary bg-clip-text text-transparent">{ui.hero.titleHighlight}</span>
+              {ui.hero.titleEnd}
             </h1>
 
             <p className="reveal text-lead text-ink-muted max-w-xl" style={stagger(2)}>
-              {profile.intro}
+              {content.intro}
             </p>
 
             <div className="reveal flex flex-wrap items-center gap-3" style={stagger(3)}>
               <Link to={`/project/${profile.demoProject}`} className={`group ${pillButton} bg-accent text-on-accent glow-btn`}>
-                Watch the 2-min product demo
-                <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
+                {ui.hero.demoCta}
+                <ArrowRight className="transition-transform group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
               </Link>
               <Link to="/#projects" className={`${pillButton} border border-line-strong text-ink hover:border-accent hover:text-accent`}>
-                See all projects
+                {ui.hero.allProjects}
               </Link>
-              {profile.cvs[0] && (
+              {cvs[0] && (
                 <span className="inline-flex items-center gap-3">
-                  <a href={profile.cvs[0].url} download className="inline-flex items-center gap-2 text-small font-semibold text-ink hover:text-accent transition-colors">
-                    <Download /> Download CV <span className="meta text-ink-subtle normal-case tracking-normal">{profile.cvs[0].label}</span>
+                  <a href={cvs[0].url} download className="inline-flex items-center gap-2 text-small font-semibold text-ink hover:text-accent transition-colors">
+                    <Download /> {ui.common.downloadCv} <span className="meta text-ink-subtle normal-case tracking-normal">{cvs[0].label}</span>
                   </a>
-                  {profile.cvs.slice(1).map((cv) => (
-                    <a key={cv.url} href={cv.url} download className="meta text-ink-subtle normal-case tracking-normal hover:text-accent transition-colors" aria-label={`Download CV — ${cv.label}`}>
-                      {cv.lang}
+                  {cvs.slice(1).map((cv) => (
+                    <a key={cv.url} href={cv.url} download lang="en" className="font-code text-meta text-ink-subtle hover:text-accent transition-colors" aria-label={ui.common.downloadCvIn(cv.label)}>
+                      {cv.lang.toUpperCase()}
                     </a>
                   ))}
                 </span>
@@ -78,12 +75,12 @@ const Hero = () => {
               </a>
               <span className="hidden sm:block w-px h-4 bg-line-strong" aria-hidden="true" />
               <ul className="flex flex-wrap gap-x-6 gap-y-2 meta text-ink-subtle normal-case tracking-normal">
-                {microStats.map((stat) => (
-                  <li key={stat.label} className="flex items-center gap-2">
+                {content.heroFacts.map((fact, i) => (
+                  <li key={fact} className="flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent" aria-hidden="true">
-                      {stat.icon}
+                      {factIcons[i]}
                     </svg>
-                    {stat.label}
+                    {fact}
                   </li>
                 ))}
               </ul>
@@ -94,23 +91,23 @@ const Hero = () => {
             {/* Cyan glow cones behind the portrait */}
             <div aria-hidden="true" className="absolute -inset-10 -z-10 bg-[radial-gradient(circle_at_70%_20%,var(--glow-strong),transparent_55%),radial-gradient(circle_at_20%_90%,var(--canvas-glow),transparent_60%)] blur-2xl opacity-70" />
             <div className="relative aspect-[4/5] rounded-2xl border border-line overflow-hidden bg-muted">
-              <img src={devPhoto} alt="Portrait of Yosri Hamrouni" width={400} height={400} className="w-full h-full object-cover" />
+              <img src={devPhoto} alt={ui.hero.portraitAlt} width={400} height={400} className="w-full h-full object-cover" />
               <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-paper/90 to-transparent" />
               <div className="absolute left-4 right-4 bottom-4 flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-paper/70 backdrop-blur-md border border-line">
                 <div>
-                  <div className="text-small font-semibold text-ink">{profile.name}</div>
-                  <div className="font-mono text-[11px] text-ink-subtle">{profile.role}</div>
+                  <div dir="ltr" className="text-small font-semibold text-ink text-start rtl:text-end">{profile.name}</div>
+                  <div className="font-mono text-[11px] text-ink-subtle">{content.role}</div>
                 </div>
-                <span className="font-mono text-[11px] text-accent">Tunisia ↔ France</span>
+                <span className="font-mono text-[11px] text-accent shrink-0">{ui.hero.cardTag}</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* The three capabilities the site is organised around */}
-        <h2 className="sr-only">What I do</h2>
+        <h2 className="sr-only">{ui.hero.pillarsHeading}</h2>
         <ul className="mt-20 lg:mt-24 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {pillars.map((pillar, i) => (
+          {content.pillars.map((pillar, i) => (
             <li key={pillar.title} className="reveal card card-hover p-6" style={stagger(i)}>
               <div className="flex items-center gap-3">
                 <span className="w-10 h-10 rounded-lg bg-accent/10 text-accent flex items-center justify-center">

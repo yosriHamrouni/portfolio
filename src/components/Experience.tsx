@@ -1,23 +1,20 @@
 import { Link } from 'react-router-dom';
-import { experiences } from '../data/experience';
+import { useLanguage } from '../i18n/useLanguage';
 import { stagger } from '../lib/motion';
 import { ArrowRight } from './Icons';
 import Section from './Section';
 
 const Experience = () => {
+  const { ui, content } = useLanguage();
   return (
-    <Section
-      id="experience"
-      eyebrow="Experience"
-      title="Where I’ve built software"
-      intro="Four internships, each on a real product — from a Laravel hotel application in 2022 to a six-month multi-tenant SaaS with AI features in 2026."
-    >
-      <ol className="relative space-y-6 before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-px before:bg-gradient-to-b before:from-accent before:via-line-strong before:to-transparent">
-        {experiences.map((exp, index) => (
-          <li key={exp.company} className="reveal relative pl-10" style={stagger(index)}>
+    <Section id="experience" eyebrow={ui.experience.eyebrow} title={ui.experience.title} intro={ui.experience.intro}>
+      {/* Timeline rail sits on the inline-start side, so it moves to the right in Arabic. */}
+      <ol className="relative space-y-6 before:absolute before:start-[7px] before:top-2 before:bottom-2 before:w-px before:bg-gradient-to-b before:from-accent before:via-line-strong before:to-transparent">
+        {content.experiences.map((exp, index) => (
+          <li key={exp.company} className="reveal relative ps-10" style={stagger(index)}>
             <span
               aria-hidden="true"
-              className={`absolute left-0 top-8 w-[15px] h-[15px] rounded-full border-2 border-accent ${exp.featured ? 'bg-accent pulse-dot' : 'bg-paper'}`}
+              className={`absolute start-0 top-8 w-[15px] h-[15px] rounded-full border-2 border-accent ${exp.featured ? 'bg-accent pulse-dot' : 'bg-paper'}`}
             />
             <article className={`card card-hover p-6 lg:p-8 ${exp.featured ? 'border-accent/40' : ''}`}>
               <div className="grid lg:grid-cols-12 gap-6">
@@ -27,7 +24,7 @@ const Experience = () => {
                   <p className="text-small text-ink">{exp.role}</p>
                   {exp.location && <p className="meta text-ink-subtle normal-case tracking-normal">{exp.location}</p>}
                   {exp.featured && (
-                    <span className="inline-block mt-2 px-2.5 py-1 rounded-full bg-accent/10 text-accent meta">Main project</span>
+                    <span className="inline-block mt-2 px-2.5 py-1 rounded-full bg-accent/10 text-accent meta">{ui.experience.mainProject}</span>
                   )}
                 </div>
                 <div className="lg:col-span-8">
@@ -44,15 +41,15 @@ const Experience = () => {
                   </ul>}
                   <div className="mt-5 flex flex-wrap gap-2">
                     {exp.stack.map((tech) => (
-                      <span key={tech} className="px-2.5 py-1 rounded-full bg-muted border border-line font-mono text-[11px] text-ink-muted">
+                      <span key={tech} className="px-2.5 py-1 rounded-full bg-muted border border-line font-code text-[11px] text-ink-muted">
                         {tech}
                       </span>
                     ))}
                   </div>
                   {exp.project && (
                     <Link to={`/project/${exp.project}`} className="group mt-6 inline-flex items-center gap-2 text-small font-semibold text-accent">
-                      <span className="link-underline">Read the case study</span>
-                      <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                      <span className="link-underline">{ui.experience.readCaseStudy}</span>
+                      <ArrowRight size={14} className="transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
                     </Link>
                   )}
                 </div>

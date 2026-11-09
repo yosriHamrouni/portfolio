@@ -32,3 +32,6 @@ src/assets/project-imgs/
 
 # Accidental Windows device-name file
 NUL
+
+# Private profile notes (contains contact details)
+PROFILE.md

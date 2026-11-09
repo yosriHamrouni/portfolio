@@ -1,85 +1,8 @@
 // Case studies. Every statement here must be traceable to the master brief, the CV
 // or the project's public README — no invented metrics, links or screenshots.
 
+import type { Project } from '../../../data/types';
 import { warda } from './warda';
-
-// Fields every project card and page needs.
-type BaseProject = {
-  slug: string;
-  title: string;
-  /** One line under the title. */
-  tagline: string;
-  category: string;
-  context: string;
-  period?: string;
-  role: string;
-  stack: string[];
-  repo?: string;
-  /** Shown instead of the repo button when there is no public link yet. */
-  repoNote?: string;
-  demo?: string;
-  /** Real screenshots only. */
-  screenshots: { src: string; caption: string }[];
-  screenshotNote?: string;
-  /** Edited product demo (real recording). Smaller source first, picked by `media`. */
-  video?: {
-    sources: { src: string; media?: string }[];
-    poster: string;
-    duration: string;
-    chapters: { label: string; time: number }[];
-    note: string;
-  };
-};
-
-// Software case study: rendered by the 8-section engineering layout.
-export type EngineeringProject = BaseProject & {
-  kind?: 'engineering';
-  problem: string;
-  solution: string;
-  contribution: string[];
-  architecture: { title: string; text: string }[];
-  /** Why these technologies — kept factual. */
-  choices: string[];
-  challenges: { title: string; text: string }[];
-  features: string[];
-  outcome: string;
-};
-
-// UX/UI case study: rendered by `UxCaseStudy` as a Discover → Define → Ideate → Design story.
-type Shot = { src: string; caption: string };
-export type UxProject = BaseProject & {
-  kind: 'ux';
-  /** Optional dedicated cover image; otherwise the first screens are shown as phone mockups. */
-  cover?: string;
-  tools: { name: string; use: string }[];
-  overview: string;
-  /** Who did what — research is credited to the team. */
-  roleSplit: { who: 'team' | 'me'; text: string }[];
-  stages: string[];
-  problemIntro: string;
-  problemPoints: string[];
-  research: {
-    methods: { title: string; detail: string; samples: string[] }[];
-    segments: { name: string; items: string[] }[];
-    competitors: { names: string[]; criteria: string[]; images: Shot[] };
-  };
-  personas: { name: string; role: string; profile: string; quote?: string; need: string }[];
-  storyboards: { intro: string; stories: { persona: string; story: string }[]; image: Shot };
-  journey: { persona: string; stages: { name: string; action: string; pain: string; opportunity: string }[] };
-  ideation: {
-    ideaCount: number;
-    groupedCount: number;
-    steps: { title: string; text: string }[];
-    clusters: { name: string; count: number; examples: string[] }[];
-    image: Shot;
-  };
-  /** Research insight → team idea → my design decision → the screen that shows it. */
-  decisions: { theme: string; insight: string; idea: string; decision: string; screen: Shot }[];
-  userFlows: { title: string; nodes: { label: string; kind: 'step' | 'decision' | 'end'; alt?: string }[] }[];
-  work: { intro: string; flows: { title: string; steps: string[]; screens?: Shot[] }[] };
-};
-
-export type Project = EngineeringProject | UxProject;
 
 const frame = (n: string, caption: string) => ({ src: `/project-imgs/project_demo_${n}.webp`, caption });
 
@@ -393,76 +316,205 @@ export const projects: Project[] = [
   {
     slug: 'gleam-inspired-platform',
     title: 'Social Campaign Platform',
-    tagline: 'A Gleam.io-style giveaway platform: brands build a campaign from social actions worth points, share one link, and participants earn entries by completing them.',
+    tagline: 'A Gleam.io-style giveaway platform: brands build a campaign from social actions worth entries, share one link, and draw winners in a lottery weighted by entries.',
     category: 'Full-Stack JavaScript (MERN)',
-    context: 'Engineering internship at Krenova Consulting',
+    context: 'Engineering internship at Krenova Consulting · revised in 2026',
     period: 'Jul 2025 – Sep 2025',
     role: 'Software Developer Intern · sole developer',
-    stack: ['React 18', 'Vite', 'React Router', 'Tailwind CSS', 'lucide-react', 'Node.js', 'Express', 'MongoDB', 'Mongoose', 'JWT', 'bcrypt'],
+    stack: ['React 18', 'Vite', 'React Router', 'Tailwind CSS', 'Node.js', 'Express', 'MongoDB', 'Mongoose', 'JWT', 'bcrypt', 'node:test'],
+    repo: 'https://github.com/yosriHamrouni/gleam-campaign-platform',
     screenshots: [
-      { src: '/project-imgs/gleam/01-dashboard.webp', caption: 'Creator dashboard — active campaigns, participants, recent and upcoming campaigns' },
-      { src: '/project-imgs/gleam/02-competitions.webp', caption: 'Campaign list with actions, participants and time remaining' },
-      { src: '/project-imgs/gleam/04-add-action.webp', caption: 'Adding an entry action: type, target and points' },
-      { src: '/project-imgs/gleam/03-create-actions.webp', caption: 'Campaign builder with its list of required actions' },
-      { src: '/project-imgs/gleam/05-participant-entry.webp', caption: 'Participant page — action checklist, entries and days left' },
-      { src: '/project-imgs/gleam/06-login.webp', caption: 'Sign-in (JWT)' },
+      { src: '/project-imgs/gleam/01-dashboard.webp', caption: 'Creator dashboard — active campaigns, participants, entry rate and campaigns ready to draw' },
+      { src: '/project-imgs/gleam/02-competitions.webp', caption: 'Campaign list with status tabs, views, participants, entries and entry rate' },
+      { src: '/project-imgs/gleam/03-builder.webp', caption: 'Campaign builder — prize, winners, dates and the actions that earn entries' },
+      { src: '/project-imgs/gleam/04-manage-draw.webp', caption: 'Manage page after a draw — share link, participants with their odds, winners' },
+      { src: '/project-imgs/gleam/05-participant.webp', caption: 'Participant page after entering — completed actions and saved entries' },
+      { src: '/project-imgs/gleam/06-public-winners.webp', caption: 'Public page once the winners are drawn' },
     ],
-    screenshotNote: 'Captured from a local run of the original code with fictional campaigns.',
+    screenshotNote: 'Captured from a local run of the public repository with fictional demo data.',
     video: {
       sources: [
         { src: '/project-media/gleam-demo-720.mp4', media: '(max-width: 900px)' },
         { src: '/project-media/gleam-demo-900.mp4' },
       ],
       poster: '/project-media/gleam-demo-poster.webp',
-      duration: '0:37',
+      duration: '0:46',
       chapters: [
-        { label: 'Sign in', time: 0 },
-        { label: 'Dashboard & campaigns', time: 3.5 },
-        { label: 'Build a campaign', time: 8.7 },
-        { label: 'Share link', time: 26.2 },
-        { label: 'Participant entry', time: 28.5 },
-        { label: 'Updated dashboard', time: 34.1 },
+        { label: 'Creator sign-in', time: 0 },
+        { label: 'Dashboard', time: 5.1 },
+        { label: 'Build a campaign', time: 10.6 },
+        { label: 'Share link', time: 23.3 },
+        { label: 'Draw winners', time: 25.8 },
+        { label: 'Participant enters', time: 31.4 },
       ],
       note: 'Unedited screen recording of a local run with fictional data. No audio.',
     },
     problem:
       'Online giveaways are a cheap way for a brand to grow its audience: people follow an account, visit a site or subscribe to a channel in exchange for a chance to win. The tools that run them are often paid or complex, so Krenova asked for its own campaign platform in the spirit of Gleam.io.',
     solution:
-      'A creator signs in, describes the campaign (dates, type, optional entry fee) and adds the actions participants must complete — follow on Instagram or X, subscribe on YouTube, visit a website, share a post or a custom action — each worth a number of points. Saving returns a share link. Participants open it, work through the actions as a checklist, and confirm; every completed action earns an extra entry, and the creator’s dashboard updates its counts.',
+      'A creator builds a campaign (prize, dates, number of winners) from actions such as following on Instagram or X, subscribing on YouTube, visiting a site or sharing a post, each worth a number of entries. The campaign gets a public link. Participants open it, complete the actions and enter; entering again updates their entry instead of adding a second one. When the campaign ends, the creator draws the winners at random, weighted by entries, and they appear on the public page.',
     contribution: [
-      'Built the whole application on my own over the two-month internship, with guidance from my company supervisor.',
-      'Express REST API: campaign listing, detail, creation with a URL slug, short code and share link, and an atomic participation endpoint that increments participants and entries in MongoDB.',
-      'Authentication: registration and login with bcrypt-hashed passwords, 7-day JWTs, a Bearer-token middleware and a /me endpoint; the React side keeps the session in a context and guards the campaign builder.',
-      'React interface: creator dashboard computed from live campaign data, campaign list, campaign builder with an action modal, share-link panel and the participant entry page.',
-      'Mongoose models for users and campaigns, with actions embedded in the campaign document.',
+      'Internship (2025): built the whole application on my own over two months, with guidance from my company supervisor: the Express REST API on MongoDB, JWT authentication with bcrypt, and the React creator dashboard, campaign builder and participant page.',
+      '2026 revision: one entry per participant, enforced by a unique index on competition and user. The server computes entries from the actions it knows, so a client cannot inflate its count.',
+      '2026 revision: the winner draw, weighted by entries and without replacement, using crypto.randomInt. It runs once and the result is stored.',
+      '2026 revision: ownership checks on every management route, input validation, a central error handler, and a fix for a hole that let a sign-up request choose the admin role.',
+      '2026 revision: rebuilt the React app around its two audiences (a public campaign page outside the creator area, and a manage page with participants and the draw) and fixed the bug that wiped the campaign title after entering.',
+      '2026 revision: unit tests for validation, entry counting and the draw; a seed script; a README covering the API and the design decisions.',
     ],
     architecture: [
-      { title: 'Client', text: 'React 18 single-page app on Vite with React Router: a sidebar layout for creators, a protected campaign builder and a public participant page. Tailwind CSS and lucide-react icons.' },
-      { title: 'API', text: 'Express server split into routes, controllers, middleware and models, with CORS and JSON parsing, a health-check route and a fallback port if the default one is taken.' },
-      { title: 'Auth', text: 'bcrypt password hashes and signed JWTs carrying the user id and role; a middleware verifies the Bearer token on protected routes.' },
-      { title: 'Data', text: 'MongoDB through Mongoose. A campaign document holds its dates, type, fee, embedded actions (type, target, points, label) and counters for participants, entries and impressions.' },
+      { title: 'Client', text: 'React 18 on Vite with React Router: a protected creator area (dashboard, list, builder, manage page) and a public campaign page. One fetch wrapper talks to the API through the Vite proxy. Tailwind CSS.' },
+      { title: 'API', text: 'Express split into routes, controllers, middleware and models, with required and optional JWT middleware and an error handler that always returns { message, errors }.' },
+      { title: 'Business rules', text: 'Validation, entry counting and the weighted draw live in one module with no Express or MongoDB imports, so they are unit-tested directly with node:test.' },
+      { title: 'Data', text: 'MongoDB through Mongoose: users, competitions with embedded actions and winners, and one Entry document per participant. Campaign totals are recomputed from the entries.' },
     ],
     choices: [
-      'JavaScript from database to browser: one language and JSON end to end, which suited a two-month build by one developer.',
-      'Actions embedded in the campaign document: a campaign and its actions are always read and written together, so one query returns everything the participant page needs.',
-      'Counters updated with MongoDB $inc, so simultaneous participations cannot overwrite each other.',
+      'JavaScript from database to browser: one language and JSON end to end.',
+      'Actions embedded in the campaign document, so the public page gets everything it needs in one query.',
+      'Entries in their own collection with a unique index: entering twice becomes an update, and totals are recomputed from the entries instead of incremented.',
+      'The client sends only the ids of the completed actions; the server adds up the points.',
       'Stateless JWT authentication, so the API needs no session store.',
     ],
     challenges: [
-      { title: 'One model, many actions', text: 'Instagram follows, YouTube subscriptions, website visits and custom tasks all had to fit one action shape (type, target, points) that the builder, the API and the participant page share.' },
-      { title: 'Counting entries', text: 'More completed actions means more entries; the participation endpoint applies that count atomically so totals stay correct under concurrent submissions.' },
-      { title: 'Two audiences, one app', text: 'Creators need an authenticated dashboard and builder; participants need a public page reachable from a shared link with no account.' },
+      { title: 'One model, many actions', text: 'Instagram follows, YouTube subscriptions, website visits and custom tasks all had to fit one action shape (type, target, entries) shared by the builder, the API and the public page.' },
+      { title: 'Counting entries fairly', text: 'The first version incremented a counter each time someone confirmed, so the same person could enter again and again. Moving entries into their own collection, one per participant, fixed that and made a draw possible.' },
+      { title: 'A draw people can trust', text: 'Each participant’s chance is proportional to their entries, nobody can win twice, and the result is stored once so it cannot be re-rolled.' },
+      { title: 'Two audiences, one app', text: 'Creators need a signed-in dashboard; participants need a public page reachable from a shared link, and only sign in when they enter.' },
     ],
     features: [
       'Registration and login with hashed passwords and JWT',
-      'Creator dashboard: active campaigns, participants, recent and upcoming campaigns',
-      'Campaign builder: dates, type (standard, quick draw, tournament, challenge), optional entry fee',
-      'Six action types, each with a target and a points value',
-      'Shareable campaign link with slug and short code',
-      'Participant checklist with entries, total entries and days left',
+      'Campaign builder: prize, type, dates, number of winners, cover image',
+      'Six action types, each worth 1–100 entries',
+      'Public campaign page and share link; ticked actions survive sign-in',
+      'One entry per participant, updated when they complete more actions',
+      'Weighted winner draw, shown on the public page',
+      'Dashboard and list by status: active, scheduled, ready to draw, drawn',
+      'Manage page: views, participants, odds of winning, delete',
     ],
     outcome:
-      'A working full-stack prototype delivered on my own in two months. Two things were left for the next iteration: checking actions through the social networks’ official APIs instead of trusting the participant’s click, and the winner draw. If I rebuilt it, I would also make participation require a signed-in participant and record entries per person, so the same person cannot enter twice.',
+      'The internship version was a working prototype, delivered on my own in two months. In 2026 I revisited it and published it: it now counts one entry per person, draws winners fairly, checks ownership on every management route and has tests. Still missing: checking actions through the social networks’ official APIs instead of trusting the participant’s click, and emailing the winners.',
+  },
+  {
+    slug: 'haya-trip',
+    title: 'Haya Trip',
+    tagline: 'A Qt/C++ desktop back office for a travel agency — employees, clients, trips and reservations on Oracle, with charts, PDF and Excel exports, QR codes, email and an Arduino link.',
+    category: 'Desktop Application · C++ & Qt',
+    context: 'Second-year team project (class 2A28) — ESPRIT',
+    period: 'Autumn 2022',
+    role: 'Team member · Employees module, Arduino link and module integration',
+    stack: ['C++', 'Qt 5.9', 'Qt Widgets', 'Qt SQL', 'Oracle Database XE', 'ODBC', 'Qt Charts', 'QCustomPlot', 'Qt SerialPort', 'Arduino', 'Qt Multimedia', 'Qt Network (SMTP)'],
+    repo: 'https://github.com/yosriHamrouni/haya-trip',
+    screenshots: [
+      { src: '/project-imgs/haya-trip/01-employees.webp', caption: 'Employees — edit form, employee table, PDF / Excel export, search and sort (my module)' },
+      { src: '/project-imgs/haya-trip/02-employee-form.webp', caption: 'Adding an employee, with a photo (my module)' },
+      { src: '/project-imgs/haya-trip/03-salary-chart.webp', caption: 'Salary statistics — Qt Charts pie chart (my module)' },
+      { src: '/project-imgs/haya-trip/04-arduino-access.webp', caption: 'Access tab — Accept and Refuse send 1 or 0 to the Arduino (my part)' },
+      { src: '/project-imgs/haya-trip/05-trips.webp', caption: 'Trips — table, sorting, PDF, QR code and French / English toggle' },
+      { src: '/project-imgs/haya-trip/06-destination-stats.webp', caption: 'Most visited destinations — bar chart' },
+      { src: '/project-imgs/haya-trip/07-clients.webp', caption: 'Clients — table, search, update and PDF' },
+      { src: '/project-imgs/haya-trip/08-client-chart.webp', caption: 'Clients with and without an appointment' },
+      { src: '/project-imgs/haya-trip/09-reservations.webp', caption: 'Reservations — form, sorting, search, mailing, PDF export and history log' },
+      { src: '/project-imgs/haya-trip/10-reservation-amounts.webp', caption: 'Reservation amounts by ID — QCustomPlot bar chart' },
+      { src: '/project-imgs/haya-trip/11-before-after.webp', caption: 'Before and after the 2026 interface refresh' },
+    ],
+    screenshotNote: 'Captured from the app after the 2026 interface refresh, running on its SQLite demo database with fictional data. The last image compares it with the 2022 interface.',
+    problem:
+      'A travel agency keeps its staff, customers, trips and bookings in separate places. Day-to-day work — adding a booking, finding a customer, producing a list for a manager — is slow and error-prone without one tool on top of a shared database.',
+    solution:
+      'One Qt desktop application with a tab per business area — employees, clients, trips and reservations — all reading and writing the same Oracle database through ODBC. Each module offers create, update, delete, search and sort, plus statistics and exports, and the app talks to an Arduino board over a serial port.',
+    contribution: [
+      'Built the Employees module: Employe class with create, read, update and delete through Qt SQL, search, sort by ID, name or salary, employee photo selection, and a Qt Charts pie chart of salaries above and below 2,000 dinars.',
+      'Added the employee exports: a PDF list generated with QPrinter and QTextDocument, and an Excel export of the table view.',
+      'Wrote the Arduino link: detects an Arduino Uno by its USB vendor and product IDs, opens the serial port at 9600 baud, and an access tab whose Accept and Refuse buttons send 1 or 0 to the board while incoming data is shown in the window.',
+      'Integrated the team’s four modules into a single Qt project, main window and database connection.',
+      'In 2026, refreshed the interface for publication: one application stylesheet instead of 120+ inline styles, consistent charts, fixes to the QR code and Arduino displays, a SQLite demo database so it runs anywhere, and credentials and machine-specific paths removed from the code.',
+    ],
+    architecture: [
+      { title: 'Interface', text: 'Qt Widgets main window built in Qt Designer: one top-level tab per module, each with its own sub-tabs (add, edit, statistics), plus dialogs for mailing and statistics.' },
+      { title: 'Domain classes', text: 'One C++ class per entity — Employe, Client, voyage, reservation — each holding its fields and its own SQL operations, returning QSqlQueryModel objects that the table views display directly.' },
+      { title: 'Data', text: 'Oracle Database XE reached through the Qt ODBC driver; one connection opened at start-up and shared by every module.' },
+      { title: 'Hardware & services', text: 'Qt SerialPort for the Arduino, a small SMTP client over SSL for email, QR code generation for trips, and Qt Multimedia for the webcam viewfinder.' },
+    ],
+    choices: [
+      'Qt Widgets + Qt Designer: native forms and table views without writing layout code by hand.',
+      'QSqlQueryModel bound to QTableView: a query result is displayed, sorted or filtered by swapping the model.',
+      'A class per entity kept each team member’s module and SQL in its own files, which made integration possible.',
+    ],
+    challenges: [
+      { title: 'Merging four modules', text: 'Each member built a module separately; bringing them into one .pro file, one main window and one database connection meant reconciling Qt module dependencies and widget names.' },
+      { title: 'Talking to hardware', text: 'Finding the right serial port automatically and keeping the interface responsive by reacting to the port’s readyRead signal instead of polling.' },
+      { title: 'What I fixed, and what is left', text: 'The mail account’s credentials were written in the source; the 2026 refresh moved them, and the database login, to environment variables. Several queries still build SQL by string concatenation — the next fix is to bind every parameter.' },
+    ],
+    features: [
+      'Employees, clients, trips and reservations: add, edit, delete, search and sort',
+      'Salary pie chart (Qt Charts) and reservation amounts bar chart (QCustomPlot)',
+      'PDF exports for employees, clients, trips and reservations',
+      'Excel export of the employee table',
+      'QR code generated for a selected trip',
+      'Email to a client from the app (SMTP over SSL)',
+      'French / English toggle on the trips screen',
+      'Reservation history log written to a text file',
+      'Arduino access control over a serial port',
+    ],
+    outcome:
+      'Delivered and demonstrated as the team’s second-year integration project. It was my first large C++ codebase and my first time wiring software to hardware; it also taught me, the hard way, why parameterised queries and keeping secrets out of the code matter.',
+  },
+  {
+    slug: 'collocstudy',
+    title: 'CollocStudy — News Feed',
+    tagline: 'The news feed of a JavaFX desktop app for student life: posts with images, likes, comments with a profanity filter, an engagement chart and webcam photo capture, on MySQL.',
+    category: 'Desktop Application · Java & JavaFX',
+    context: 'Academic project — ESPRIT',
+    period: 'Apr 2024 – May 2024',
+    role: 'Developer of the news feed module',
+    stack: ['Java 17', 'JavaFX 21', 'FXML', 'CSS', 'JDBC', 'MySQL', 'Maven', 'webcam-capture'],
+    repo: 'https://github.com/yosriHamrouni/CollocStudyJava',
+    screenshots: [
+      { src: '/project-imgs/collocstudy/01-feed.webp', caption: 'News feed: a post with its image, reactions and the like / comment / share bar' },
+      { src: '/project-imgs/collocstudy/02-comments.webp', caption: 'Comment window for a post: list, add and delete' },
+      { src: '/project-imgs/collocstudy/03-back-office.webp', caption: 'Back office: post moderation with a delete button on each post' },
+      { src: '/project-imgs/collocstudy/04-engagement-stats.webp', caption: 'Engagement chart: posts grouped by like count' },
+      { src: '/project-imgs/collocstudy/05-home.webp', caption: 'App home screen with the module menu' },
+    ],
+    screenshotNote: 'Captured from a local run with fictional posts and comments, after I redesigned the interface in November 2026.',
+    problem:
+      'CollocStudy is a desktop app for students: its menu groups housing, coworking spaces, restaurants, offers and activities. Students also needed one place to share news, photos and announcements with each other, and staff needed a way to moderate what gets posted.',
+    solution:
+      'A news feed module with two sides. In the front office, a student publishes a post with text and an image, likes it, comments on it and edits it. In the back office, staff see every post, delete posts and their comments, and read an engagement chart. Comments pass through a profanity filter before they are saved, and a webcam screen can take a photo for a post.',
+    contribution: [
+      'Built the news feed module: Posts and Comments entities, a generic IService<T> interface, and ServicePosts / ServiceComments over JDBC with a singleton MySQL connection.',
+      'Front office in FXML: feed with one card per post, post creation with an image picked through a FileChooser, post editing, and a comment window to add and delete comments.',
+      'Likes: clicking the reaction bar toggles a like, updates the counter in MySQL on a background JavaFX Task and refreshes the label on the UI thread.',
+      'Profanity filter: normalises leetspeak (1 → i, 3 → e, @ → a…), strips non-letters, matches against a word list with false-positive exceptions, and replaces matches with asterisks.',
+      'Back office: post list with delete (comments removed first, then the post), comment moderation, and a PieChart that groups posts into high, moderate and low engagement by like count.',
+      'Webcam screen: lists the connected cameras, streams the selected one into an ImageView on a daemon thread, and saves a captured frame as a PNG.',
+    ],
+    architecture: [
+      { title: 'Interface', text: 'JavaFX 21 views written in FXML and styled with CSS, split into front_office and back_office folders. A post card is its own FXML loaded once per post.' },
+      { title: 'Controllers', text: 'One controller per view — feed, post card, comments, edit, back-office list, stats, webcam — that calls the services and opens secondary windows.' },
+      { title: 'Services', text: 'A generic IService<T> interface (add, edit, delete, list, likes, comments) implemented by ServicePosts, plus ServiceComments for comment queries.' },
+      { title: 'Data', text: 'MySQL through JDBC: a publication table (title, content, image file, likes) and a comment table linked to it by publication_id. One shared connection from a singleton.' },
+    ],
+    choices: [
+      'FXML views: layouts live in their own files, out of the Java code.',
+      'A generic IService<T> interface gives every entity the same set of operations.',
+      'Database calls for likes run in a JavaFX Task, so the interface does not freeze while MySQL answers.',
+    ],
+    challenges: [
+      { title: 'Filtering without false positives', text: 'A naive filter would censor innocent words that contain a bad one. Each word in the list carries the combinations to ignore, and leetspeak is normalised before matching.' },
+      { title: 'Threads in JavaFX', text: 'The webcam stream and the like counter work off the UI thread; every update to the interface goes back through Platform.runLater.' },
+      { title: 'What I would fix today', text: 'Adding a post builds SQL by string concatenation, the profanity list is downloaded again for every comment, the stats query closes the shared connection, and the photo folder is a hard-coded path. I would bind every parameter, load the word list once at start-up, manage connections properly and read paths from configuration.' },
+    ],
+    features: [
+      'Create, edit and delete posts, with an optional image',
+      'Like and unlike with a live counter',
+      'Comments per post: add, list and delete',
+      'Profanity filter with leetspeak handling',
+      'Back office: post and comment moderation',
+      'Engagement pie chart (high, moderate, low)',
+      'Webcam preview and photo capture',
+    ],
+    outcome:
+      'A working news feed module for CollocStudy and my first JavaFX application. It is where I learned to keep blocking work off the UI thread — and, looking back at the code, why queries must be parameterised and why a shared database connection should not be closed by one screen.',
   },
   warda,
 ];

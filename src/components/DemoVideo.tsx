@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import type { Project } from '../data/projects';
+import type { Project } from '../data/types';
+import { useLanguage } from '../i18n/useLanguage';
 
 type Video = NonNullable<Project['video']>;
 
@@ -7,6 +8,7 @@ const formatTime = (t: number) => `${Math.floor(t / 60)}:${String(Math.floor(t %
 
 // Native <video> with chapter buttons that seek and follow playback.
 const DemoVideo = ({ video, title }: { video: Video; title: string }) => {
+  const { ui } = useLanguage();
   const ref = useRef<HTMLVideoElement>(null);
   const [current, setCurrent] = useState(0);
 
@@ -32,7 +34,7 @@ const DemoVideo = ({ video, title }: { video: Video; title: string }) => {
   return (
     <figure className="reveal">
       <div className="relative">
-        <div aria-hidden="true" className="absolute -inset-6 -z-10 bg-[radial-gradient(ellipse_at_50%_50%,var(--glow-strong),transparent_65%)] blur-2xl opacity-40" />
+        <div aria-hidden="true" className="absolute -inset-y-6 inset-x-0 sm:-inset-6 -z-10bg-[radial-gradient(ellipse_at_50%_50%,var(--glow-strong),transparent_65%)] blur-2xl opacity-40" />
         <div className="rounded-2xl border border-line overflow-hidden bg-muted shadow-2xl shadow-black/30">
           <video
             ref={ref}
@@ -43,17 +45,17 @@ const DemoVideo = ({ video, title }: { video: Video; title: string }) => {
             poster={video.poster}
             onTimeUpdate={onTimeUpdate}
             className="block w-full aspect-[16/9] bg-black"
-            aria-label={`${title} — product demo video`}
+            aria-label={ui.video.label(title)}
           >
             {video.sources.map((s) => (
               <source key={s.src} src={s.src} type="video/mp4" media={s.media} />
             ))}
-            Your browser does not support embedded video.
+            {ui.video.unsupported}
           </video>
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Video chapters">
+      <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label={ui.video.chapters}>
         {video.chapters.map((chapter, i) => (
           <button
             key={chapter.label}
@@ -66,13 +68,13 @@ const DemoVideo = ({ video, title }: { video: Video; title: string }) => {
                 : 'border-line text-ink-muted hover:border-accent/50 hover:text-ink'
             }`}
           >
-            <span className="font-mono text-[11px] opacity-80">{formatTime(chapter.time)}</span>
+            <span dir="ltr" className="font-code text-[11px] opacity-80">{formatTime(chapter.time)}</span>
             {chapter.label}
           </button>
         ))}
       </div>
       <figcaption className="mt-3 font-mono text-xs text-ink-subtle">
-        {video.duration} · {video.note}
+        <span dir="ltr">{video.duration}</span> · {video.note}
       </figcaption>
     </figure>
   );

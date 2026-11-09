@@ -25,10 +25,13 @@
 }
 
 @theme {
-  /* Geist for display, Inter for body, JetBrains Mono for labels */
-  --font-display: 'Geist', 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+  /* Geist for display, Inter for body, JetBrains Mono for labels. IBM Plex Sans
+     Arabic is the fallback for any Arabic glyph (and leads in Arabic, see below). */
+  --font-display: 'Geist', 'Inter', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Sans Arabic', ui-monospace, 'Cascadia Code', monospace;
+  /* Purely technical tokens (tech names, timecodes, counters): monospace in every language. */
+  --font-code: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
 
   --text-display: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
   --text-display--line-height: 1.05;
@@ -101,6 +104,51 @@
   --glow: rgba(14, 116, 144, 0.1);
   --glow-strong: rgba(14, 116, 144, 0.3);
   --canvas-glow: rgba(37, 99, 235, 0.08);
+}
+
+/* ---------------------------------------------------------------------------
+   Arabic. Same palette, spacing and components; its own typographic rhythm.
+   Layout direction comes from dir="rtl" on <html> plus logical utilities
+   (ms-/ps-/start-/text-start…) in the components — not a blanket mirror.
+   ------------------------------------------------------------------------ */
+:root:lang(ar) {
+  /* Plex Sans Arabic leads so Arabic and the Latin technical terms inside it share
+     one design. Small labels (font-mono / .meta) also switch to it: a monospace
+     font would supply its wide space between Arabic words. Tech chips and
+     timecodes use font-code and keep JetBrains Mono. */
+  --font-display: 'IBM Plex Sans Arabic', 'Geist', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'IBM Plex Sans Arabic', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Sans Arabic', 'JetBrains Mono', ui-sans-serif, sans-serif;
+
+  /* Arabic letters have tall ascenders and deep descenders: open the line height.
+     Letter-spacing breaks the joins between Arabic letters, so it is removed. */
+  --text-display--line-height: 1.35;
+  --text-display--letter-spacing: 0;
+  --text-h1--line-height: 1.35;
+  --text-h1--letter-spacing: 0;
+  --text-h2--line-height: 1.45;
+  --text-h2--letter-spacing: 0;
+  --text-h3--line-height: 1.55;
+  --text-h3--letter-spacing: 0;
+  --text-lead--line-height: 1.9;
+  --text-body--line-height: 1.85;
+  --text-small--line-height: 1.8;
+  /* Small labels: Arabic needs a slightly larger size to stay legible. */
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.6;
+  --text-meta--letter-spacing: 0;
+
+  quotes: '«' '»' '“' '”';
+}
+
+/* Arabic has no true italic; slanted Arabic reads as a rendering error. */
+:root:lang(ar) .italic {
+  font-style: normal;
+}
+
+/* French guillemets with the customary narrow no-break space. */
+:root:lang(fr) {
+  quotes: '«\202F' '\202F»' '“' '”';
 }
 
 @layer base {

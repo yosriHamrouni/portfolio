@@ -1,26 +1,49 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yosri Hamrouni — Full-Stack Software Engineer</title>
-    <meta name="description" content="Yosri Hamrouni — full-stack software engineer (ESPRIT 2026, exchange at CESI France) who builds business applications and adds AI where it helps. Open to full-time roles, available immediately." />
+    <!-- French is the default language. The app updates lang, dir, title and the
+         meta below when the visitor picks Arabic or English (src/i18n). -->
+    <title>Yosri Hamrouni — Ingénieur logiciel full-stack</title>
+    <meta name="description" content="Yosri Hamrouni, ingénieur logiciel full-stack (ESPRIT 2026, échange au CESI en France) : je développe des applications métier et j’y intègre l’IA là où elle apporte une vraie valeur. Ouvert à un CDI, disponible immédiatement." />
     <meta name="author" content="Yosri Hamrouni" />
     <meta name="theme-color" content="#051424" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script>
-      // Apply the saved theme before first paint (dark is the default).
+      // Before first paint: saved theme (dark is the default), and the language's
+      // lang/dir so an Arabic visit never flashes a left-to-right layout.
       try { if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light'); } catch (e) {}
+      try {
+        var langs = ['fr', 'ar', 'en'];
+        var fromUrl = new URLSearchParams(location.search).get('lang');
+        var saved = null;
+        try { saved = localStorage.getItem('lang'); } catch (e) {}
+        var lang = langs.indexOf(fromUrl) > -1 ? fromUrl : langs.indexOf(saved) > -1 ? saved : 'fr';
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      } catch (e) {}
     </script>
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Yosri Hamrouni — Full-Stack Software Engineer" />
-    <meta property="og:description" content="Full-stack business applications with AI that respects permissions and explains itself. Product demo, case studies and contact." />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:title" content="Yosri Hamrouni — Ingénieur logiciel full-stack" />
+    <meta property="og:description" content="Applications métier full-stack, avec une IA qui respecte les droits d’accès et explique ses résultats. Démo produit, études de cas et contact." />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:locale:alternate" content="ar_TN" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <!-- Relative for now: switch to the absolute URL once the production domain is set. -->
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Yosri Hamrouni — Ingénieur logiciel full-stack" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/og-image.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <!-- Google Fonts serves unicode-range subsets: the Arabic files are only
+         downloaded when Arabic text is actually rendered. -->
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>

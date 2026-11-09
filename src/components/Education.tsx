@@ -1,34 +1,37 @@
 import { Link } from 'react-router-dom';
-import { activities, certifications, education } from '../data/education';
+import { useLanguage } from '../i18n/useLanguage';
 import { stagger } from '../lib/motion';
 import { ArrowRight, ArrowUpRight } from './Icons';
 import Section from './Section';
 
-const Education = () => (
-  <Section id="education" eyebrow="Education" title="Education, certifications and life beyond code">
+const Education = () => {
+  const { ui, content } = useLanguage();
+  return (
+  <Section id="education" eyebrow={ui.education.eyebrow} title={ui.education.title}>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
-      {education.map((item, i) => (
+      {content.education.map((item, i) => (
         <article key={item.school} className="reveal card card-hover p-6 lg:p-8" style={stagger(i)}>
           <div className="flex flex-wrap items-center gap-2 meta">
             {item.period && <span className="text-accent">{item.period}</span>}
             <span className="text-ink-subtle normal-case tracking-normal">{item.location}</span>
           </div>
-          <h3 className="mt-3 text-h3 font-semibold text-ink">{item.school}</h3>
+          {/* School names are official French names: keep them in Latin script. */}
+          <h3 lang="fr" className="mt-3 text-h3 font-semibold text-ink">{item.school}</h3>
           <p className="mt-1 text-small text-ink">{item.degree}</p>
           <p className="mt-4 text-small text-ink-muted">{item.text}</p>
           {item.project && (
             <Link to={`/project/${item.project}`} className="group mt-5 inline-flex items-center gap-2 text-small font-semibold text-accent">
-              <span className="link-underline">See the research project</span>
-              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+              <span className="link-underline">{ui.education.seeResearch}</span>
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
             </Link>
           )}
         </article>
       ))}
     </div>
 
-    <h3 className="reveal mt-16 mb-6 meta text-accent">Certifications</h3>
+    <h3 className="reveal mt-16 mb-6 meta text-accent">{ui.education.certifications}</h3>
     <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {certifications.map((cert, i) => (
+      {content.certifications.map((cert, i) => (
         <li key={cert.title} className="reveal card card-hover p-5 flex items-start gap-4" style={stagger(i % 3)}>
           {cert.image ? (
             <img src={cert.image} alt="" width={48} height={48} loading="lazy" className="w-12 h-12 object-contain shrink-0" />
@@ -41,7 +44,8 @@ const Education = () => (
             </span>
           )}
           <div className="min-w-0">
-            <p className="font-display font-semibold text-ink leading-snug">{cert.title}</p>
+            {/* Certification titles are the issuers' official (English) names. */}
+            <p lang="en" className="font-display font-semibold text-ink leading-snug">{cert.title}</p>
             <p className="mt-1 font-mono text-[11px] text-ink-subtle">
               {[cert.issuer, cert.date].filter(Boolean).join(' · ')}
             </p>
@@ -52,9 +56,9 @@ const Education = () => (
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-accent"
-                aria-label={`${cert.hrefLabel ?? 'View certificate'}: ${cert.title}`}
+                aria-label={`${cert.hrefLabel ?? ui.education.viewCertificate}: ${cert.title}`}
               >
-                <span className="link-underline">{cert.hrefLabel ?? 'View certificate'}</span> <ArrowUpRight size={12} />
+                <span className="link-underline">{cert.hrefLabel ?? ui.education.viewCertificate}</span> <ArrowUpRight size={12} />
               </a>
             )}
           </div>
@@ -62,9 +66,9 @@ const Education = () => (
       ))}
     </ul>
 
-    <h3 className="reveal mt-16 mb-6 meta text-accent">Beyond code</h3>
+    <h3 className="reveal mt-16 mb-6 meta text-accent">{ui.education.beyondCode}</h3>
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {activities.map((activity, i) => (
+      {content.activities.map((activity, i) => (
         <li key={activity.org} className="reveal card card-hover p-6" style={stagger(i)}>
           <div className="flex items-baseline justify-between gap-4">
             <p className="font-display font-semibold text-ink">{activity.title}</p>
@@ -76,6 +80,7 @@ const Education = () => (
       ))}
     </ul>
   </Section>
-);
+  );
+};
 
 export default Education;

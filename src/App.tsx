@@ -10,8 +10,8 @@ import Education from './components/Education';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ProjectDetail from './components/ProjectDetail';
-
-const HOME_TITLE = 'Yosri Hamrouni — Full-Stack Software Engineer';
+import NotFound from './components/NotFound';
+import { useLanguage } from './i18n/useLanguage';
 
 // Scrolls to the hash target (or top) on every route change, and reveals
 // `.reveal` elements as they enter the viewport.
@@ -23,7 +23,6 @@ const RouteEffects = () => {
     // Jump instantly when arriving from another page; glide for in-page anchors.
     const behavior: ScrollBehavior = lastPathname.current === pathname ? 'smooth' : 'instant';
     lastPathname.current = pathname;
-    if (pathname === '/') document.title = HOME_TITLE;
     if (hash) {
       document.getElementById(hash.slice(1))?.scrollIntoView({ behavior });
     } else {
@@ -52,6 +51,12 @@ const RouteEffects = () => {
 
 const Page = () => {
   const { pathname } = useLocation();
+  const { ui } = useLanguage();
+
+  useEffect(() => {
+    if (pathname === '/') document.title = ui.meta.title;
+  }, [pathname, ui]);
+
   return (
     // Keyed on the path so each route change replays the enter animation.
     <main key={pathname} className="page-enter">
@@ -71,18 +76,20 @@ const Page = () => {
           }
         />
         <Route path="/project/:slug" element={<ProjectDetail />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </main>
   );
 };
 
 function App() {
+  const { ui } = useLanguage();
   return (
     <BrowserRouter>
       <RouteEffects />
       <div id="top" className="min-h-screen flex flex-col">
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-accent focus:text-on-accent focus:px-4 focus:py-2 focus:rounded-full">
-          Skip to content
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:start-3 focus:z-[60] focus:bg-accent focus:text-on-accent focus:px-4 focus:py-2 focus:rounded-full">
+          {ui.common.skipToContent}
         </a>
         <Nav />
         <div id="main-content" className="flex-1">

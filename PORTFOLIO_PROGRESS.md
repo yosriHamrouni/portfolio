@@ -83,8 +83,7 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
 ## 6. Known issues
 - Two SaaS demo frames (admin dashboard, student assistant) contain a caption overlay from the screen recording. Real screenshots would be better.
 - The demo video adds ~28 MB to the repo (`public/project-media/`). If the repo grows, move videos to a CDN or Git LFS.
-- `/project/:slug` deep links need an SPA rewrite rule on the host.
-- No sitemap or canonical URL yet; both need the final domain.
+- No sitemap or canonical URL yet; both need the final domain. `og:image` is relative until then (LinkedIn needs an absolute URL).
 
 ## 7. Testing status (2026-11-02)
 - `npm run build`: passes. `npm run lint`: 0 warnings.
@@ -122,3 +121,7 @@ direction in `PROJECT_GOAL.md` and the old `DESIGN.md`.
   - **How:** a throwaway clone of the fork in the session scratchpad. API on :5297 with demo DB `ServiceField_PortfolioDemo` (rebuilt `InitialCreate` migration); client on :5175 with the API URL pointed at HTTP. Fictional sample data was seeded through the API; service orders, companies and users were inserted with SQL. Pages were captured with headless Chrome at 1600×900.
   - **Shots:** Articles list and new-article form (Yosri's module), dashboard, service orders and order details, service case details, installations, sign-in. User-list pages were skipped because they can display passwords and CIN numbers.
   - **Repo bugs found (for the fork):** (1) stale migrations — a fresh clone gets only 2 of 16 tables; (2) the service order mapper drops `InitiatorContact`, so `POST /api/ServiceOrders` always returns 500; (3) navbar template leftovers ("Link", "Dropdown") and an empty "Signed in as:".
+- **2026-11-09** — Pre-deploy pass (Vercel).
+  - **Added:** `vercel.json` (SPA rewrite so `/project/:slug` deep links work, long cache on hashed assets, basic security headers); a catch-all 404 route in FR/AR/EN; a 1200×630 social card (`public/og-image.png`) with `og:image` and `summary_large_image`.
+  - **Fixed:** on 375px phones the demo-video glow pushed the SaaS and Gleam case studies 8px wider than the screen.
+  - **Verified:** build and lint are clean; every page and both 404s in FR/AR/EN at 1366px and 375px: right `dir`, title and h1, no broken images, no page overflow, no console errors.

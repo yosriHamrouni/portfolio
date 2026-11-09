@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { projects, type Project } from '../data/projects';
-import { profile } from '../data/profile';
+import type { Project } from '../data/types';
+import { useLanguage } from '../i18n/useLanguage';
 import { stagger } from '../lib/motion';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from './Icons';
 import DemoVideo from './DemoVideo';
@@ -23,6 +23,7 @@ const Bullet = () => (
 );
 
 const Gallery = ({ project }: { project: Project }) => {
+  const { ui } = useLanguage();
   const [current, setCurrent] = useState(0);
   const shot = project.screenshots[current] ?? project.screenshots[0];
 
@@ -34,18 +35,19 @@ const Gallery = ({ project }: { project: Project }) => {
         </div>
         <figcaption className="mt-3 flex justify-between gap-4 text-small text-ink-muted">
           <span>{shot.caption}</span>
-          <span className="font-mono text-xs text-ink-subtle shrink-0">
+          {/* Isolated LTR so "01 / 08" is not reordered to "08 / 01" in Arabic. */}
+          <span dir="ltr" className="font-code text-xs text-ink-subtle shrink-0">
             {String(current + 1).padStart(2, '0')} / {String(project.screenshots.length).padStart(2, '0')}
           </span>
         </figcaption>
       </figure>
-      <div className="mt-3 flex gap-2 overflow-x-auto pb-2" role="group" aria-label="Choose a screenshot">
+      <div className="mt-3 flex gap-2 overflow-x-auto pb-2" role="group" aria-label={ui.project.chooseScreenshot}>
         {project.screenshots.map((s, i) => (
           <button
             key={s.src}
             type="button"
             onClick={() => setCurrent(i)}
-            aria-label={`Show screenshot ${i + 1}: ${s.caption}`}
+            aria-label={ui.project.showScreenshot(i + 1, s.caption)}
             aria-pressed={i === current}
             className={`shrink-0 w-28 sm:w-36 aspect-[16/9] rounded-lg overflow-hidden border-2 transition-all ${i === current ? 'border-accent' : 'border-transparent opacity-60 hover:opacity-100'}`}
           >
@@ -60,20 +62,22 @@ const Gallery = ({ project }: { project: Project }) => {
 
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { ui, content } = useLanguage();
+  const { projects } = content;
   const index = projects.findIndex((p) => p.slug === slug);
   const project = projects[index];
 
   useEffect(() => {
-    document.title = project ? `${project.title} — ${profile.name}` : `Project not found — ${profile.name}`;
-  }, [project]);
+    document.title = project ? ui.meta.projectTitle(project.title) : ui.meta.notFoundTitle;
+  }, [project, ui]);
 
   if (!project) {
     return (
       <section className="container-page pt-36 pb-24 min-h-[70vh] text-center">
         <p className="meta text-accent">404</p>
-        <h1 className="mt-3 text-h1 font-bold text-ink">Project not found</h1>
+        <h1 className="mt-3 text-h1 font-bold text-ink">{ui.project.notFound}</h1>
         <Link to="/#projects" className="mt-8 inline-flex items-center gap-2 h-12 px-6 rounded-full bg-accent text-on-accent font-semibold glow-btn">
-          <ArrowLeft size={14} /> Back to projects
+          <ArrowLeft size={14} /> {ui.project.backToProjects}
         </Link>
       </section>
     );
@@ -85,16 +89,16 @@ const ProjectDetail = () => {
   if (project.kind === 'ux') return <UxCaseStudy project={project} next={next} />;
 
   const facts = [
-    { label: 'Role', value: project.role },
-    { label: 'Context', value: project.context },
-    project.period && { label: 'Period', value: project.period },
+    { label: ui.project.role, value: project.role },
+    { label: ui.project.context, value: project.context },
+    project.period && { label: ui.project.period, value: project.period },
   ].filter(Boolean) as { label: string; value: string }[];
 
   return (
     <article className="pt-28 lg:pt-32 pb-16">
       <div className="container-page">
         <Link to="/#projects" className="inline-flex items-center gap-2 text-small text-ink-muted hover:text-accent transition-colors">
-          <ArrowLeft size={14} /> All projects
+          <ArrowLeft size={14} /> {ui.project.allProjects}
         </Link>
 
         <header className="grid lg:grid-cols-12 gap-10 mt-10 mb-12">
@@ -107,20 +111,20 @@ const ProjectDetail = () => {
             {facts.map((fact) => (
               <div key={fact.label} className="flex justify-between gap-4 px-5 py-3.5">
                 <dt className="font-mono text-xs text-ink-subtle pt-0.5">{fact.label}</dt>
-                <dd className="text-ink text-right">{fact.value}</dd>
+                <dd className="text-ink text-end">{fact.value}</dd>
               </div>
             ))}
             <div className="p-3">
               {project.repo ? (
                 <a href={project.repo} target="_blank" rel="noopener noreferrer" className="w-full h-11 inline-flex items-center justify-center gap-2 rounded-full bg-accent text-on-accent font-semibold glow-btn transition-shadow">
-                  View source on GitHub <ArrowUpRight size={14} />
+                  {ui.project.viewSource} <ArrowUpRight size={14} />
                 </a>
               ) : (
-                <p className="h-11 flex items-center justify-center rounded-full border border-line text-ink-subtle">{project.repoNote ?? 'Source not publicly available'}</p>
+                <p className="h-11 flex items-center justify-center rounded-full border border-line text-ink-subtle">{project.repoNote ?? ui.project.sourceUnavailable}</p>
               )}
               {project.demo && (
                 <a href={project.demo} target="_blank" rel="noopener noreferrer" className="mt-2 w-full h-11 inline-flex items-center justify-center gap-2 rounded-full border border-line-strong text-ink hover:border-accent hover:text-accent transition-colors">
-                  Live demo <ArrowUpRight size={14} />
+                  {ui.project.liveDemo} <ArrowUpRight size={14} />
                 </a>
               )}
             </div>
@@ -128,10 +132,10 @@ const ProjectDetail = () => {
         </header>
 
         {project.video && (
-          <section aria-label="Demo video" className="mb-16">
+          <section aria-label={ui.project.demoVideo} className="mb-16">
             <p className="reveal meta text-accent flex items-center gap-3 mb-5">
               <span className="w-6 h-px bg-accent" aria-hidden="true" />
-              Demo video
+              {ui.project.demoVideo}
             </p>
             <DemoVideo video={project.video} title={project.title} />
           </section>
@@ -143,7 +147,7 @@ const ProjectDetail = () => {
               {project.video && (
                 <p className="reveal meta text-accent flex items-center gap-3 mb-5">
                   <span className="w-6 h-px bg-accent" aria-hidden="true" />
-                  Screenshots
+                  {ui.project.screenshots}
                 </p>
               )}
               <Gallery project={project} />
@@ -157,18 +161,18 @@ const ProjectDetail = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-20">
           <section className="reveal card p-6 lg:p-8">
-            <Label index="01">The problem</Label>
+            <Label index="01">{ui.project.problem}</Label>
             <p className="text-ink">{project.problem}</p>
           </section>
           <section className="reveal card p-6 lg:p-8" style={stagger(1)}>
-            <Label index="02">The solution</Label>
+            <Label index="02">{ui.project.solution}</Label>
             <p className="text-ink">{project.solution}</p>
           </section>
         </div>
 
         <section className="reveal grid lg:grid-cols-12 gap-8 mb-20">
           <div className="lg:col-span-4">
-            <Label index="03">My contribution</Label>
+            <Label index="03">{ui.project.contribution}</Label>
             <p className="text-h3 font-display font-semibold text-ink">{project.role}</p>
           </div>
           <ul className="lg:col-span-8 grid sm:grid-cols-2 gap-3">
@@ -182,11 +186,11 @@ const ProjectDetail = () => {
         </section>
 
         <section className="mb-20">
-          <div className="reveal"><Label index="04">Architecture</Label></div>
+          <div className="reveal"><Label index="04">{ui.project.architecture}</Label></div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {project.architecture.map((layer, i) => (
               <div key={layer.title} className="reveal card card-hover p-6" style={stagger(i % 2)}>
-                <span className="font-mono text-3xl text-accent/40 block mb-3">{String(i + 1).padStart(2, '0')}</span>
+                <span className="font-code text-3xl text-accent/40 block mb-3">{String(i + 1).padStart(2, '0')}</span>
                 <h3 className="text-h3 font-semibold text-ink mb-2">{layer.title}</h3>
                 <p className="text-small text-ink-muted">{layer.text}</p>
               </div>
@@ -196,7 +200,7 @@ const ProjectDetail = () => {
 
         <div className="grid lg:grid-cols-3 gap-4 lg:gap-6 mb-20">
           <section className="reveal card p-6">
-            <Label index="05">Technology choices</Label>
+            <Label index="05">{ui.project.choices}</Label>
             <div className="flex flex-wrap gap-2 mb-5">
               {project.stack.map((tech) => (
                 <span key={tech} className="px-3 py-1 rounded-full bg-accent/10 border border-accent/25 text-small text-ink">{tech}</span>
@@ -204,12 +208,12 @@ const ProjectDetail = () => {
             </div>
             <ul className="space-y-3">
               {project.choices.map((choice) => (
-                <li key={choice} className="text-small text-ink-muted pl-4 border-l-2 border-accent">{choice}</li>
+                <li key={choice} className="text-small text-ink-muted ps-4 border-s-2 border-accent">{choice}</li>
               ))}
             </ul>
           </section>
           <section className="reveal card p-6" style={stagger(1)}>
-            <Label index="06">Challenges</Label>
+            <Label index="06">{ui.project.challenges}</Label>
             <dl className="space-y-4">
               {project.challenges.map((c) => (
                 <div key={c.title}>
@@ -220,7 +224,7 @@ const ProjectDetail = () => {
             </dl>
           </section>
           <section className="reveal card p-6" style={stagger(2)}>
-            <Label index="07">Features</Label>
+            <Label index="07">{ui.project.features}</Label>
             <ul className="space-y-2.5">
               {project.features.map((f) => (
                 <li key={f} className="flex items-start gap-2.5 text-small text-ink-muted">
@@ -233,15 +237,15 @@ const ProjectDetail = () => {
         </div>
 
         <section className="reveal relative overflow-hidden rounded-2xl border border-accent/30 bg-accent/5 p-6 lg:p-10 mb-12">
-          <Label index="08">Outcome</Label>
+          <Label index="08">{ui.project.outcome}</Label>
           <p className="text-lead text-ink max-w-3xl">{project.outcome}</p>
         </section>
 
         <Link to={`/project/${next.slug}`} className="group block card card-hover p-6 lg:p-10">
-          <span className="meta text-ink-subtle">Next project</span>
+          <span className="meta text-ink-subtle">{ui.project.nextProject}</span>
           <span className="mt-2 flex items-center justify-between gap-6">
             <span className="text-h2 font-display font-semibold text-ink group-hover:text-accent transition-colors">{next.title}</span>
-            <span className="w-12 h-12 rounded-full bg-accent text-on-accent flex items-center justify-center shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true">
+            <span className="w-12 h-12 rounded-full bg-accent text-on-accent flex items-center justify-center shrink-0 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" aria-hidden="true">
               <ArrowRight size={20} />
             </span>
           </span>

@@ -1,7 +1,7 @@
 // Warda UX/UI case study. Content comes from the team's FigJam board (research,
 // personas, storyboards, journey map, brainstorm, affinity map, user flows), the
 // Figma design file (screens) and Yosri's brief. Research is credited to the team.
-import type { UxProject } from './projects';
+import type { UxProject } from '../../../data/types';
 
 const img = (name: string) => `/project-imgs/warda/${name}.webp`;
 

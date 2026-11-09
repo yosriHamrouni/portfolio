@@ -1,20 +1,18 @@
 import { useEffect, useState, type MouseEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { profile } from '../data/profile';
+import { useCvs, useLanguage } from '../i18n/useLanguage';
 import { Download } from './Icons';
+import LanguageSwitcher from './LanguageSwitcher';
 import ThemeToggle from './ThemeToggle';
 
-const links = [
-  { id: 'about', label: 'About' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'education', label: 'Education' },
-  { id: 'contact', label: 'Contact' },
-];
+const sectionIds = ['about', 'experience', 'projects', 'skills', 'education', 'contact'] as const;
 
 const Nav = () => {
   const { pathname } = useLocation();
+  const { ui } = useLanguage();
+  const cvs = useCvs();
+  const links = sectionIds.map((id) => ({ id, label: ui.nav.links[id] }));
   const [sectionInView, setSectionInView] = useState('');
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -30,7 +28,7 @@ const Nav = () => {
       },
       { rootMargin: '-45% 0px -50% 0px' },
     );
-    links.forEach(({ id }) => {
+    sectionIds.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
@@ -72,15 +70,16 @@ const Nav = () => {
   return (
     <header className="fixed top-3 sm:top-4 inset-x-0 z-50 px-4">
       <nav
-        aria-label="Primary"
+        aria-label={ui.nav.label}
         className={`max-w-6xl mx-auto border backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 ${
           open ? 'rounded-3xl' : 'rounded-full'
         } ${scrolled || open ? 'bg-paper/80 border-line shadow-lg shadow-black/10' : 'bg-paper/40 border-transparent'}`}
       >
-        <div className="h-14 pl-4 pr-2 flex items-center justify-between gap-4">
-          <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2.5 font-display font-semibold text-ink tracking-tight">
-            <span className="w-8 h-8 rounded-lg bg-accent text-on-accent font-mono text-xs flex items-center justify-center">YH</span>
-            <span className="hidden sm:inline">{profile.name}</span>
+        <div className="h-14 ps-4 pe-2 flex items-center justify-between gap-3 sm:gap-4">
+          <Link to="/" onClick={() => setOpen(false)} aria-label={ui.common.home} className="flex items-center gap-2.5 font-display font-semibold text-ink tracking-tight shrink-0">
+            {/* Name and monogram stay in Latin script: they match the CV and search results. */}
+            <span dir="ltr" className="w-8 h-8 rounded-lg bg-accent text-on-accent font-code text-xs flex items-center justify-center">YH</span>
+            <span dir="ltr" className="hidden sm:inline lg:hidden xl:inline">{profile.name}</span>
           </Link>
 
           <div className="hidden lg:flex items-center gap-1 text-small font-medium">
@@ -92,21 +91,23 @@ const Nav = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            <LanguageSwitcher />
             <ThemeToggle />
-            {profile.cvs[0] && (
+            {cvs[0] && (
               <a
-                href={profile.cvs[0].url}
+                href={cvs[0].url}
                 download
+                aria-label={ui.common.downloadCvIn(cvs[0].label)}
                 className="hidden sm:inline-flex items-center gap-2 h-10 px-5 rounded-full bg-accent text-on-accent text-small font-semibold glow-btn transition-shadow"
               >
                 <Download size={15} />
-                CV
+                {ui.common.cvShort}
               </a>
             )}
             <button
               type="button"
               className="lg:hidden w-10 h-10 rounded-full border border-line flex items-center justify-center text-ink"
-              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-label={open ? ui.nav.closeMenu : ui.nav.openMenu}
               aria-expanded={open}
               aria-controls="mobile-menu"
               onClick={() => setOpen(!open)}
@@ -125,7 +126,7 @@ const Nav = () => {
                 {label}
               </Link>
             ))}
-            {profile.cvs.map((cv, i) => (
+            {cvs.map((cv, i) => (
               <a
                 key={cv.url}
                 href={cv.url}
@@ -135,7 +136,7 @@ const Nav = () => {
                 }`}
               >
                 <Download size={16} />
-                Download CV <span className="meta opacity-80">{cv.label}</span>
+                {ui.common.downloadCv} <span className="meta opacity-80">{cv.label}</span>
               </a>
             ))}
           </div>

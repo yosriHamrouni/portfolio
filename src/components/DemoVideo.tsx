@@ -34,7 +34,7 @@ const DemoVideo = ({ video, title }: { video: Video; title: string }) => {
   return (
     <figure className="reveal">
       <div className="relative">
-        <div aria-hidden="true" className="absolute -inset-y-6 inset-x-0 sm:-inset-6 -z-10bg-[radial-gradient(ellipse_at_50%_50%,var(--glow-strong),transparent_65%)] blur-2xl opacity-40" />
+        <div aria-hidden="true" className="absolute -inset-y-6 inset-x-0 sm:-inset-6 -z-10 pointer-events-none bg-[radial-gradient(ellipse_at_50%_50%,var(--glow-strong),transparent_65%)] blur-2xl opacity-40" />
         <div className="rounded-2xl border border-line overflow-hidden bg-muted shadow-2xl shadow-black/30">
           <video
             ref={ref}
